@@ -1,0 +1,292 @@
+<mat-card class="dialog-panel">
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" *ngIf="isEquipment" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>{{ buttonText == "Update"? "Edit": "Add" }} Item</mat-label>
+        <mat-label *ngIf="quantity > 1">{{ currentIndex+1 }} out of {{ quantity }}</mat-label>
+        <div fxLayoutAlign="end center" fxLayoutGap="5px" fxFlex="40">
+          <button mat-mini-fab color="warn" *ngIf="recQty > 1 && currentIndex > 0" (click)="previousItem()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" *ngIf="recQty == (currentIndex+1)" fxFlex="50" (click)="addItem()"> {{ buttonText }} </button>
+          <button mat-raised-button color="primary" *ngIf="recQty != (currentIndex+1)" fxFlex="50" (click)="nextItem()"> Next </button>
+          <button mat-mini-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" *ngIf="!isEquipment" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>{{ buttonText == "Update"? "Edit": "Add" }} Item</mat-label>
+        <div fxLayoutAlign="end center" fxLayoutGap="5px" fxFlex="40">
+          <button mat-raised-button color="primary" fxFlex="50" (click)="addItem()"> {{ buttonText }} </button>
+          <button mat-mini-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div fxLayoutAlign="space-between start" fxLayout="row" class="formContent">
+      <div fxLayout="columns wrap" fxFlex="35" class="dialog-main-panel">
+        <!-- <div fxLayoutAlign="space-between center" fxFlex="grow">
+          <div>
+            <mat-label>Item Group</mat-label>
+          </div>
+          <div fxFlex="70">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="itemType" [ngModelOptions]="{standalone: true}" (selectionChange)="typeSelectionChanged($event)">
+                <mat-optgroup *ngFor="let g of groupType" [label]="g.description">
+                  <mat-option *ngFor="let type of g.type" [value]="type.id">
+                    - {{ type.description }}
+                  </mat-option>
+                </mat-optgroup>
+              </mat-select>
+              <input type="text" matInput [(ngModel)]="itemTypeName" [matAutocomplete]="autoGroup" [formControl]="formControl" />
+              <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)='selectionChanged($event)'>
+                <mat-optgroup *ngFor="let group of filteredGroupType | async" [label]="group.description">
+                  <mat-option *ngFor="let type of group.type" [value]="type.description">
+                    {{ type.description }}
+                  </mat-option>
+                </mat-optgroup>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div> -->
+        <!-- <div fxLayout="columns wrap" class="withBorder">
+          <h3>PO Item</h3>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Description</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="itemSelectedGeneric.text" [ngModelOptions]="{standalone: true}" (click)="showListItem('Generic')" readonly="true">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Unit Measure</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="unitMeasure" [ngModelOptions]="{standalone: true}" readonly="true">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Quantity</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput type="number" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}" class="right-align">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Price</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput currencyMask [options]="{ prefix: '' }" [(ngModel)]="price" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+        <div fxLayout="columns wrap" class="withBorder addMarginTop5">
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <h3>Received Item</h3>
+            <div fxLayout="row" *ngIf="isEquipment">
+              <mat-label>Property Code:</mat-label>
+              <mat-label class="propCode">{{ uCode }}</mat-label>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Brand</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="this.itemSelectedNonGeneric.text" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Quantity</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput type="number" [(ngModel)]="recQty" [ngModelOptions]="{standalone: true}"
+                (focusout)="recQuantityChanged(recQty)" class="right-align">
+              </mat-form-field>
+            </div>
+          </div> -->
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Serial No</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="serialNo" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Model</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="model" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow" class="addMarginTop5">
+            <div>
+              <mat-checkbox (change)="expirationCheckedChanged($event)"
+                [(ngModel)]="withExpiry" [ngModelOptions]="{standalone: true}"> with Expiration </mat-checkbox>
+            </div>
+            <div fxFlex="70" fxLayoutAlign="end">
+              
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Expiration Date</mat-label>
+            </div>
+            <div fxFlex="70" fxLayoutAlign="end">
+              <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="expirationDatePicker" [(ngModel)]="expirationDate" [ngModelOptions]="{standalone: true}"
+                  [disabled]="!withExpiry">
+                <mat-datepicker-toggle matSuffix [for]="expirationDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #expirationDatePicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow">
+            <div>
+              <mat-label>Lot No</mat-label>
+            </div>
+            <div fxFlex="70">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="lotNo" [ngModelOptions]="{standalone: true}" [disabled]="!withExpiry">
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow" class="addMarginTop5">
+            <div>
+              <!-- <mat-label>Detail Summary</mat-label> -->
+            </div>
+            <div fxFlex="70" fxLayoutAlign="end">
+              <mat-checkbox (change)="subItemCheckedChanged($event)"
+                [(ngModel)]="withSubItem" [ngModelOptions]="{standalone: true}"> with SubItem </mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <!-- <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+          <div fxLayoutAlign="center center" fxFlex = 50>
+            <button mat-raised-button color="primary" fxFlex (click)="addItem()">Add</button>
+          </div>
+        </div> -->
+      </div>
+      <div class="sub-item-panel" fxFlex="63">
+        <div fxLayout="columns wrap" fxFlex="grow">
+          <div fxLayoutAlign="space-between center" fxLayout="row" fxFlex="grow" fxLayoutGap="5px">
+            <div fxLayoutAlign="start center" fxFlex>
+              <div fxFlex="95">
+                <mat-form-field appearance="fill">
+                  <mat-label>Description</mat-label>
+                  <input matInput [(ngModel)]="subItemSelectedNonGeneric.text" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="start center" fxFlex="10">
+              <div fxFlex="95">
+                <mat-form-field appearance="fill">
+                  <mat-label>Quantity</mat-label>
+                  <input matInput type="number" [(ngModel)]="sQuantity" [ngModelOptions]="{standalone: true}" class="right-align">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="start center" fxFlex="35">
+              <div fxFlex="95">
+                <mat-form-field appearance="fill">
+                  <mat-label>Serial No.</mat-label>
+                  <input matInput [(ngModel)]="sSerialNo" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="start center" fxFlex="35">
+              <div fxFlex="95">
+                <mat-form-field appearance="fill">
+                  <mat-label>Model</mat-label>
+                  <input matInput [(ngModel)]="sModel" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </div>
+            </div>
+            <button mat-mini-fab color="primary" (click)="addSubItem()">
+              <mat-icon>{{ sButton }}</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" (click)="clearSubItemEntry()">
+              <mat-icon>backspace</mat-icon>
+            </button>
+          </div>
+          <div fxFlex="grow">
+            <div class="tableContainer">
+              <table mat-table [dataSource]="subItemDataSource">
+                <ng-container matColumnDef="quantity">
+                  <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    {{ element.quantity }}
+                  </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef> Description </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    {{ element.description }}
+                  </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="serialNo">
+                  <th mat-header-cell *matHeaderCellDef> Serial No </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.serialNo }}
+                  </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="model">
+                  <th mat-header-cell *matHeaderCellDef> Model </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.model }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let i = index">
+                    <div fxLayoutAlign="space-between center">
+                      <button mat-mini-fab color="primary" (click)="editSubItem(i)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-mini-fab color="warn" (click)="deleteSubItem(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    (click)="rowSelected(row)"
+                    [class.row-is-clicked]="selectedSubItem == row"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

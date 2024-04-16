@@ -1,0 +1,139 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'PROPERTY ACKNOWLEDGEMENT RECEIPT'"></app-print-header>
+  <div fxLayout="columns wrap">
+    <div fxFlex="grow" class="addMarginTop20">
+      <div fxFlex="10">
+        Department
+      </div>
+      <div>
+        {{ areData.departmentName }}
+      </div>
+    </div>
+    <div fxFlex="grow">
+      <div fxFlex="10">
+        Fund :
+      </div>
+      <div fxFlex="90" fxLayoutAlign="space-between center">
+        <div>
+          {{ areData.fundCluster.toUpperCase() }}
+        </div>
+        <div fxFlex="50" fxLayoutAlign="end center">
+          <div fxFlex="20">
+            PAR No.:
+          </div>
+          <div>
+            {{ areData.parNo }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableContainer addMarginTop20">
+      <table mat-table [dataSource]="areItemsData">
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" align="right"> 
+            <div class="addPadding8px">
+              {{ element.quantity || "" }} 
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element">
+            <div fxLayoutAlign="start" class="addPadding8px">
+              {{ element.uom }}
+            </div>
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> 
+            <div fxLayoutAlign="start" class="addPadding8px">
+              {{ element.brand }} {{ element.serialNo ? "(SN: " + element.serialNo + ")" : "" }}
+            </div>
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="propertyNo">
+          <th mat-header-cell *matHeaderCellDef> Property # </th>
+          <td mat-cell *matCellDef="let element"> 
+            <div fxLayoutAlign="start" class="addPadding8px">
+              {{ element.propertyNo }}
+            </div>
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="dateAcquired">
+          <th mat-header-cell *matHeaderCellDef> Acquired Date </th>
+          <td mat-cell *matCellDef="let element"> 
+            <div fxLayoutAlign="start" class="addPadding8px">
+              {{ formatDate(element.dateAcquired) }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Amount </th>
+          <td mat-cell *matCellDef="let element">
+            <div fxLayoutAlign="end" class="addPadding8px">
+              {{ (element.price || "") | currency :"PHP":"symbol" }}
+            </div>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+      </table>
+    </div>
+    <div fxLayout="row" fxFlex="grow">
+      <div fxFlex="50" fxLayout="columns wrap">
+        <div fxFlex="grow" class="addPadding15px withBorderTop withBorderLeft withBorderRight doubleHeight">
+          Received by
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold doubleHeight withBorderBottom withBorderLeft withBorderRight">
+          {{ areData.receivedByName }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderLeft withBorderRight smallFont">
+          Signature over Printed Name of End User
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold withBorderBottom withBorderLeft withBorderRight doubleHeight">
+          {{ receivedByPosition }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderTop withBorderLeft withBorderRight smallFont">
+          Position/Office
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold withBorderBottom withBorderLeft withBorderRight doubleHeight">
+          {{ formatDate(areData.parDate) }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderBottom withBorderLeft withBorderRight smallFont">
+          Date
+        </div>
+      </div>
+      <div fxFlex="50" fxLayout="columns wrap">
+        <div fxFlex="grow" class="addPadding15px withBorderTop withBorderLeft withBorderRight doubleHeight">
+          Issued by
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold doubleHeight withBorderBottom withBorderLeft withBorderRight">
+          {{ areData.issuedByName }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderLeft withBorderRight smallFont">
+          Signature over Printed Name of Supply and/or Property Custodian
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold withBorderBottom withBorderLeft withBorderRight doubleHeight">
+          {{ issuedByPosition }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderTop withBorderLeft withBorderRight smallFont">
+          Position/Office
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center end" class="bold withBorderBottom withBorderLeft withBorderRight doubleHeight">
+          {{ formatDate(areData.parDate) }}
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center center" class="withBorderBottom withBorderLeft withBorderRight smallFont">
+          Date
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

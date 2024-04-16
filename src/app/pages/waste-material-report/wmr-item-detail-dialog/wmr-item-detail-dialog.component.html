@@ -1,0 +1,117 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Add Item</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <!-- <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Property No</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.propertyNo" [ngModelOptions]="{standalone: true}" (click)="showListItem()" readonly="true">
+            <button matSuffix mat-icon-button (click)="showListItem()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div> -->
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Description</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.brand" [ngModelOptions]="{standalone: true}" (click)="showListItem()" readonly="true">
+            <button matSuffix mat-icon-button (click)="showListItem()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Unit Measure</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.uom" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Transaction No</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.transactionNo" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Trans Type</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.type" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Department</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.departmentName" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Amount</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput currencyMask [options]="{ prefix: '' }" [(ngModel)]="itemSelected.price" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>OR No</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="orNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>OR Date</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="refDatePicker" [(ngModel)]="orDate" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="refDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #refDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">{{ btnText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,38 @@
+mat-card {
+  width: 8.5in;
+  height: 10in;
+  padding: .5in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto;  margin: 0mm; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+form.footer {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+}
+form > div {
+  margin-bottom: 12px;
+}
+form.details {
+  height: 400px;
+}
+p {
+  width: 100%;
+  text-align: center;
+  margin: unset;
+}
+p.signatory {
+  margin-top: 30px;
+}
+table {
+  width: 100%;
+}
+.tableContainer {
+  width: 100%;
+}
+.boldText {
+  font-weight: bold;
+}

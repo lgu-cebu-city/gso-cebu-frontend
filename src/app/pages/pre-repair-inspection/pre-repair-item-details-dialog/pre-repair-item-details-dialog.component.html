@@ -1,0 +1,102 @@
+<mat-card>
+  <form fxLayout="columns wrap" [formGroup]="itemFormGroup">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Add Item</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent">
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Description</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.text" [ngModelOptions]="{standalone: true}" (click)="showListItem('Non-Generic')" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Details Type</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="type">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Unit Measure</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="unitMeasure">
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Unit Cost/Price</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput currencyMask [options]="{ prefix: '₱' }" (ngModelChange)="computeTotalFromAmt($event)" [(ngModel)]="itemPrice" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div> -->
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Quantity</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput type="number" formControlName="quantity" (ngModelChange)="computeTotalFromQty($event)"
+              [(ngModel)]="itemQty" class="right-align">
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Total Cost/Amt</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput readonly="true" currencyMask [options]="{ prefix: '₱' }" formControlName="totalCost" [(ngModel)]="itemTotal" class="right-align">
+          </mat-form-field>
+        </div>
+      </div> -->
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Remarks</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="remarks">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Date Acquired</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="refDatePicker" formControlName="dateAcquired">
+            <mat-datepicker-toggle matSuffix [for]="refDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #refDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">Add</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

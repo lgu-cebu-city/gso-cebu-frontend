@@ -1,0 +1,147 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'PROJECT / ACTIVITY PROPOSAL'"></app-print-header>
+  <form>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Name of Project
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.projectTitle }}
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Location / Venue
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.projectLocation }}
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Activity Period
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.projectDuration }}
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Activity Cost
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.projectCost ? numberFormat.format(ppData.projectCost) : "" }}
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Source of Fund
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.sourceOfFund }}
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="columns wrap" fxFlex="20">
+        Rationale
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        : {{ ppData.rationale }}
+      </div>
+    </div>
+  </form>
+  <form fxLayoutAlign="center center" class="details" fxLayoutGap="5px grid">
+    <div fxLayout="columns wrap" fxFlex="grow">
+      <div fxLayoutAlign="space-between start" fxFlex="grow" fxLayout="row wrap" class="boldText">
+        <div fxLayoutAlign="start center" fxFlex="50">
+          Material
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="50">
+          {{ ppData.projectCost ? numberFormat.format(ppData.projectCost) : "" }}
+        </div>
+      </div>
+      <div fxLayoutAlign="start start" fxFlex="grow" fxLayout="columns wrap">
+        Details:
+        <div class="tableContainer">
+          <table mat-table [dataSource]="ppData.items">
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Quantity </th>
+              <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="cost">
+              <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+              <td mat-cell *matCellDef="let element"> {{ element.cost ? numberFormat.format(element.cost) : "" }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+              <td mat-cell *matCellDef="let element"> {{ element.total ? numberFormat.format(element.total) : "" }} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between start" fxFlex="grow" fxLayout="row wrap" class="boldText">
+        <div fxLayoutAlign="end center" fxFlex="70">
+          Total Project / Activity Cost
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="30">
+          {{ ppData.projectCost ? numberFormat.format(ppData.projectCost) : "" }}
+        </div>
+      </div>
+    </div>
+  </form>
+  <form class="footer" fxLayout="columns wrap" fxLayoutGap="5px grid">
+    <div fxLayoutAlign="start start" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayout="columns wrap" fxFlex="50">
+        <div fxLayout="start center" fxFlex="grow">
+          Prepared by :
+        </div>
+        <div fxLayout="center center" fxFlex="grow">
+          <p class="signatory">____________________________________</p>
+          <p>Community Affairs Asst. II</p>
+          <p>(ICO-CESDO)</p>
+        </div>
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        <div fxLayout="start center" fxFlex="grow">
+          OK as to Appropriations :
+        </div>
+        <div fxLayout="center center" fxFlex="grow">
+          <p class="signatory">____________________________________</p>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayout="columns wrap" fxFlex="50">
+        <div fxLayout="start center" fxFlex="grow">
+          OK as to Funds :
+        </div>
+        <div fxLayout="center center" fxFlex="grow">
+          <p class="signatory">____________________________________</p>
+        </div>
+      </div>
+      <div fxLayout="columns wrap" fxFlex="50">
+        <div fxLayout="start center" fxFlex="grow">
+          Approved by :
+        </div>
+        <div fxLayout="center center" fxFlex="grow">
+          <p class="signatory">____________________________________</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

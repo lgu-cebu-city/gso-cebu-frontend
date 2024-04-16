@@ -1,0 +1,197 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="textFilterStr" [ngModelOptions]="{standalone: true}" (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="45" fxLayoutGap="10px">
+          <div>
+            <mat-select [(ngModel)]="dateFilterType" [ngModelOptions]="{standalone: true}" (selectionChange)='selectQtr()'>
+              <mat-option value="Monthly">Filter Month</mat-option>
+              <mat-option value="DateRange">Date Range</mat-option>
+              <mat-option value="Quarter">Quarter</mat-option>
+            </mat-select>
+          </div>
+          <div fxFlex="70" *ngIf="dateFilterType == 'Monthly'">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="year"
+                              (yearSelected)="chosenYearHandler($event)"
+                              (monthSelected)="chosenMonthHandler($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="70" *ngIf="dateFilterType == 'DateRange'">
+            <mat-form-field appearance="fill">
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate [(ngModel)]="dateFrom" [ngModelOptions]="{standalone: true}">
+                <input matEndDate [(ngModel)]="dateTo" [ngModelOptions]="{standalone: true}">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker startView="year">
+                <mat-date-range-picker-actions>
+                  <button mat-button matDateRangePickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDateRangePickerApply (click)="selectDateRange()">Apply</button>
+                </mat-date-range-picker-actions>
+              </mat-date-range-picker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="70" *ngIf="dateFilterType == 'Quarter'">
+            <div fxFlex="45">
+              <mat-select [(ngModel)]="qtrFilter" [ngModelOptions]="{standalone: true}" (selectionChange)='selectQtr()'>
+                <mat-option value="Q1">1st Qtr</mat-option>
+                <mat-option value="Q2">2nd Qtr</mat-option>
+                <mat-option value="Q3">3rd Qtr</mat-option>
+                <mat-option value="Q4">4th Qtr</mat-option>
+              </mat-select>
+            </div>
+            <div fxFlex="45">
+              <mat-select (selectionChange)="selectQtr()"
+                  [(ngModel)]="qtrYearFilter" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let yr of qtrYearSelection" [value]="yr">
+                  {{yr}}
+                </mat-option>
+              </mat-select>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="View Items">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <mat-card-content *ngIf="isLoading" fxFlex class="loading-spinner">
+          <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </mat-card-content>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort class="main-table">
+            <ng-container matColumnDef="logs">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="primary" (click)="viewItems(element)" matTooltip="View Items">
+                  <mat-icon>list</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="prNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR No. </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ element.transactionNo }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="prDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR Date </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ formatDate(element.transactionDate) }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="prQtr">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Qtr </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ element.prQtr }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="prAmount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR Amount </th>
+              <td mat-cell *matCellDef="let element" align="right" [ngClass]="{'locked-status': element.isLocked }"> {{ numberFormat.format(calculatePRItemsTotal(element.items)) }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="budget">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Annual Budget </th>
+              <td mat-cell *matCellDef="let element" align="right" [ngClass]="{'locked-status': element.isLocked }"> {{ numberFormat.format(calculateAccountTotal(element.sof)) }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="departmentName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ element.departmentName }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="sourceOfFund">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> SOF </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ element.sourceOfFund }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="accounts">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Account </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ getPRAccounts(element.sof) }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="rationale">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Purpose </th>
+              <td mat-cell *matCellDef="let element" [ngClass]="{'locked-status': element.isLocked }"> {{ element.rationale }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="action" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef  mat-sort-header></th>
+              <td mat-cell *matCellDef="let element; let i = index" align="center" fxLayoutGap="5px">
+                <button mat-mini-fab color="primary" (click)="callout()" matTooltip="Callout Transaction">
+                  <mat-icon>settings_ethernet</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="lockPR(element)" matTooltip="{{element.isLocked ? 'Unlock PR' : 'Lock PR'}}" *ngIf="authService.getTypeId() == env.gsoDeptId.toString()">
+                  <mat-icon *ngIf="element.isLocked">lock</mat-icon>
+                  <mat-icon *ngIf="!element.isLocked">lock_open</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedPR == row"></tr>
+          </table>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <mat-paginator fxFlex="50" [pageSizeOptions]="[50, 100]" showFirstLastButtons aria-label="Select page of PR">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printButton class="printButton"
+  [useExistingCss]="true"
+  printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-purchase-request-consolidate-print *ngFor="let prItems of selectedPRItemsPrint; index as i" 
+        [prData]="selectedPR" 
+        [prItemsData]="prItems" 
+        [currPage]="i+1" 
+        [maxPage]="selectedPRItemsPrint.length" 
+        [grandTotal]="calculateTotal()">
+      </app-purchase-request-consolidate-print>
+    </div>
+  </form>
+</mat-card>
+<button #printAprButton class="printAprButton"
+  [useExistingCss]="true"
+  printSectionId="print-apr-section" ngxPrint>Print</button>
+<mat-card  id="print-apr-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-purchase-request-apr-print *ngFor="let prItems of selectedPRItemsPrint; index as i" 
+        [prData]="selectedPR" 
+        [prItemsData]="prItems" 
+        [currPage]="i+1" 
+        [maxPage]="selectedPRItemsPrint.length" 
+        [grandTotal]="calculateTotal()">
+      </app-purchase-request-apr-print>
+    </div>
+  </form>
+</mat-card>

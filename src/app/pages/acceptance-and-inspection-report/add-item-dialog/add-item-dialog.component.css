@@ -1,0 +1,79 @@
+mat-form-field {
+  width: 100%;
+}
+mat-card {
+  min-height: unset;
+  width: 30vw;
+}
+mat-label {
+  margin-top: 8px;
+}
+mat-label.propCode {
+  font-weight: 800;
+  padding-left: 10px;
+}
+.addMarginTop5 {
+  margin-top: 8px;
+}
+.headerText {
+  font-weight: bold;
+}
+.right-align {
+  text-align: right;
+}
+h3 {
+  margin: unset;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.withBorder {
+  border: 1px solid lightgray;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+}
+.tableContainer {
+  margin-top: 10px;
+  overflow: auto;
+  height: 505px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #bab7b2;;
+}
+.mat-row:hover .mat-cell {
+  background-color: #8fffdfab;
+}
+.row-is-clicked {
+  font-weight: bold;
+  background-color: lightgreen;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell {
+  border: 1.5px solid #eeeeee;
+  text-align: center;
+}
+tr.mat-row {
+  height: 40px;
+}
+.mat-column-action {
+  width: 60px;
+}
+.mat-column-quantity {
+  width: 90px;
+}

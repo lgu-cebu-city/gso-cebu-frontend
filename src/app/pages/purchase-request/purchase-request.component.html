@@ -1,0 +1,264 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Purchase Request</mat-label>
+    <div fxFlex="50" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <div class="uploaded-file">{{fileName || "No file uploaded yet."}}</div>
+      <button mat-fab color="primary" (click)="fileUpload.click()" matTooltip="Attach Image">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="browseAPP()" matTooltip="Browse APP">
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload multiple="multiple">
+      <button mat-fab color="primary" (click)="preSaveConfirmation()" matTooltip="{{ btnSaveText }} Entry">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="clearFields()" matTooltip="Clear Entry">
+        <mat-icon>backspace</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()" matTooltip="Close Dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap" [formGroup]="purchaseRequestFormGroup" class="formContent">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Department</mat-label>
+        </div>
+        <div fxFlex="80">
+          <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="deptSelectedValue($event)"
+                [(ngModel)]="deptSelected.value" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let dept of departmentSelection" [value]="dept.id">
+                {{dept.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="transactionNo">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Section</mat-label>
+        </div>
+        <div fxFlex="80">
+          <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="sectionSelectedValue($event)"
+                [(ngModel)]="sectionSelected.value" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let section of sectionSelection" [value]="section.id">
+                {{section.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction Date</mat-label>
+        </div>
+        <div fxFlex="60" fxLayoutAlign="space-between center">
+          <div fxFlex="60">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="transDatePicker" formControlName="transactionDate">
+              <mat-datepicker-toggle matSuffix [for]="transDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #transDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="35">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="quarter" [ngModelOptions]="{standalone: true}">
+                <mat-option value="Q1">1st Qtr</mat-option>
+                <mat-option value="Q2">2nd Qtr</mat-option>
+                <mat-option value="Q3">3rd Qtr</mat-option>
+                <mat-option value="Q4">4th Qtr</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between start" fxFlex="50">
+        <div class="addMarginTop5">
+          <mat-label>Purpose</mat-label>
+        </div>
+        <div fxFlex="80">
+          <mat-form-field appearance="fill" class="textAreaInput">
+            <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" formControlName="rationale"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="columns wrap" fxFlex="45">
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+          <div>
+            <mat-label>Source of Fund</mat-label>
+          </div>
+          <div fxFlex="60">
+            <mat-form-field appearance="fill">
+              <input matInput readonly="true" formControlName="sourceOfFund">
+              <button matSuffix mat-icon-button (click)="selectFund()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+          <div>
+            <mat-label>Mode of Procurement</mat-label>
+          </div>
+          <div fxFlex="60">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="procurementMode">
+                <mat-option>--</mat-option>
+                <mat-option value="Competitive Bidding">Competitive Bidding</mat-option>
+                <mat-option value="Limited Source Bidding">Limited Source Bidding</mat-option>
+                <mat-option value="Direct Contracting">Direct Contracting</mat-option>
+                <mat-option value="Repeat Order">Repeat Order</mat-option>
+                <mat-option value="Shopping">Shopping</mat-option>
+                <mat-option value="Small Value Procurement">Small Value Procurement</mat-option>
+                <mat-option value="Agency-to-Agency">Agency-to-Agency</mat-option>
+                <mat-option value="Negotiated procurement">Negotiated procurement</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableContainer">
+      <table mat-table [dataSource]="itemDataSource">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef> No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.itemId == '' ? "" : element.id }} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{ element.description + (element.specification ? " - " + element.specification : "") }} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> {{ element.itemId == '' ? "" : element.quantity }} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <ng-container matColumnDef="unitMeasure">
+          <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+          <td mat-cell *matCellDef="let element"> {{ element.itemId == '' ? "" : element.uom }} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <ng-container matColumnDef="unitCost">
+          <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.itemId == '' ? {'text-align': 'left'} : {'text-align': 'right'}"> {{ element.itemId == '' ? "Sub-Total" : numberFormat.format(element.cost) }} </td>
+          <td mat-footer-cell *matFooterCellDef class="b"> Grand Total </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="totalCost">
+          <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+          <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal()) }} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element; let i = index" class="left-text">  
+            <button mat-mini-fab color="warn" (click)="removeItem(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container> -->
+        
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>
+            <!-- <button *ngIf="selectedPP == null" mat-mini-fab color="primary" (click)="addItem()" matTooltip="Add Item">
+              <mat-icon>add</mat-icon>
+            </button> -->
+          </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <div fxLayoutAlign="space-evenly center" *ngIf="element.itemId != ''">
+              <button *ngIf="selectedPP == null" mat-mini-fab color="primary" (click)="editItem(i)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="warn" (click)="removeItem(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'zero-quantity': row.quantity == 0 && row.itemId != '', 'b': row.itemId == '' }"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+      </table>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+      <div fxFlex="33">
+        <mat-form-field appearance="fill">
+          <mat-label>Requested By</mat-label>
+          <input matInput [(ngModel)]="requestedByName" [ngModelOptions]="{standalone: true}" readonly="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('RequestedBy')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxFlex="33">
+        <mat-form-field appearance="fill">
+          <mat-label>Cash Availability</mat-label>
+          <input matInput [(ngModel)]="cashAvailabilityName" [ngModelOptions]="{standalone: true}" readonly="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('CashAvailability')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxFlex="33">
+        <mat-form-field appearance="fill">
+          <mat-label>Approved By</mat-label>
+          <input matInput [(ngModel)]="approvedByName" [ngModelOptions]="{standalone: true}" readonly="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('ApprovedBy')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+      <div fxLayoutAlign="start center" fxFlex="65" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="fileUpload.click()">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+            <mat-icon>attach_file</mat-icon>
+            <div class="fn-button-label">
+              Attach Image
+            </div>
+          </div>
+        </button>
+        <div>{{fileName || "No file uploaded yet."}}</div>
+        <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="30">
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="saveData()"> {{ btnSaveText }} </button>
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="clearFields()">Clear</button>
+        <button *ngIf="envFirstLoad == 'Entry'" type="button" mat-raised-button color="primary" fxFlex="32" (click)="gotoList()">List</button>
+      </div>
+    </div> -->
+  </form>
+</mat-card>

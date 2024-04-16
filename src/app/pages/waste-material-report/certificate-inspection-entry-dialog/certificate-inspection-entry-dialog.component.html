@@ -1,0 +1,55 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Certificate of Inspection</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Quantity</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput currencyMask [options]="{ prefix: '' }" [(ngModel)]="quantity" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Description</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="description" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option value="Destroyed">Destroyed</mat-option>
+              <mat-option value="Sold at Private Sale">Sold at Private Sale</mat-option>
+              <mat-option value="Sold at Public Auction">Sold at Public Auction</mat-option>
+              <mat-option value="Transferred Without Cost to">Transferred Without Cost to</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" *ngIf="description == 'Transferred Without Cost to'">
+        <div>
+          <mat-label>Transferred To</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="transferredTo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">{{ btnText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

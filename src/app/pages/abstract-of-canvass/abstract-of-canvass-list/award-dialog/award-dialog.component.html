@@ -1,0 +1,200 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>{{  formTitle }}</mat-label>
+        <div fxFlex="40" fxLayoutAlign="end center" fxLayoutGap="10px">
+          <div fxFlex="90" class="search-item">
+            <div>
+              <mat-label>Search</mat-label>
+            </div>
+            <div fxFlex fxFlex="80">
+              <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="textFilterStr" [ngModelOptions]="{standalone: true}" (keyup)="textFilter($event)">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          <button mat-mini-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div class="formContent" fxLayout="columns wrap" fxFlex="grow">
+      <div fxLayout="columns wrap" fxFlex="grow">
+        <div class="tableContainer">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description + (element.specification ? " - " + element.specification : "") }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="desc">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+            </ng-container>
+
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef>Unit</th>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qty">
+              <th mat-header-cell *matHeaderCellDef>Quantity</th>
+            </ng-container>
+
+            <!-- -------------------SUPPLIER 1 START------------------ -->
+            <ng-container matColumnDef="supplier1Selected">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox [(ngModel)]="selectAllSupp1" [ngModelOptions]="{standalone: true}" (change)="itemSelectionAll(1)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[0]">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row; let element" align="center">
+                <mat-checkbox [(ngModel)]="element.supplier1Selected" [ngModelOptions]="{standalone: true}" (change)="itemSelectionChanged(1)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[0]">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier1Qty">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[0] ? "Quantity" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{  data.abstractOfCanvass.supplier[0] ? element.supplier1Qty : "" }}
+                <!-- <input matInput type="number" class="qtyInput" [(ngModel)]="element.supplier1Qty" [ngModelOptions]="{standalone: true}"
+                  *ngIf="data.abstractOfCanvass.supplier[0]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier1Price">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[0] ? "Amount" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{ data.abstractOfCanvass.supplier[0] ? numberFormat.format(element.supplier1Price) : "" }}
+                <!-- <input matInput currencyMask [(ngModel)]="element.supplier1Price" [ngModelOptions]="{standalone: true}"
+                  [options]="{ prefix: '' }" *ngIf="data.abstractOfCanvass.supplier[0]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supp1">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
+                <mat-checkbox [(ngModel)]="approveSupp1" [ngModelOptions]="{standalone: true}"
+                    *ngIf="(data.abstractOfCanvass.supplier[0]?.supplierName || '') != '' && data.action == 'Approve'"
+                    [(ngModel)]="data.abstractOfCanvass.supplier[0].approved" [ngModelOptions]="{standalone: true}"
+                ></mat-checkbox>
+                {{ data.abstractOfCanvass.supplier[0]?.supplierName || "" }}
+              </th>
+            </ng-container>
+            <!-- -------------------SUPPLIER 1 END------------------ -->
+
+            <!-- -------------------SUPPLIER 2 START------------------ -->
+            <ng-container matColumnDef="supplier2Selected">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox [(ngModel)]="selectAllSupp2" [ngModelOptions]="{standalone: true}" (change)="itemSelectionAll(2)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[1]">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row; let element" align="center">
+                <mat-checkbox [(ngModel)]="element.supplier2Selected" [ngModelOptions]="{standalone: true}" (change)="itemSelectionChanged(2)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[1]">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier2Qty">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[1] ? "Quantity" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{ data.abstractOfCanvass.supplier[1] ? element.supplier2Qty : "" }}
+                <!-- <input matInput type="number" class="qtyInput" [(ngModel)]="element.supplier2Qty" [ngModelOptions]="{standalone: true}"
+                  *ngIf="data.abstractOfCanvass.supplier[1]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier2Price">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[1] ? "Amount" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{ data.abstractOfCanvass.supplier[1] ? numberFormat.format(element.supplier2Price) : "" }}
+                <!-- <input matInput currencyMask [(ngModel)]="element.supplier2Price" [ngModelOptions]="{standalone: true}"
+                  [options]="{ prefix: '' }" *ngIf="data.abstractOfCanvass.supplier[1]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supp2">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
+                <mat-checkbox [(ngModel)]="approveSupp2" [ngModelOptions]="{standalone: true}"
+                    *ngIf="(data.abstractOfCanvass.supplier[1]?.supplierName || '') != '' && data.action == 'Approve'"
+                    [(ngModel)]="data.abstractOfCanvass.supplier[1].approved" [ngModelOptions]="{standalone: true}"
+                ></mat-checkbox>
+                {{ data.abstractOfCanvass.supplier[1]?.supplierName || "" }}
+              </th>
+            </ng-container>
+            <!-- -------------------SUPPLIER 2 END------------------ -->
+
+            <!-- -------------------SUPPLIER 3 START------------------ -->
+            <ng-container matColumnDef="supplier3Selected">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox [(ngModel)]="selectAllSupp3" [ngModelOptions]="{standalone: true}" (change)="itemSelectionAll(3)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[2]">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row; let element">
+                <mat-checkbox [(ngModel)]="element.supplier3Selected" [ngModelOptions]="{standalone: true}" (change)="itemSelectionChanged(3)"
+                              [disabled]="data.action != 'Award'" *ngIf="data.abstractOfCanvass.supplier[2]">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier3Qty">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[2] ? "Quantity" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{ data.abstractOfCanvass.supplier[2] ? element.supplier3Qty : "" }}
+                <!-- <input matInput type="number" class="qtyInput" [(ngModel)]="element.supplier3Qty" [ngModelOptions]="{standalone: true}"
+                  *ngIf="data.abstractOfCanvass.supplier[2]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplier3Price">
+              <th mat-header-cell *matHeaderCellDef> {{ data.abstractOfCanvass.supplier[2] ? "Amount" : "" }} </th>
+              <td mat-cell *matCellDef="let element" align="right">
+                {{ data.abstractOfCanvass.supplier[2] ? numberFormat.format(element.supplier3Price) : "" }}
+                <!-- <input matInput currencyMask [(ngModel)]="element.supplier3Price" [ngModelOptions]="{standalone: true}"
+                  [options]="{ prefix: '' }" *ngIf="data.abstractOfCanvass.supplier[2]" [disabled]="data.action != 'Award'"> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supp3">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
+                <mat-checkbox [(ngModel)]="approveSupp3" [ngModelOptions]="{standalone: true}"
+                    *ngIf="(data.abstractOfCanvass.supplier[2]?.supplierName || '') != '' && data.action == 'Approve'"
+                    [(ngModel)]="data.abstractOfCanvass.supplier[2].approved" [ngModelOptions]="{standalone: true}"
+                ></mat-checkbox>
+                {{ data.abstractOfCanvass.supplier[2]?.supplierName || "" }}
+              </th>
+            </ng-container>
+            <!-- -------------------SUPPLIER 3 END------------------ -->
+      
+            <tr mat-header-row *matHeaderRowDef="['desc', 'unit', 'qty', 'supp1', 'supp2', 'supp3']; sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="small-height"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; height: inherit;">
+            Loading Data...
+          </div>
+        </div>
+        <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+          <div fxLayoutAlign="space-between center" fxFlex="50">
+            <button mat-raised-button color="primary" fxFlex (click)="saveChanges()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

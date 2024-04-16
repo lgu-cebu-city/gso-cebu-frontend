@@ -1,0 +1,75 @@
+mat-card {
+  width: 7.5in;
+  height: 10in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto;  margin: .5in; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+.tableContainer {
+  width: 100%;
+  min-height: 210px;
+  background-color: white;
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,td {
+  border: 1px solid black;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row {
+  height: 35px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+.mat-cell {
+  font-size: 12px;
+}
+.b {
+  font-weight: 800;
+}
+.addMarginTop8px {
+  margin-top: 8px
+}
+.addMarginTop16px {
+  margin-top: 16px
+}
+.addMarginTop32px {
+  margin-top: 32px
+}
+.withUnderline {
+  border-bottom: 1px solid black;
+}
+.mat-column-quantity {
+  width: 35px;
+}
+.mat-column-unitMeasure {
+  width: 50px;
+}
+.mat-column-uCost {
+  width: 80px;
+}
+.mat-column-tCost {
+  width: 100px;
+}

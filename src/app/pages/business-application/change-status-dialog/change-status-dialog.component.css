@@ -1,0 +1,32 @@
+mat-form-field {
+  width: 100%;
+}
+mat-card {
+  min-height: unset;
+  width: 30vw;
+}
+.addMarginTop5 {
+  margin-top: 8px;
+}
+.headerText {
+  font-weight: bold;
+}
+.right-align {
+  text-align: right;
+}
+h1 {
+  font-weight: 800;
+  font-size: large;
+  margin-bottom: unset;
+  margin-left: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+::ng-deep .mat-select-arrow {
+  margin-top: 20px;
+}
+.entry {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

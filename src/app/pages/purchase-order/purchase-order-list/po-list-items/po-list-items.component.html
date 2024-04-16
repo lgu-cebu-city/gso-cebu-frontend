@@ -1,0 +1,76 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>PO Items</mat-label>
+    <button mat-mini-fab color="warn" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap">
+    <div fxLayout="columns wrap" class="formContent">
+      <div fxFlex="grow">
+        <div fxLayoutAlign="space-between center" fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="itemTextFilterStr" [ngModelOptions]="{standalone: true}" (keyup)="textFilterItem($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="tableContainerChild" fxFlex>
+        <table mat-table [dataSource]="itemDetails">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef> No </th>
+            <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.id }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '0' ? {'font-weight': 'bold', 'background-color': 'lightgreen'} : {'font-weight': 'normal'}" [attr.colspan]="element.id == '0' ? 7 : 1"> {{ element.description + (element.specification ? " - " + element.specification : "") }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef> Supply Specification </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.remarks }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.quantity }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <ng-container matColumnDef="uom">
+            <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+          </ng-container>
+        
+          <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+            <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ numberFormat.format(element.cost) }} </td>
+            <td mat-footer-cell *matFooterCellDef class="b"> Total </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+            <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ numberFormat.format(element.total) }} </td>
+            <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal()) }} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumnsItemDetails; sticky: true"></tr>
+        </table>
+      </div>
+    </div>
+  </form>
+</mat-card>

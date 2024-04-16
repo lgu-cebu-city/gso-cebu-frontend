@@ -1,0 +1,69 @@
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: calc(100vh - 175px);
+  overflow: unset;
+}
+
+.mat-sidenav {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+a.simple-text {
+  margin-left: unset !important;
+}
+
+button.menu-button {
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.twistie-separator {
+  flex: 1 1 0%;
+}
+
+.routeIcon {
+  margin-right: 10px;
+  font-size: 16pt;
+}
+
+.menu-item-text {
+  font-size: 10pt;
+}
+
+.menu-twistie {
+  font-size: 10pt;
+  height: 12px;
+  width: 12px;
+}
+
+.mat-list-base {
+  padding-top: unset;
+}
+
+.mat-list-subitem {
+  padding-left: 10px;
+}
+
+.mat-list-subitem.active {
+  background-color: #e8eaf6;
+}
+
+.mat-list-item.active {
+  background-color: #ebffbd;
+  font-weight: bold;
+}
+
+.centerAlign {
+  text-align: center;
+}
+.addMarginTop10px {
+  margin-top: 10px;
+}
+.addBorder {
+  border-top: 2px solid lightgrey;
+  border-right: 1px solid lightgrey;
+}

@@ -1,0 +1,81 @@
+<mat-card fxLayout="columns wrap">
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="none" class="addMarginTop10px">
+        <div fxFlex="50">
+          <mat-radio-group [(ngModel)]="viewCategory" [ngModelOptions]="{standalone: true}">
+            <mat-radio-button value="All" (change)="catDisplayChange($event)">All</mat-radio-button>
+            <mat-radio-button value="Generic" (change)="catDisplayChange($event)">Generic</mat-radio-button>
+            <mat-radio-button value="Non-Generic" (change)="catDisplayChange($event)">Non-Generic</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div fxFlex="40" fxLayoutAlign="end center">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+              <td mat-cell *matCellDef="let element"> {{ element.code }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="typedesc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Group
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.typedesc }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Price
+              </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.price) }} </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'locked-status': row.status == 'Locked'}"></tr>
+          </table>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-checkbox [(ngModel)]="isShowLockedItems" [ngModelOptions]="{standalone: true}" (change)="displayItems()">Show Locked Items Only</mat-checkbox>
+          <mat-paginator fxLayoutAlign="end end" [pageSizeOptions]="[20, 40, 60]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<button #printButton class="printButton"
+  [useExistingCss]="true"
+  printSectionId="print-section" ngxPrint>Print</button>
+<mat-card id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-item-print *ngFor="let items of listItemsPrint; index as i" 
+        [itemData]="items" 
+        [currPage]="i+1" 
+        [maxPage]="listItemsPrint.length">
+      </app-item-print>
+    </div>
+  </form>
+</mat-card>

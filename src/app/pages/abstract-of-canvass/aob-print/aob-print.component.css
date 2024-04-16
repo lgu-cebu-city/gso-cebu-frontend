@@ -1,0 +1,142 @@
+mat-card {
+  width: 11in;
+  height: 8.5in;
+  margin-top: 0 !important;
+  print-color-adjust: exact;
+  font-size: small;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+  page-break-after: always;
+}
+@page {
+  size: auto;
+  margin: .25in;
+}
+@media print {
+  html, body { 
+    overflow-y: visible !important; 
+    position: relative; 
+  };
+}
+div.divFooter {
+  margin-top: 20px;
+}
+table {
+  border-collapse: collapse;
+  margin-top: unset;
+  width: 100%;
+}
+.header-title {
+  font-size: 25px;
+  font-weight: bold;
+}
+.entry {
+  height: 25px;
+  border-bottom: 1px solid black;
+}
+.b {
+  font-weight: bold;
+}
+.c {
+  text-align: center;
+}
+.j {
+  text-align: justify;
+}
+.small-font {
+  font-size: 12px;
+}
+.indent {
+  text-indent: 50px;
+  text-align: justify;
+}
+.indent20px {
+  text-indent: 20px;
+}
+.headerData {
+  height: 25px;
+  align-items: self-end;
+}
+.withBorder {
+  border: 1px solid;
+  padding: 10px !important;
+}
+.withMarginTop10px {
+  margin-top: 10px;
+}
+.withMarginTop20px {
+  margin-top: 20px;
+}
+.inputFormatCenter {
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1px solid #000000;
+  font-size: small;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row.small-height {
+  height: 23px !important;
+}
+th,td {
+  border: 1px solid black;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+tr.mat-header-row {
+  height: 42px;
+}
+tr.mat-header-row.small-height {
+  height: 23px;;
+}
+form {
+  margin-bottom: unset !important;
+}
+.sub-total {
+  background-color: lightgrey;
+}
+.mat-column-itemNo {
+  width: 30px;
+}
+.mat-column-quantity {
+  width: 40px;
+}
+.mat-column-description {
+  min-width: 455px;
+}
+.mat-column-supplier1Price,
+.mat-column-supplier2Price,
+.mat-column-supplier3Price {
+  width: 100px;
+}
+th.mat-column-supplier1Price,
+th.mat-column-supplier2Price,
+th.mat-column-supplier3Price {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.supp {
+  width: 170px;
+}

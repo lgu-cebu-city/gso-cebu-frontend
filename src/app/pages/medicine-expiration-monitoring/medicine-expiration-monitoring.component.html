@@ -1,0 +1,141 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="space-between center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="50">
+          <div fxLayoutAlign="end center" fxFlex="70">
+            <button mat-raised-button color="primary" (click)="printInventoryReport()" *ngIf="env.firstLoad == 'Entry'">Print</button>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <!-- <table mat-table [dataSource]="dataSource" matSort>        
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+              <td mat-cell *matCellDef="let element"> {{ element.code }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit Measure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ formatNumber(element.quantity) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="lotNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Lot No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.lotNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="expirationDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.expirationDate) }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedIr == row"></tr>
+          </table> -->
+          <table mat-table [dataSource]="dataSourceTest" matSort multiTemplateDataRows>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef> action </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="default" (click)="element.isExpanded = !element.isExpanded">
+                  <mat-icon [@indicatorRotate]="element.isExpanded ? 'expanded': 'collapsed'"> expand_more </mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="name">
+              <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="count">
+              <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="expandedDetail">
+              <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsTest.length">
+                <div class="element-detail" *ngIf="element.children?.length" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
+                  <table mat-table [dataSource]="element.children" multiTemplateDataRows>
+                    <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef> action </th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="default" (click)="element.isExpanded = !element.isExpanded">
+                          <mat-icon [@indicatorRotate]="element.isExpanded ? 'expanded': 'collapsed'"> expand_more </mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="name">
+                      <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="count">
+                      <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="expandedDetail">
+                      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsssTest.length">
+                        <div class="element-detail-child" *ngIf="element.children?.length" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
+                          <table mat-table [dataSource]="element.children" class="child-table">
+                            <ng-container matColumnDef="lotNo">
+                              <td mat-cell *matCellDef="let element"> {{ element.lotNo }} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="expirationDate">
+                              <td mat-cell *matCellDef="let element"> {{ formatDate(element.expirationDate) }} </td>
+                            </ng-container>
+                            
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsssTest;" [ngClass]="{'hasExpiredChild': hasExpiredChild }"></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </ng-container>
+                    
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTest;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+                  </table>
+                </div>
+              </td>
+            </ng-container>
+    
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTest;" [ngClass]="{'hasExpiredHeader': hasExpiredHeader }"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printButton class="printButton"
+      [useExistingCss]="true"
+      printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-medicine-expiration-monitoring-print [printData]="dataSourceTest.data"></app-medicine-expiration-monitoring-print>
+    </div>
+  </form>
+</mat-card>

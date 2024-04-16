@@ -1,0 +1,80 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'BIDS AND AWARDS COMMITTEE'"></app-print-header>
+  <hr class="hr3px">
+  <hr class="hr1px" >
+  <form fxLayout="columns wrap">
+    <h2>NOTICE OF AWARD</h2>
+    <div fxLayout="row" fxFlex="grow">
+      <div fxFlex="20">
+        Date
+      </div>
+      <div class="bold">
+        : {{ formatDate(transactionData?.transactionDate) }}
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="margintop10px">
+      <div fxFlex="20">
+        Project Name
+      </div>
+      <div class="bold">
+        : {{ transactionData?.projectTitle }}
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="margintop10px">
+      <div fxFlex="20">
+        Project Amount
+      </div>
+      <div class="bold">
+        : {{ formatNumber(transactionData?.projectCost) }}
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="margintop10px">
+      <div fxFlex="20">
+        Attention
+      </div>
+      <div class="bold">
+        : Supplier
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="margintop10px">
+      <div fxFlex="20">
+        Gentlemen
+      </div>
+      <div class="bold">
+        :
+      </div>
+    </div>
+    <div class="indent margintop30px justify">
+      With the approved recommendation of the Bids and Awards Committee, it is hereby notified in the canvass of the above mentioned project on <mat-label>{{ formatDate(transactionData?.projectStartDate) }}</mat-label>, this office awarded you to supply and deliver the item the mount of <mat-label> {{ formatNumber(itemAmount) }} </mat-label> (<mat-label class="capitalize">{{ itemAmountString }} Pesos</mat-label>) only.
+    </div>
+    <div class="margintop50px">
+      Kindly signify your acceptance by signing on the confermed below.
+    </div>
+    <div class="indent margintop30px justify bold">
+      This office will be constrained to offer the award to the next lowest quotation should you fail to sign and submit this notice within ten (10) working days from receipt hereof.
+    </div>
+    <div fxLayoutAlign="end center" fxFlex="grow" class="margintop50px">
+      <div fxFlex="25" fxLayout="columns wrap">
+        <div fxFlex="grow">
+          Truly yours,
+        </div>
+        <div fxFlex="grow" fxLayout="columns wrap" class="margintop50px">
+          <div fxFlex="grow" fxLayoutAlign="center center" class="bold">
+            CELSO G. REGENCIA
+          </div>
+          <div fxFlex="grow" fxLayoutAlign="center center">
+            CITY MAYOR
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="columns wrap" class="margintop30px">
+      <div fxFlex="grow">
+        CONFORME :
+      </div>
+      <div fxFlex="grow">
+        (Authorized person/s)
+      </div>
+    </div>
+  </form>
+</mat-card>

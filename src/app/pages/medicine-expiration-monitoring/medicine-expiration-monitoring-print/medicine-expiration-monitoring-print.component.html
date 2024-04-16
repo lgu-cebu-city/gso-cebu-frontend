@@ -1,0 +1,107 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'MEDICINE EXPIRATION MONITORING'"></app-print-header>
+  <form>
+    <table mat-table [dataSource]="printData" matSort multiTemplateDataRows>      
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="main-header-name"> Description </th>
+        <td mat-cell *matCellDef="let element" class="main-header-name"> {{ element.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lotNo">
+        <th mat-header-cell *matHeaderCellDef> LOT No </th>
+        <td mat-cell *matCellDef="let element">  </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expirationDate">
+        <th mat-header-cell *matHeaderCellDef> Expiration Date </th>
+        <td mat-cell *matCellDef="let element">  </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef> Count </th>
+        <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="element-detail">
+            <table mat-table [dataSource]="element.children" multiTemplateDataRows>
+              <ng-container matColumnDef="name">
+                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="count">
+                <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsssTest.length">
+                  <div class="element-detail-child">
+                    <table mat-table [dataSource]="element.children" class="child-table">
+                      <ng-container matColumnDef="lotNo">
+                        <td mat-cell *matCellDef="let element"> {{ element.lotNo }} </td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="expirationDate">
+                        <td mat-cell *matCellDef="let element"> {{ formatDate(element.expirationDate) }} </td>
+                      </ng-container>
+                      
+                      <tr mat-row *matRowDef="let row; columns: displayedColumnsssTest;"></tr>
+                    </table>
+                  </div>
+                </td>
+              </ng-container>
+              
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsTest;"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+            </table>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+    </table>
+
+    <!-- <table mat-table [dataSource]="irData">
+      <ng-container matColumnDef="itemCode">
+        <th mat-header-cell *matHeaderCellDef> Item Code </th>
+        <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="uom">
+        <th mat-header-cell *matHeaderCellDef> Unit </th>
+        <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="receivedQty">
+        <th mat-header-cell *matHeaderCellDef> Received Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ element.receivedQty }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="withdrawnQty">
+        <th mat-header-cell *matHeaderCellDef> Withdrawn Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ element.withdrawnQty }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="returnQty">
+        <th mat-header-cell *matHeaderCellDef> Return Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ element.returnQty }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="onhandQty">
+        <th mat-header-cell *matHeaderCellDef> Onhand </th>
+        <td mat-cell *matCellDef="let element"> {{ element.onhandQty }} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsDetails"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsDetails;"></tr>
+    </table> -->
+  </form>
+</mat-card>

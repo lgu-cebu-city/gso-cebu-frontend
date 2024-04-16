@@ -1,0 +1,9 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="start center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Print Selection</mat-label>
+  </div>
+</mat-toolbar>
+<div class="selection-body" fxLayout="column" fxLayoutAlign="space-between center">
+  <button class="selection-button" mat-raised-button color="primary" (click)="selectPrint('')">{{ data }}</button>
+  <button class="selection-button" mat-raised-button color="primary" (click)="selectPrint('COA')">{{ data }} - COA</button>
+</div>

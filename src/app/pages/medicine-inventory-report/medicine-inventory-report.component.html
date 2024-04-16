@@ -1,0 +1,160 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="space-between center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="50">
+          <div fxLayoutAlign="end center" fxFlex="75" fxLayoutGap="5px" *ngIf="env.firstLoad == 'Entry'">
+            <button mat-raised-button color="primary" (click)="printInventoryReport()">
+              <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                <mat-icon>print</mat-icon>
+                <div class="fn-button-label">
+                  Inventory
+                </div>
+              </div>
+            </button>
+            <button mat-raised-button color="primary" (click)="printSSMI()">
+              <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                <mat-icon>print</mat-icon>
+                <div class="fn-button-label">
+                  SSMI
+                </div>
+              </div>
+            </button>
+            <button mat-raised-button color="primary" (click)="printStockCard()">
+              <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                <mat-icon>print</mat-icon>
+                <div class="fn-button-label">
+                  Stockcard
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort>        
+            <ng-container matColumnDef="itemCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+              <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+              <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit Measure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="receivedQty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Received Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ formatNumber(element.receivedQty) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="withdrawnQty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Withdrawn Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ formatNumber(element.withdrawnQty) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="returnQty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Return Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ formatNumber(element.returnQty) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="onhandQty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> On Hand </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ formatNumber(element.onhandQty) }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedIr == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons aria-label="Select page of booking">
+        </mat-paginator>
+        <div class="tableContainerChild" fxFlex>
+          <table mat-table [dataSource]="details">
+            <ng-container matColumnDef="referenceDate">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.referenceDate) }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="referenceNo">
+              <th mat-header-cell *matHeaderCellDef> Reference </th>
+              <td mat-cell *matCellDef="let element"> {{ element.referenceNo }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="method">
+              <th mat-header-cell *matHeaderCellDef> (+/-) </th>
+              <td mat-cell *matCellDef="let element"> {{ element.method }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Quantity </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef> Unit </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printSSMIButton class="printSSMIButton"
+      [useExistingCss]="true"
+      printSectionId="ssmi-print-section" ngxPrint>Print</button>
+<mat-card id="ssmi-print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-ssmi-print *ngIf="ssmiData" [ssmiData]="ssmiData"></app-ssmi-print>
+    </div>
+  </form>
+</mat-card>
+<button #printButton class="printButton"
+      [useExistingCss]="true"
+      printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-inventory-report-print *ngIf="irList" [irData]="irList"></app-inventory-report-print>
+    </div>
+  </form>
+</mat-card>
+<button #printStockCardButton class="printStockCardButton"
+      [useExistingCss]="true"
+      printSectionId="inventory-print-section" ngxPrint>Print</button>
+<mat-card  id="inventory-print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-stock-card-print *ngIf="selectedIr" [irData]="selectedIr" [irDetailsData]="detailsPrint"></app-stock-card-print>
+    </div>
+  </form>
+</mat-card>

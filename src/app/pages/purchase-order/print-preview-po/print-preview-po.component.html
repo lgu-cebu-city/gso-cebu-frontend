@@ -1,0 +1,26 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Print Preview</mat-label>
+    <div fxFlex="30" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-fab color="primary" (click)="print()">
+        <mat-icon>print</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form>
+    <div class="print-pages" fxLayoutAlign="start center" fxFlex="grow" fxLayout="column" fxLayoutGap="130px">
+      <app-purchase-order-print *ngFor="let poItems of selectedPoItemsPrint; index as i" 
+        [poData]="selectedPo" 
+        [poItemsData]="poItems" 
+        [currPage]="i+1" 
+        [maxPage]="selectedPoItemsPrint.length" 
+        [grandTotal]="calculateTotal()">
+      </app-purchase-order-print>
+    </div>
+  </form>
+</mat-card>

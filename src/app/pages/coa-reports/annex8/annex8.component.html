@@ -1,0 +1,160 @@
+<mat-card class="printForm">
+    <div fxLayoutAlign="end end"><i>Annex A.8</i></div>
+    <div fxLayoutAlign="center center">
+      <div class="header">REPORT ON THE PHYSICAL COUNT OF SEMI-EXPENDABLE PROPERTY</div></div>
+     
+  <div fxLayoutAlign="center center">_________________________________________________________________</div>
+  <div style="font-size: 11px; text-align:center">(Type of Semi-expendable Property)</div>
+    <div fxLayoutAlign="center center">As at ________________________________</div>
+       
+      
+  <div style="padding-left: 5px;">
+              Fund Cluster : ________________________________</div>
+
+  <div fxLayout="row" style="font-size: 11px; text-align:center; padding-bottom: 12px;">
+       
+        <div fxFlex=5%>
+              For which </div>
+        <div fxFlex=20% style="border-bottom:1px solid gray">
+              <i>(Name of Accountable Officer)</i></div>
+        <div fxFlex=2%> , </div>
+        <div fxFlex=20% style="border-bottom:1px solid gray">
+              <i>(Official Designation)</i></div>
+        <div fxFlex=2%> , </div>
+        <div fxFlex=10% style="border-bottom:1px solid gray">
+            <i>(Entity Name)</i></div>
+      <div fxFlex=2%> , </div>
+      <div fxFlex=26% >
+           is accountable, having assumed such accountability on</div>
+      <div fxFlex=10% style="border-bottom:1px solid gray">
+            <i>(Date of Assumption)</i></div>    
+  </div> 
+
+  
+    <div>
+        <table mat-table [dataSource]="dataSource" fxFlex=100%>
+            <ng-container matColumnDef="Article">
+              <th mat-header-cell *matHeaderCellDef>Article</th>
+            </ng-container>
+            <ng-container matColumnDef="article">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Article </th>
+              <td mat-cell *matCellDef="let element"> </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="Description">
+                <th mat-header-cell *matHeaderCellDef >Description</th>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Description </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Semi_Expendable">
+                <th mat-header-cell *matHeaderCellDef >Semi-expendable<br/>Property No.</th>
+              </ng-container>
+              <ng-container matColumnDef="semi_expendable">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}">Semi-expendable<br/>Property No.</th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Unit_Of_Measure">
+                <th mat-header-cell *matHeaderCellDef >Unit of Measure</th>
+              </ng-container>
+              <ng-container matColumnDef="unit_of_measure">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Unit of Measure </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Unit_Value">
+                <th mat-header-cell *matHeaderCellDef >Unit Value</th>
+              </ng-container>
+              <ng-container matColumnDef="unit_value">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Unit Value </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Balance_Per_Card">
+                <th mat-header-cell *matHeaderCellDef >Balance Per Card</th>
+              </ng-container>
+              <ng-container matColumnDef="balance_per_card">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Balance Per Card </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="On_Hand_Per_Count">
+                <th mat-header-cell *matHeaderCellDef >On Hand Per Count</th>
+              </ng-container>
+              <ng-container matColumnDef="on_hand_per_count">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> On Hand Per Count </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ShortageOverage">
+                <th mat-header-cell *matHeaderCellDef >Shortage/Overage</th>
+              </ng-container>
+              <ng-container matColumnDef="shortageoverage">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Shortage/Overage </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Remarks">
+                <th mat-header-cell *matHeaderCellDef >Remarks</th>
+              </ng-container>
+              <ng-container matColumnDef="remarks">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Remarks </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="['Article','Description','Semi_Expendable','Unit_Of_Measure','Unit_Value',
+                                                  'Balance_Per_Card','On_Hand_Per_Count','ShortageOverage','Remarks']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+ 
+   
+    <div fxLayout="row" style="height: 150px; border:1px solid black;">
+        <div fxLayout="column" fxFlex=33% >
+            <div style="padding-left:5px; padding-bottom:20px; height: 40px;" >Certified Correct by:</div>
+                 <span style="
+                    font-size: 11px;
+                    text-align: center;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    height: 40px;
+                    border-top: 1px solid black;">
+                    Signature over Printed Name of Inventory Committee Chair<br/>
+                    and Members
+                 </span>
+        </div>             
+        <div fxLayout="column" fxFlex=34% >
+            <div style="padding-left: 5px; padding-bottom:20px; height: 40px;">Approved by:</div>
+                <span style="
+                    font-size: 11px;
+                    text-align: center;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    height: 40px;
+                    border-top: 1px solid black;">
+                    Signature over Printed Name of Head of<br/>
+                    Agency/Entity or Authorized Representative
+                </span>
+        </div>
+        <div fxLayout="column" fxFlex=33% >
+            <div style="padding-left: 5px; padding-bottom:20px; height: 40px;">Witnessed by:</div>
+                <span style="
+                    font-size: 11px;
+                    text-align: center;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                    height: 40px;
+                    border-top: 1px solid black;">
+                    Signature over Printed Name of<br/>
+                    Designated Accounting Staff
+                </span>
+        </div>
+
+    </div>
+    
+</mat-card>

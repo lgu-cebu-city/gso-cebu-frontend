@@ -1,0 +1,28 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Print Preview</mat-label>
+    <div fxFlex="30" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-fab color="primary" (click)="print()">
+        <mat-icon>print</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form>
+    <div class="print-pages" fxLayoutAlign="start center" fxFlex="grow" fxLayout="column" fxLayoutGap="170px">
+      <app-aoq-print *ngFor="let aocItems of selectedAOCItemsPrint; index as i"
+        [aocData]="selectedAOC" 
+        [printData]="aocItems"
+        [currPage]="i+1" 
+        [maxPage]="selectedAOCItemsPrint.length" 
+        [supp1GrandTotal]="calculateTotal(1)"
+        [supp2GrandTotal]="calculateTotal(2)"
+        [supp3GrandTotal]="calculateTotal(3)"
+        [itemsTotal]="itemsTotalAmt"></app-aoq-print>
+    </div>
+  </form>
+</mat-card>

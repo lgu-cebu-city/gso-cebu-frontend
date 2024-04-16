@@ -1,0 +1,163 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="textFilterStr" [ngModelOptions]="{standalone: true}" (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Filter Date</mat-label>
+          </div>
+          <div fxFlex fxFlex="50">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="year"
+                              (yearSelected)="chosenYearHandler($event)"
+                              (monthSelected)="chosenMonthHandler($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="View Items">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <mat-card-content *ngIf="isLoading" fxFlex class="loading-spinner">
+          <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </mat-card-content>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort class="main-table">
+            <ng-container matColumnDef="items">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="primary" (click)="viewItems(element)" matTooltip="View Items">
+                  <mat-icon>list</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="transactionNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.transactionNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="transactionDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.transactionDate) }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="recommendingDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Recommending Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.recommendingDate) }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="openningDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Openning Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDateTime(element.openningDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Place </th>
+              <td mat-cell *matCellDef="let element"> {{ element.location }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="prNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.prNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="prDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.prDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="biddingType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type of Bidding
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.biddingType }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="departmentName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Office Name
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.departmentName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="canvasserName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Canvasser
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.canvasserName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="approvedBudget">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved Budget
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ numberFormat.format(element.approvedBudget) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplyDescription">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Supply & Delivery of
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplyDescription }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedRFQ == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[50, 100]" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printButton class="printButton"
+  [useExistingCss]="true"
+  printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-rfq-print *ngFor="let rfqItems of selectedRFQItemsPrint; index as i"
+      [rfqData]="selectedRFQ" 
+      [rfqItemsData]="rfqItems"
+      [currPage]="i+1" 
+      [maxPage]="selectedRFQItemsPrint.length" 
+      [grandTotal]="calculateTotal()"></app-rfq-print>
+    </div>
+  </form>
+</mat-card>
+<button #printCanvassSheetButton class="printCanvassSheetButton"
+  [useExistingCss]="true"
+  printSectionId="canvass-sheet-print-section" ngxPrint>Print</button>
+<mat-card  id="canvass-sheet-print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-canvass-sheet-print *ngFor="let rfqItems of selectedRFQItemsPrint; index as i"
+        [rfqData]="selectedRFQ" 
+        [rfqItemsData]="rfqItems"
+        [currPage]="i+1" 
+        [maxPage]="selectedRFQItemsPrint.length" 
+        [grandTotal]="calculateTotal()"></app-canvass-sheet-print>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,84 @@
+mat-card {
+  width: 8.5in;
+  height: 10in;
+  padding: .5in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+mat-label.capitalize {
+  text-transform: capitalize;
+}
+@page { size: auto;  margin: 0mm; }
+.tableContainer {
+  width: 100%;
+  min-height: 260px;
+  background-color: white;
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center !important;
+}
+th,td {
+  border: 1px solid black;
+  padding: 0px 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row {
+  height: 35px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+.mat-cell {
+  font-size: 12px;
+}
+.bold {
+  font-weight: bold;
+}
+.addPadding5px {
+  padding: 5px;
+}
+.addPadding15px {
+  padding: 15px;
+}
+.addMarginTop20 {
+  margin-top: 20px;
+}
+.withBorder {
+  border: 1px solid black;
+}
+.withBorderTop {
+  border-top: 1px solid black;
+}
+.withBorderBottom {
+  border-bottom: 1px solid black;
+}
+.withBorderLeft {
+  border-left: 1px solid black;
+}
+.withBorderRight {
+  border-right: 1px solid black;
+}
+.doubleHeight {
+  height: 50px;
+}
+.smallFont {
+  font-size: smaller;
+}

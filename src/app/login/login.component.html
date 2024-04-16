@@ -1,0 +1,53 @@
+<!-- <div fxLayoutAlign="center center" fxFlexFill class="container">
+  <mat-card fxFlex="25">
+    <mat-toolbar class="bg-primary">
+      User Login
+    </mat-toolbar>
+    <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="formGroup">
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" autocomplete="off">
+        <button type='button' mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-label>{{this.loginError}}</mat-label>
+      <button mat-raised-button class="btn btn-success btn-round" [disabled]="isProcessing" (click)="login()">Login</button>
+      <mat-progress-bar *ngIf="isProcessing" mode="indeterminate"></mat-progress-bar>
+    </form>
+  </mat-card>
+</div> -->
+
+<mat-card fxLayout="row" fxLayoutAlign="center center" fxFlexFill class="container">
+  <div class="login-panel">
+    <div fxLayout="row" class="login-container" fxLayoutAlign="center center">
+      <div class="logo">
+        <img src="../../assets/img/logo.png">
+      </div>
+      <div class="login-form" fxLayout="column" fxLayoutAlign="center start">
+        <div>
+          <h2>
+            Sign-In
+          </h2>
+        </div>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Username" [(ngModel)]="username" [ngModelOptions]="{standalone: true}">
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" (keydown.enter)="login()"
+            [(ngModel)]="password" [ngModelOptions]="{standalone: true}" autocomplete="off">
+          <button type='button' mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-icon matPrefix>lock</mat-icon>
+        </mat-form-field>
+        <mat-label>{{this.loginError}}</mat-label>
+        <button mat-raised-button class="btn btn-success btn-round" [disabled]="isProcessing" (click)="login()">Login</button>
+        <mat-progress-bar *ngIf="isProcessing" mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+  </div>
+</mat-card>

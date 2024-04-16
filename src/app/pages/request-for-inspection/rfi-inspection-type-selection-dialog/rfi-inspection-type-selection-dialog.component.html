@@ -1,0 +1,41 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Select Inspection Type</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <div class="tableContainer">
+        <table mat-table [dataSource]="datasource">
+          <ng-container matColumnDef="check">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="inspectionType">
+            <th mat-header-cell *matHeaderCellDef> Inspection Type </th>
+            <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 70>
+          <button mat-raised-button color="primary" fxFlex (click)="addType()">OK</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

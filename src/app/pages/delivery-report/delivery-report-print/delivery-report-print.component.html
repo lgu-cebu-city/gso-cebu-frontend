@@ -1,0 +1,188 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'DELIVERY REPORT'"></app-print-header>
+  <form>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxFlex="40" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="30">
+              PO No. :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.transactionNo }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="30">
+              Date :
+            </div>
+            <div fxFlex class="entry">
+              {{ formatDate(poData.transactionDate) }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="30">
+              Canvass No. :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.canvassNo }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="30">
+              PR No. :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.prNo }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="60" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="25">
+              Supplier :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.supplierName }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="25">
+              Address :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.supplierAddress }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="25">
+              Contact No :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.supplierContactNo }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="30">
+              Procurement Mode :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.procurementMode }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxFlex="60" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="35">
+              Place of Delivery :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.deliveryPlace }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="35">
+              Date of Delivery :
+            </div>
+            <div fxFlex class="entry">
+              {{ formatDate(poData.deliveryDate) }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="40" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="35">
+              Delivery Term :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.deliveryTerm }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="35">
+              Payment Term :
+            </div>
+            <div fxFlex class="entry">
+              {{ poData.paymentTerm }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="tableContainer" fxFlex="">
+      <table mat-table [dataSource]="poItemsData" multiTemplateDataRows>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsItemDRDetails.length">
+            <div class="element-detail-child" *ngIf="element.dr?.length">
+              <table mat-table [dataSource]="element.dr" class="child-table">
+                <ng-container matColumnDef="referenceNo">
+                  <th mat-header-cell *matHeaderCellDef> IAR No </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.referenceNo }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="referenceDate">
+                  <th mat-header-cell *matHeaderCellDef> IAR Date </th>
+                  <td mat-cell *matCellDef="let element"> {{ formatDate(element.referenceDate) }} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="invoiceNo">
+                  <th mat-header-cell *matHeaderCellDef> DR No </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.invoiceNo }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="invoiceDate">
+                  <th mat-header-cell *matHeaderCellDef> DR Date </th>
+                  <td mat-cell *matCellDef="let element"> {{ formatDate(element.invoiceDate) }} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="receivedQuantity">
+                  <th mat-header-cell *matHeaderCellDef> Qty </th>
+                  <td mat-cell *matCellDef="let element" align="right"> {{ element.receivedQuantity }} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="balance">
+                  <th mat-header-cell *matHeaderCellDef> Bal </th>
+                  <td mat-cell *matCellDef="let element" align="right"> {{ element.balance }} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDRDetails;" class="subTable"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDRDetails;" class="subTable"></tr>
+              </table>
+            </div>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+      </table>
+    </div>
+  </form>
+</mat-card>

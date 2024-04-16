@@ -1,0 +1,111 @@
+mat-card {
+  width: 76vw;
+}
+table {
+  width: 100%;
+}
+.b {
+  font-weight: bold;
+}
+.main-table {
+  width: max-content;
+}
+.tableContainer {
+  overflow: auto;
+  background-color: white;
+  height: 465px;
+  border: 1px solid lightgray;
+}
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+button.mat-stroked-button {
+  line-height: 15px;
+}
+button ::ng-deep mat-icon {
+  padding-top: unset;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1.5px solid #bab7b2;
+}
+td.mat-column-action {
+  width: 90px;
+}
+.mat-row:hover .mat-cell {
+  background-color: #8fffdfab;
+}
+.row-is-clicked {
+  background-color: lightgreen;
+}
+mat-label {
+  padding-right: 20px;
+}
+mat-form-field {
+  width: 100%;
+}
+mat-icon {
+  padding-top: 30%;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: unset !important;
+  height: 35px;
+}
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: unset !important;
+}
+::ng-deep .mat-form-field-underline {
+  position: unset !important;
+}
+::ng-deep .mat-form-field-infix {
+  align-self: self-end !important;
+  padding-left: 10px !important;
+}
+
+.mat-column-no {
+  width: 10px;
+}
+.mat-column-prNo {
+  width: 90px;
+}
+.mat-column-prDate {
+  width: 85px;
+}
+.mat-column-departmentName {
+  width: 330px;
+}
+.mat-column-sourceOfFund {
+  min-width: 95px;
+}
+.mat-column-rationale {
+  width: 330px;
+}
+.mat-column-procurementMode {
+  width: 210px;
+}
+
+/* Print Styles */
+.printPage {
+  display: none;
+}
+.printButton {
+  display: none;
+}

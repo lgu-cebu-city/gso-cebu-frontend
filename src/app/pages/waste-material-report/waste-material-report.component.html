@@ -1,0 +1,234 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Waste Material Report</mat-label>
+    <div fxFlex="50" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-fab color="primary" (click)="preSaveConfirmation()" matTooltip="{{ btnSaveText }} Entry">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="clearFields()" matTooltip="Clear Entry">
+        <mat-icon>backspace</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()" matTooltip="Close Dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap" fxLayoutGap="5px grid" class="formContent">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Department</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input type="text" matInput [(ngModel)]="deptSelected.text" [matAutocomplete]="auto" [formControl]="formControlDepartment" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)='departmentSelectionChanged($event)'>
+              <mat-option *ngFor="let option of filteredDepartment | async" [value]="option.id">
+                {{option.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <button matSuffix mat-icon-button (click)="clearDepartmentFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="transNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Place of Storage</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="placeOfStorage" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="refDatePicker" [(ngModel)]="transDate" [ngModelOptions]="{standalone: true}" [disabled]="currUser != 'admin'">
+            <mat-datepicker-toggle matSuffix [for]="refDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #refDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Remarks</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Fund</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="fund" [ngModelOptions]="{standalone: true}">
+              <mat-option value="General Fund">General Fund</mat-option>
+              <mat-option value="Trust Fund">Trust Fund</mat-option>
+              <mat-option value="Special Education Fund">Special Education Fund</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="columns wrap">
+      <div class="tableContainer">
+        <table mat-table [dataSource]="itemDataSource">
+          <ng-container matColumnDef="itemNo">
+            <th mat-header-cell *matHeaderCellDef> Item No </th>
+            <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="uom">
+            <th mat-header-cell *matHeaderCellDef> Unit </th>
+            <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="orNo">
+            <th mat-header-cell *matHeaderCellDef> OR No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.orNo }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="orDate">
+            <th mat-header-cell *matHeaderCellDef> OR Date </th>
+            <td mat-cell *matCellDef="let element"> {{ formatDate(element.orDate) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.amount) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-raised-button color="primary" (click)="addItem()">Add Item</button>
+            </th>
+            <td mat-cell *matCellDef="let i = index">
+              <div fxLayoutAlign="space-evenly center" fxFlex>
+                <button mat-mini-fab color="primary" (click)="editItem(i)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="removeItem(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="itemDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: itemDisplayedColumns;"></tr>
+        </table>
+      </div>
+      <div class="addMarginTop5">
+        <mat-label class="tableLabel">Certificate of Inspection</mat-label>
+      </div>
+      <div class="tableContainerCert">
+        <table mat-table [dataSource]="inspCertDataSource">
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="transferTo">
+            <th mat-header-cell *matHeaderCellDef> Transferred To </th>
+            <td mat-cell *matCellDef="let element"> {{ element.transferTo }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ element.amount }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-mini-fab color="primary" (click)="addInspCertificate()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </th>
+            <td mat-cell *matCellDef="let i = index">
+              <div fxLayoutAlign="space-evenly center" fxFlex>
+                <button mat-mini-fab color="primary" (click)="editInspCertificate(i)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="removeInspCertificate(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="inspCertDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: inspCertDisplayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Inspection Officer</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="inspOfficerName" [ngModelOptions]="{standalone: true}">
+            <button matSuffix mat-icon-button (click)="selectEmployee('InspectionOfficer')">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Witness</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="witnessName" [ngModelOptions]="{standalone: true}">
+            <button matSuffix mat-icon-button (click)="selectEmployee('Witness')">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,132 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'INSPECTION & ACCEPTANCE'"></app-print-header>
+  <table>
+    <tr>
+      <td class="label">
+        Payee
+      </td>
+      <td [colSpan]="5">
+        {{ iarData.supplierName }}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">
+        Address
+      </td>
+      <td [colSpan]="5">
+        {{ iarData.supplierAddress }}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">
+        Reference
+      </td>
+      <td class="data">
+        {{ iarData.referenceNo }}
+      </td>
+      <td class="label">
+        Invoice No.
+      </td>
+      <td class="data">
+        {{ iarData.invoiceNo }}
+      </td>
+      <td class="label">
+        P.O. No.
+      </td>
+      <td class="data">
+        {{ iarData.poNo }}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">
+        Delivery Date
+      </td>
+      <td class="data">
+        {{ formatDate(iarData.referenceDate) }}
+      </td>
+      <td class="label">
+        Invoice Date
+      </td>
+      <td class="data">
+        {{ formatDate(iarData.invoiceDate) }}
+      </td>
+      <td class="label">
+        P.O. Date
+      </td>
+      <td class="data">
+        {{ formatDate(iarData.poDate) }}
+      </td>
+    </tr>
+    <tr>
+      <td [colSpan]="2" class="label">
+        Requisitioning Office / Department
+      </td>
+      <td [colSpan]="4">
+        {{ iarData.departmentName }}
+      </td>
+    </tr>
+    <tr>
+      <td class="label">
+        Purpose
+      </td>
+      <td [colSpan]="5">
+        {{ iarData.purpose }}
+      </td>
+    </tr>
+  </table>
+  <div class="tableContainer">
+    <table mat-table [dataSource]="iarItemsData">
+      <ng-container matColumnDef="itemNo">
+        <th mat-header-cell *matHeaderCellDef> Item </th>
+        <td mat-cell *matCellDef="let element; let i = index" align="center"> {{ element.description == "***Nothing Follows***" || element.description == "" ? "" : i + 1 }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="uom">
+        <th mat-header-cell *matHeaderCellDef> Unit </th>
+        <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let element"align="right"> {{ element.receivedQuantity || "" }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="brand">
+        <th mat-header-cell *matHeaderCellDef> Brand </th>
+        <td mat-cell *matCellDef="let element"> {{ element.brand }} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+    </table>
+  </div>
+  <table>
+    <tr>
+      <td [colSpan]="2" class="center label">
+        INSPECTION
+      </td>
+      <td [colSpan]="2" class="center label">
+        ACCEPTANCE
+      </td>
+    </tr>
+    <tr>
+      <td class="label">
+        Date Inspected
+      </td>
+      <td>
+        <!-- 06/17/2022 -->
+      </td>
+      <td class="label">
+        Date Received
+      </td>
+      <td>
+        <!-- 06/17/2022 -->
+      </td>
+    </tr>
+  </table>
+</mat-card>

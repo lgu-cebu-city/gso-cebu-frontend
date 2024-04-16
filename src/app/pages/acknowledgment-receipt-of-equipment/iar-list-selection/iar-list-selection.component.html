@@ -1,0 +1,164 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Select IAR</mat-label>
+        <div fxLayoutAlign="space-between center" fxFlex="30">
+          <button mat-raised-button color="primary" fxFlex="80" (click)="selectIAR()">Select</button>
+          <button mat-mini-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div class="formContent" fxLayout="columns wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Filter Date</mat-label>
+          </div>
+          <div fxFlex fxFlex="50">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="picker" (dateChange)="dateFilterChanged($event)" [(ngModel)]="filterDate" [ngModelOptions]="{standalone: true}">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix (click)="clearDate()">
+                <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="grow">
+        <div class="tableContainer">
+          <table mat-table [dataSource]="dataSource" matSort class="main-table">        
+            <ng-container matColumnDef="referenceNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.referenceNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="referenceDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.referenceDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="invoiceNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.invoiceNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="invoiceDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.invoiceDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="poNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PO No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.poNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="poDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PO Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.poDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplierName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplierName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplierAddress">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplierAddress }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="departmentName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+              <td mat-cell *matCellDef="let element"> {{ element.departmentName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="purpose">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Purpose </th>
+              <td mat-cell *matCellDef="let element"> {{ element.purpose }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedIar == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons aria-label="Select page of booking">
+        </mat-paginator>
+      </div>
+      <div fxFlex="grow">
+        <div class="tableContainerChild" fxFlex="">
+          <mat-label class="tableLabel">Item Details</mat-label>
+          <table mat-table [dataSource]="itemDetails">
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="brand">
+              <th mat-header-cell *matHeaderCellDef> Brand </th>
+              <td mat-cell *matCellDef="let element"> {{ element.brand }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Quantity </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.receivedQuantity }} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="serialNo">
+              <th mat-header-cell *matHeaderCellDef> Serial No </th>
+              <td mat-cell *matCellDef="let element"> {{ element.serialNo }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="check">
+              <th mat-header-cell *matHeaderCellDef>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+        
+            <!-- <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>
+              </th>
+              <td mat-cell *matCellDef="let i = index; let element">
+                <div fxLayoutAlign="space-evenly center" fxFlex>
+                  <button mat-mini-fab color="primary" (click)="selectIARItem(element)">
+                    <mat-icon>playlist_add_check</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container> -->
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,19 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Purchase Request Attachment</mat-label>
+    <div fxFlex="30" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-mini-fab color="warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <div>
+    <div fxLayoutAlign="center center" fxFlex="grow">
+      <div>
+        <img src="../../assets/img/empty-attachment.png" class="no-data-image">
+      </div>
+    </div>
+  </div>
+</mat-card>

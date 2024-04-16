@@ -1,0 +1,193 @@
+<mat-card fxLayout="columns wrap">
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <form fxLayout="columns wrap" fxLayoutAlign="space-between" [formGroup]="formGroup">
+        <div fxLayoutAlign="space-between center" fxFlex="48" fxLayout="row wrap" fxLayoutGap="5px grid">
+          <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withBorder">
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Unit 1</mat-label>
+              </div>
+              <div fxFlex="65">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="unit1">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Quantity 1</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="quantity1" currencyMask [options]="{ prefix: '' }">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withBorder">
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Unit 3</mat-label>
+              </div>
+              <div fxFlex="65">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="unit3">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Quantity 3</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="quantity3" currencyMask [options]="{ prefix: '' }">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="48" fxLayout="row wrap" fxLayoutGap="5px grid">
+          <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withBorder">
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Unit 2</mat-label>
+              </div>
+              <div fxFlex="65">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="unit2">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Quantity 2</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="quantity2" currencyMask [options]="{ prefix: '' }">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withBorder">
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Unit 4</mat-label>
+              </div>
+              <div fxFlex="65">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="unit4">
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayoutAlign="space-between center" fxFlex="45">
+              <div>
+                <mat-label>Quantity 4</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="quantity4" currencyMask [options]="{ prefix: '' }">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between start" fxFlex fxLayout="row wrap" class="addMarginTop20">
+          <div fxLayoutAlign="space-between center" fxFlex="48">
+            <div>
+              <mat-label>Item Group</mat-label>
+            </div>
+            <div fxFlex="75">
+              <mat-form-field appearance="fill">
+                <mat-select [(ngModel)]="itemType" [ngModelOptions]="{standalone: true}" (selectionChange)="typeSelectedValue($event)">
+                  <mat-optgroup *ngFor="let g of groupType" [label]="g.description">
+                    <mat-option *ngFor="let type of g.type" [value]="type.id">
+                      - {{ type.description }}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-between center" fxFlex="30">
+            <button mat-raised-button color="primary" fxFlex="32" (click)="loadData()">Refresh</button>
+            <button mat-raised-button color="primary" fxFlex="32" (click)="saveData()">{{ btnSaveText }}</button>
+            <button mat-raised-button color="primary" fxFlex="32" (click)="clearData()">Clear</button>
+          </div>
+        </div>
+      </form>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="unit1">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit 1 </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit1 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="quantity1">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity 1 </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity1 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="unit2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit 2
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit2 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="quantity2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity 2
+              </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity2 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="unit3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit 3
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit3 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="quantity3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity 3
+              </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity3 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="unit4">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit 4
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit4 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="quantity4">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity 4
+              </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity4 }} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef  mat-sort-header></th>
+              <td mat-cell *matCellDef="let element; let i = index" align="center"> 
+                <div fxLayoutAlign="space-evenly center" fxFlex>
+                  <button mat-mini-fab color="primary" (click)="editData(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab color="warn" (click)="deleteData(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <mat-paginator fxLayoutAlign="end end" [pageSizeOptions]="[10, 20]" showFirstLastButtons aria-label="Select page of booking">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</mat-card>

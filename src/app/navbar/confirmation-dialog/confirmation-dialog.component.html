@@ -1,0 +1,28 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>{{ data.title }}</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent">
+      <div fxLayout="row">
+        <div fxFlex="83">
+          {{ data.message }}
+        </div>
+        <div fxFlex="15">
+          <img src="../../assets/img/question-mark.png" class="no-data-image">
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="space-evenly center" fxFlex="80">
+          <button mat-raised-button color="primary" fxFlex="40" (click)="accept()">{{ data.btnOkText }}</button>
+          <button mat-raised-button color="warn" fxFlex="40" (click)="decline()">{{ data.btnCancelText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

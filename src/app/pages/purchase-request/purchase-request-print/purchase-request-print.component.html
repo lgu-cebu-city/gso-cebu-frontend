@@ -1,0 +1,168 @@
+<mat-card class="printForm">
+  <form fxLayout="column">
+    <div fxFlex fxLayoutAlign="center center" class="withBorder b header-title">
+      PURCHASE REQUEST
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="row" class="withBorder" fxFlex="55">
+        <div fxFlex="25">
+          LGU :
+        </div>
+        <div fxFlex>
+          CITY OF CEBU
+        </div>
+      </div>
+      <div fxLayout="row" class="withBorder" fxFlex="45">
+        <div fxFlex="20">
+          Fund :
+        </div>
+        <div fxFlex>
+          {{ prData?.sourceOfFund }}
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxFlex="55" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="25">
+              Department :
+            </div>
+            <div fxFlex class="entry">
+              {{ prData?.departmentName }}
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="25">
+              Section :
+            </div>
+            <div fxFlex class="entry b">
+              {{ prData?.sectionName }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="45" class="withBorder">
+        <div fxLayout="column" fxFlexFill>
+          <div fxLayout="row" class="headerData" fxLayoutAlign="space-between center">
+            <div fxFlex="50" fxLayout="row" class="headerData">
+              <div fxFlex="40">
+                PR No. :
+              </div>
+              <div fxFlex class="entry b">
+                <!-- {{ prData?.prNo }} -->
+              </div>
+            </div>
+            <div fxFlex="45" fxLayout="row" class="headerData">
+              <div fxFlex="25">
+                Date :
+              </div>
+              <div fxFlex class="entry b">
+                <!-- {{ formatDate(prData?.prDate) }} -->
+              </div>
+            </div>
+          </div>
+          <div fxLayout="row" class="headerData">
+            <div fxFlex="20">
+              FPP:
+            </div>
+            <div fxFlex class="entry">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="tableContainer" fxFlex="">
+      <table mat-table [dataSource]="prItemsData">
+        <ng-container matColumnDef="itemNo">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.id == "x" ? "" : element.id }} </td>
+        </ng-container> 
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' ? {'text-align': 'center', 'font-weight': 'bold'} : element.id == '0' ? {'text-align': 'left', 'font-weight': 'bold'} : {'font-weight': 'normal'}" [attr.colspan]="element.id == '-' ? 5 : element.id == '0' ? 6 : 1"> {{ element.description }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.quantity || "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.cost ? numberFormat.format(element.cost) : "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' ? {'font-weight': 'bold'} : element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.total ? numberFormat.format(element.total) : "" }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;" [ngClass]="{'sub-total': row.description == 'Sub-Total' }"></tr>
+      </table>
+    </div>
+  </form>
+  <form *ngIf="currPage == maxPage">
+    <table>
+      <tr class="sub-total mat-row">
+        <td class="mat-footer-cell mat-column-itemNo" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-uom" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-description b" [attr.colspan]="5"> Grand Total </td>
+        <td class="mat-footer-cell mat-column-quantity" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-cost" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-total b" align="right"> {{ numberFormat.format(grandTotal) }} </td>
+      </tr>
+    </table>
+  </form>
+  <form>
+    <div class="purposeLine" fxLayout="row">
+      <div class="b" fxFlex="10">
+        Purpose :
+      </div>
+      <div>
+        {{ prData?.rationale }}
+      </div>
+    </div>
+  </form>
+  <form>
+    <table>
+      <tr>
+        <td></td>
+        <td [width]="220">Requested by</td>
+        <td [width]="220">Cash Availability</td>
+        <td [width]="220">Approved by</td>
+      </tr>
+      <tr>
+        <td>Signature</td>
+        <td class="double-height"></td>
+        <td class="double-height"></td>
+        <td class="double-height"></td>
+      </tr>
+      <tr>
+        <td>Printed Name</td>
+        <td class="b">{{ prData?.requestedByName }}</td>
+        <td class="b">{{ prData?.cashAvailabilityName }}</td>
+        <td class="b">{{ prData?.approvedByName }}</td>
+      </tr>
+      <tr>
+        <td>Designation</td>
+        <td>{{ prData?.requestedByPosition }}</td>
+        <td>{{ prData?.cashAvailabilityPosition }}</td>
+        <td>{{ prData?.approvedByPosition }}</td>
+      </tr>
+    </table>
+  </form>
+  <div class="divFooter" fxLayoutAlign="end">
+    Page {{ currPage }} of {{ maxPage }}
+  </div>
+</mat-card>

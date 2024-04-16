@@ -1,0 +1,122 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'REQUEST FOR INSPECTION'"></app-print-header>
+  <form fxLayout="columns wrap">
+    <div fxFlex="grow" fxLayout="columns wrap" fxLayoutAlign="center center">
+      <div fxFlex="80" fxLayout="row">
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('I.T. EQUIPMENT')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          I.T. EQUIPMENT
+        </div>
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('LABORATORY AND MEDICAL EQUIPMENT')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          LABORATORY AND MEDICAL EQUIPMENT
+        </div>
+      </div>
+      <div fxFlex="80" fxLayout="row">
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('AIR CONDITIONING UNIT')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          AIR CONDITIONING UNIT
+        </div>
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('OFFICE EQUIPMENT')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          OFFICE EQUIPMENT
+        </div>
+      </div>
+      <div fxFlex="80" fxLayout="row">
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('PLUMBING')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          PLUMBING
+        </div>
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('FURNITURE AND FIXTURE')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          FURNITURE AND FIXTURE
+        </div>
+      </div>
+      <div fxFlex="80" fxLayout="row">
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('ELECTRICAL')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          ELECTRICAL
+        </div>
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('OTHERS')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          OTHERS
+        </div>
+      </div>
+      <div fxFlex="80" fxLayout="row">
+        <div class="withBorder" fxFlex="7">
+          <mat-icon *ngIf="containType('OFFICE BUILDING')">check</mat-icon>
+        </div>
+        <div class="withBorder" fxFlex="45">
+          OFFICE BUILDING
+        </div>
+        <div class="withBorder" fxFlex="7">
+        </div>
+        <div class="withBorder" fxFlex="45">
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="addMarginTop30">
+      <div fxFlex="23">
+        Requesting Department :
+      </div>
+      <div>
+        {{ rfiData.departmentName }}
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="addMarginTop10">
+      <div fxFlex="23">
+        Requested by :
+      </div>
+      <div>
+        
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="grow" class="addMarginTop30 b">
+      Details
+    </div>
+    <div fxFlex="grow" class="addMarginTop10">
+      <div class="tableContainerChild" fxFlex="">
+        <table mat-table [dataSource]="rfiItemsData">
+          <ng-container matColumnDef="itemNo">
+            <th mat-header-cell *matHeaderCellDef> Item No </th>
+            <td mat-cell *matCellDef="let element; let i = index"> {{ element.description == "***Nothing Follows***" || element.description == "" ? "" : i + 1 }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="areNo">
+            <th mat-header-cell *matHeaderCellDef> ARE No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.areNo }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="issue">
+            <th mat-header-cell *matHeaderCellDef> Issue </th>
+            <td mat-cell *matCellDef="let element"> {{ element.issue }} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+        </table>
+      </div>
+    </div>
+  </form>
+</mat-card>

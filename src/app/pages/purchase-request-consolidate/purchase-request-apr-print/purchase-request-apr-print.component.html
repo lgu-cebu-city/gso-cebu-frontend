@@ -1,0 +1,207 @@
+<mat-card class="printForm">
+  <form fxLayout="column">
+    <div fxLayoutAlign="start center" fxLayout="row">
+      <div fxLayout="column" class="withBorder withPaddingLeft" fxFlex="60">
+        <div class="withHiddenBorder blank">
+          NAME AND ADDRESS OF
+        </div>
+        <div class="withHiddenBorder blank">
+          REQUESTING AGENCY : City Government of Bayugan
+        </div>
+        <div class="withHiddenBorder blank">
+          TEL NOS. : 09485909168
+        </div>
+      </div>
+      <div fxLayout="column" class="withBorder" fxFlex="40">
+        <div class="withBorder withPaddingLeft blank">
+          AGENCY ACCT. CODE
+        </div>
+        <div class="withBorder withPaddingLeft blank">
+          AGENCY CONTROL No.
+        </div>
+        <div class="withBorder withPaddingLeft blank">
+          
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" class="withBorder withPaddingLeft" fxFlex>
+      <div>
+        <div fxLayoutAlign="start center" fxLayout="row">
+          <div fxLayout="column" fxFlex="60">
+            <div>
+              TO : PROCUREMENT SERVICE
+            </div>
+            <div>
+              DBM Compound, RR Roa Cristobal St., Paco, Manila
+            </div>
+          </div>
+          <div fxLayout="column" fxFlex="40">
+            <div fxLayoutAlign="center">
+              {{ formatDate(prData?.prDate) }}
+            </div>
+            <div fxLayoutAlign="center">
+              ( Date Prepared )
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blank">
+
+      </div>
+      <div class="indent">
+        PLEASE CHECK ( ) APPROPRIATE BOX ON ACTION ON THE ITEM/S LISTED BELOW
+      </div>
+      <div class="blank">
+
+      </div>
+      <div>
+        ( ) Please issue common-use supplies/materials per Price List No. __________________ dated _________________
+      </div>
+      <div class="indent">
+        Mode of Deliver: ( ) Pick (fast lane)  ( ) Pick-up (schedule)  ( ) Delivery (door-to-door)
+      </div>
+      <div class="blank">
+
+      </div>
+      <div class="indent">
+        In case Fund is not sufficient: ( ) Reduce Quantity (Bill-Us)  ( ) Delivery (door-to-door)
+      </div>
+      <div class="blank">
+
+      </div>
+      <div>
+        ( ) Please Purchase for our Agency non-common items. Attached herewith :
+      </div>
+      <div class="indent">
+        ( ) Complete Specifications  ( ) Obligation Request (DBR)  ( ) Others, Please specify ___________________________________________________
+      </div>
+      <div>
+        ( ) Certificate of Budget Allocation (CBA)  ( ) Payment ________________________
+      </div>
+      <div>
+        This form shall be prepared for Requisitions of Common-Use Goods From the PS Deposit, APR No.:________________ Date:_________________
+      </div>
+      <div>
+        & Non-Common Use Supplies from the PS Main
+      </div>
+      <div fxLayoutAlign="center">
+        For PS Main -Common Use Supplies, Please use Form 001 R or Form 001 B
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="tableContainer" fxFlex="">
+      <table mat-table [dataSource]="prItemsData">
+        <ng-container matColumnDef="itemNo">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.id == "x" ? "" : element.id }} </td>
+        </ng-container> 
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' ? {'text-align': 'center', 'font-weight': 'bold'} : element.id == '0' ? {'text-align': 'left', 'font-weight': 'bold'} : {'font-weight': 'normal'}" [attr.colspan]="element.id == '-' ? 5 : element.id == '0' ? 6 : 1"> {{ element.description }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.quantity || "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.cost ? numberFormat.format(element.cost) : "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' ? {'font-weight': 'bold'} : element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.total ? numberFormat.format(element.total) : "" }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;" [ngClass]="{'sub-total': row.description == 'Sub-Total' }"></tr>
+      </table>
+    </div>
+  </form>
+  <form *ngIf="currPage == maxPage">
+    <table>
+      <tr class="sub-total mat-row">
+        <td class="mat-footer-cell mat-column-itemNo" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-uom" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-description b" [attr.colspan]="5"> Grand Total </td>
+        <td class="mat-footer-cell mat-column-quantity" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-cost" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-total b" align="right"> {{ numberFormat.format(grandTotal) }} </td>
+      </tr>
+    </table>
+  </form>
+  <form fxLayout="column">
+    <div fxLayoutAlign="center" class="withBorder withPaddingLeft">
+      NOTE: ALL SIGNATURES MUST BE OVER PRINTED NAME
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxFlex="33" class="withBorder withPaddingLeft">
+        APPROVED PROGRAM:
+      </div>
+      <div fxFlex="34" class="withBorder withPaddingLeft">
+        FUNDS CERTIFIED AVAILABLE:
+      </div>
+      <div fxFlex="33" class="withBorder withPaddingLeft">
+        APPROVED:
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxFlex="33" fxLayout="column" class="withBorder">
+        <div class="blank">
+
+        </div>
+        <div fxLayoutAlign="center" class="entry">
+          LORENA P. MONDEJAR
+        </div>
+        <div fxLayoutAlign="center">
+          AGENCY PROPERTY/SUPPLY OFFICER
+        </div>
+      </div>
+      <div fxFlex="34" class="withBorder">
+        <div class="blank">
+
+        </div>
+        <div fxLayoutAlign="center" class="entry">
+          MARIA EDNA P. CANETE
+        </div>
+        <div fxLayoutAlign="center">
+          HEAD - BUDGET OFFICE
+        </div>
+      </div>
+      <div fxFlex="33" class="withBorder">
+        <div class="blank">
+
+        </div>
+        <div fxLayoutAlign="center" class="entry">
+          KIRK A. ASIS
+        </div>
+        <div fxLayoutAlign="center">
+          CITY MAYOR
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" class="withBorder withPaddingLeft">
+      <div>
+        ( ) FUNDS DEPOSIT WITH PS ( ) _________________________ CHECK NO.: _________________________
+      </div>
+      <div>
+        IN THE AMOUNT OF: _______________________________________________________________ (P ____________________) ENCLOSED
+      </div>
+      <div class="blank">
+
+      </div>
+    </div>
+  </form>
+  <div class="divFooter" fxLayoutAlign="end">
+    Page {{ currPage }} of {{ maxPage }}
+  </div>
+</mat-card>

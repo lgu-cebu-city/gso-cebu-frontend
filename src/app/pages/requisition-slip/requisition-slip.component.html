@@ -1,0 +1,171 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Requisition Slip</mat-label>
+    <div fxFlex="50" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-fab color="primary" (click)="addItem()" matTooltip="Browse PR Item/s">
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="preSaveConfirmation()" matTooltip="{{ btnSaveText }} Entry">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="clearFields()" matTooltip="Clear Entry">
+        <mat-icon>backspace</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()" matTooltip="Close Dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap" [formGroup]="requisitionSlipFormGroup" class="formContent">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Department</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="deptSelectedValue($event)" [disabled]="authService.getTypeId() != env.gsoDeptId.toString()"
+                [(ngModel)]="deptSelected.value" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let dept of departmentSelection" [value]="dept.id">
+                {{dept.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="transactionNo">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Division</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="divisionSelectedValue($event)"
+                [(ngModel)]="divisionSelected.value" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let dept of divisionSelection" [value]="dept.id">
+                {{dept.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="refDatePicker" formControlName="transactionDate">
+            <mat-datepicker-toggle matSuffix [for]="refDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #refDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between start" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between start" fxFlex="50">
+        <div class="addMarginTop5">
+          <mat-label>Purpose</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill" class="textAreaInput">
+            <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" formControlName="purpose"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="columns wrap" fxFlex="45">
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+          <div fxLayoutAlign="space-between center" fxFlex>
+            <div>
+              <mat-label>SAI No.</mat-label>
+            </div>
+            <div fxFlex="60">
+              <mat-form-field appearance="fill">
+                <input matInput formControlName="saiNo">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+          <div fxLayoutAlign="space-between center" fxFlex>
+            <div>
+              <mat-label>SAI Date</mat-label>
+            </div>
+            <div fxFlex="60">
+              <mat-form-field appearance="fill">
+                <input matInput [matDatepicker]="saiDatePicker" formControlName="saiDate">
+                <mat-datepicker-toggle matSuffix [for]="saiDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #saiDatePicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <div class="tableContainer">
+        <table mat-table [dataSource]="itemDataSource">
+          <ng-container matColumnDef="itemCode">
+            <th mat-header-cell *matHeaderCellDef> itemNo </th>
+            <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="unit">
+            <th mat-header-cell *matHeaderCellDef> Unit </th>
+            <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="requestedQty">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right">
+              <input matInput type="number" [(ngModel)]="element.requestedQty" [ngModelOptions]="{standalone: true}" (focusout)="reqQuantityChanged($event, element)">
+            </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+              <!-- <button mat-raised-button color="primary" (click)="addItem()">Add Item</button> -->
+            </th>
+            <td mat-cell *matCellDef="let i = index">
+              <div fxLayoutAlign="space-evenly center" fxFlex>
+                <button mat-mini-fab color="warn" (click)="removeItem(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="itemDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: itemDisplayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <!-- <div fxLayoutAlign="end" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+      <div fxLayoutAlign="space-between center" fxFlex="30">
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="saveData()"> {{ btnSaveText }} </button>
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="clearFields()">Clear</button>
+        <button *ngIf="envFirstLoad == 'Entry'" type="button" mat-raised-button color="primary" fxFlex="32" (click)="gotoList()">List</button>
+      </div>
+    </div> -->
+  </form>
+</mat-card>

@@ -1,0 +1,101 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Add Item</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Property No</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.propertyNo" [ngModelOptions]="{standalone: true}" (click)="showListItem()" readonly="true">
+            <button matSuffix mat-icon-button (click)="showListItem()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Description</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.brand" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Unit Measure</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.uom" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>ARE No</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.parNo" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Department</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.departmentName" [ngModelOptions]="{standalone: true}" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Nature of Request</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="natureOfRequest" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option value="New">New</mat-option>
+              <mat-option value="Additional">Additional</mat-option>
+              <mat-option value="Urgent">Urgent</mat-option>
+              <mat-option value="Others">Others</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" *ngIf="natureOfRequest == 'Others'">
+        <div fxLayoutAlign="space-between start" fxFlex>
+          <div class="addMarginTop5">
+            <mat-label>Specify</mat-label>
+          </div>
+          <div fxFlex="70">
+            <mat-form-field appearance="fill" class="textAreaInput remarks">
+              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" 
+                [(ngModel)]="others" [ngModelOptions]="{standalone: true}"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">{{ btnText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

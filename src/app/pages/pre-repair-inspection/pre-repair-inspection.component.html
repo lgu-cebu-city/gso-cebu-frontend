@@ -1,0 +1,259 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Pre-Repair Inspection Report</mat-label>
+    <div fxFlex="50" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-fab color="primary" (click)="preSaveConfirmation()" matTooltip="{{ btnSaveText }} Entry">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab color="primary" (click)="clearFields()" matTooltip="Clear Entry">
+        <mat-icon>backspace</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="closeDialog()" matTooltip="Close Dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap" fxLayoutGap="5px grid" class="formContent">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Vehicle Name</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="vehicleName" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="transactionNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Vehicle Type</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="vehicleType" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="refDatePicker" [(ngModel)]="transactionDate" [ngModelOptions]="{standalone: true}" [disabled]="currUser != 'admin'">
+            <mat-datepicker-toggle matSuffix [for]="refDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #refDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Brand / Model</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="brandModel" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Plate No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="plateNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Engine No.</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="engineNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Chassis No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="chassisNo" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Acquisation Date</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="acqDatePicker" [(ngModel)]="acquisationDate" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="acqDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #acqDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Acquisation Cost</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="acquisationCost" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Date of Last Repair</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="dlrDatePicker" [(ngModel)]="lastRepairDate" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="dlrDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #dlrDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Nature of Last Repair</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="lastRepairNature" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="grow">
+      <mat-form-field appearance="fill" class="textAreaInput">
+        <mat-label>Defects/Complaints</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" [(ngModel)]="defectComplaints" [ngModelOptions]="{standalone: true}"></textarea>
+      </mat-form-field>
+    </div>
+    <div fxFlex="grow">
+      <mat-form-field appearance="fill" class="textAreaInput">
+        <mat-label>Nature & Scope of Work to be Done</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" [(ngModel)]="workScope" [ngModelOptions]="{standalone: true}"></textarea>
+      </mat-form-field>
+    </div>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <div class="tableContainer">
+        <table mat-table [dataSource]="itemDataSource">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element" align="left"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="unitMeasure">
+            <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+            <td mat-cell *matCellDef="let element" align="left"> {{ element.uom }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="unitCost">
+            <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.cost) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="totalCost">
+            <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef> Remarks </th>
+            <td mat-cell *matCellDef="let element" align="left"> {{ element.remarks }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-raised-button color="primary" (click)="addItem()">Add Item</button>
+            </th>
+            <td mat-cell *matCellDef="let i = index">
+              <div fxLayoutAlign="space-evenly center" fxFlex>
+                <button mat-mini-fab color="primary" (click)="editItem(i)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="removeItem(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="itemDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: itemDisplayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxFlex="24">
+        <mat-form-field appearance="fill">
+          <mat-label>Requested By</mat-label>
+          <input matInput [(ngModel)]="requestedByName" [ngModelOptions]="{standalone: true}" [readonly]="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('Requested')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxFlex="24">
+        <mat-form-field appearance="fill">
+          <mat-label>Pre-Inspected By</mat-label>
+          <input matInput [(ngModel)]="inspectedBy1Name" [ngModelOptions]="{standalone: true}" [readonly]="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('Inspected1')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxFlex="24">
+        <mat-form-field appearance="fill">
+          <mat-label>Pre-Inspected By</mat-label>
+          <input matInput [(ngModel)]="inspectedBy2Name" [ngModelOptions]="{standalone: true}" [readonly]="true">
+          <button matSuffix mat-icon-button (click)="selectEmployee('Inspected2')">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div fxFlex="24">
+        <mat-form-field appearance="fill">
+          <mat-label>Noted By</mat-label>
+          <input matInput [(ngModel)]="notedByName" [ngModelOptions]="{standalone: true}" [readonly]="true">
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-card>

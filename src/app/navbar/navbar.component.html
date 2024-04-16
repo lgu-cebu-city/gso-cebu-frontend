@@ -1,0 +1,161 @@
+<mat-toolbar class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+  <div class="navbar-wrapper">
+    <div class="navbar-toggle">
+      <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </button>
+    </div>
+    <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
+  </div>
+  <span class="example-spacer"></span>
+  <!-- <form>
+    <div class="input-group no-border">
+      <input type="text" value="" class="form-control" placeholder="Search...">
+      <div class="input-group-append">
+        <div class="input-group-text search-button">
+          <i class="nc-icon nc-zoom-split"></i>
+        </div>
+      </div>
+    </div>
+  </form> -->
+  
+  <div fxFlex="55" fxLayoutAlign="end center" fxLayoutGap="10px" class="fnButtons" *ngIf="envFirstLoad == 'List'">
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.createFn && commonFunction.createFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="createFn()" matTooltip="Add">
+        <mat-icon>add</mat-icon>
+      </button>
+      <div class="button-label">
+        Create
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.editFn && commonFunction.editFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="editFn()" matTooltip="Edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <div class="button-label">
+        Edit
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.deleteFn && commonFunction.deleteFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="deleteFn()" matTooltip="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <div class="button-label">
+        Delete
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printFn && commonFunction.printFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printFn()" matTooltip="Print">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Print
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printPreviewFn && commonFunction.printPreviewFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printPreviewFn()" matTooltip="Print Preview">
+        <mat-icon>find_in_page</mat-icon>
+      </button>
+      <div class="button-label">
+        Preview
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printCanvassSheetFn && commonFunction.printCanvassSheetFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printCanvassSheetFn()" matTooltip="Print Canvass Sheet">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Canvass Sheet
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printAprFn && commonFunction.printAprFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printAprFn()" matTooltip="Print APR">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        APR
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printSummaryFn && commonFunction.printSummaryFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printSummaryFn()" matTooltip="Print Summary">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Summary
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printSSMIFn && commonFunction.printSSMIFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printSSMIFn()" matTooltip="Print SSMI">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        SSMI
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printStockCardFn && commonFunction.printStockCardFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printStockCardFn()" matTooltip="Print Stock Card">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Stock Card
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printPropertyCardFn && commonFunction.printPropertyCardFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printPropertyCardFn()" matTooltip="Print Property Card">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Property Card
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.printPropertyLedgerFn && commonFunction.printPropertyLedgerFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="printPropertyLedgerFn()" matTooltip="Print Property Ledger">
+        <mat-icon>print</mat-icon>
+      </button>
+      <div class="button-label">
+        Property Ledger
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center"
+    *ngIf="commonFunction.exportFn && commonFunction.exportFn?.name != ''">
+      <button type="button" mat-fab color="primary" (click)="exportFn()" matTooltip="Export To Excel">
+        <mat-icon>launch</mat-icon>
+      </button>
+      <div class="button-label">
+        Export
+      </div>
+    </div>
+  </div>
+
+  <!-- <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>drag_indicator</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>perm_identity</mat-icon>
+      Account
+    </button>
+    <button mat-menu-item>
+      <mat-icon>settings</mat-icon>
+      Setting
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </mat-menu> -->
+</mat-toolbar>

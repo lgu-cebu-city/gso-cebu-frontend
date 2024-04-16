@@ -1,0 +1,72 @@
+mat-card {
+  width: 10in;
+  height: 7.5in;
+  padding-left: .5in;
+  padding-right: .5in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto !important;  margin: 0mm; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+.withUnderline {
+  border-bottom: 1px solid black;
+}
+.addMarginTop20 {
+  margin-top: 20px;
+}
+.addMarginTop10 {
+  margin-top: 10px;
+}
+.addMarginTop5 {
+  margin-top: 5px;
+}
+.withBorder {
+  border: 1px solid;
+  padding: 10px !important;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center !important;
+}
+th,td {
+  border: 1px solid black;
+  padding: 0px 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row {
+  height: 35px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+.mat-cell {
+  font-size: 12px;
+}
+.mat-column-description {
+  width: 220px;
+}
+.mat-column-unit {
+  width: 50px;
+}
+.mat-column-jan, .mat-column-feb, .mat-column-mar, .mat-column-apr, .mat-column-may, .mat-column-jun, .mat-column-jul, .mat-column-aug, .mat-column-sep, .mat-column-oct, .mat-column-nov, .mat-column-dec {
+  width: 15px;
+}
+.mat-column-totQty {
+  width: 50px;
+}

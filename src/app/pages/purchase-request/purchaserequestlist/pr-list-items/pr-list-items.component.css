@@ -1,0 +1,46 @@
+mat-card {
+  width: 76vw;
+}
+.b {
+  font-weight: bold;
+}
+table {
+  width: 100%;
+}
+.tableContainerChild {
+  overflow: auto;
+  background-color: white;
+  height: 66vh;
+  border: 1px solid lightgray;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1.5px solid #bab7b2;
+}
+.mat-row:nth-child(even){
+  background-color: #8fffdfab;
+}
+      
+.mat-row:nth-child(odd){
+  background-color: white;
+}
+mat-form-field {
+  width: 100%;
+}

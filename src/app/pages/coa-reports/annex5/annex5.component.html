@@ -1,0 +1,167 @@
+<mat-card class="printForm">
+
+    <div fxLayoutAlign="end end"><i>Annex A.5</i></div>
+    <div fxLayoutAlign="center center">
+
+      <p style="
+        font-family: 'Times New Roman', Times, serif,Impact;
+        font-size: 20px;
+        font-weight: bold;
+        ">
+        INVENTORY TRANSFER REPORT
+      </p>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between" style="margin-bottom: 10px;">
+      <div fxFlex="60">Entity Name:_________________________</div>
+      <div>Fund Claster:_______________________</div>
+    </div>
+    <div fxLayout="row">
+        <div fxLayout="column" fxFlex="70" fxLayoutAlign="center"
+        style="
+        padding-left: 5px;
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;;
+        ">
+            <div>From Accountable Officer/Agency/Fund Cluster:_______________________________</div>
+            <div>To Accountable Officer/Agency/Fund Cluster:__________________________________</div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center" fxFlex="30"
+        style="
+        padding-left: 5px;
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        height: 60px;
+        ">
+            <div>ITR No.:______________________</div>
+            <div>Date :________________________</div>
+        </div>
+    </div>
+    <div style="
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        ">
+        <div style="padding-left: 5px;">Transfer Type: (click only one)</div>
+        <div fxLayout="row">
+            <div fxLayout="column" fxFlex="50">
+                <div>
+                    <span style="padding-left: 150px;">
+                    <mat-checkbox  [(ngModel)]="Donation">Donation</mat-checkbox>
+                    </span>
+                </div>
+                <div>
+                    <span style="padding-left: 150px;">
+                    <mat-checkbox  [(ngModel)]="Reassignment">Reassignment</mat-checkbox>
+                </span>
+                </div>
+            </div>
+            <div fxLayout="column" fxFlex="">
+                <div>
+                    <mat-checkbox  [(ngModel)]="Relocate">Relocate</mat-checkbox>
+                </div>
+                <div>
+                    <mat-checkbox  [(ngModel)]="Others">Others (Specify)________________________</mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table mat-table [dataSource]="dataSource" fxFlex="100">
+
+            <ng-container matColumnDef="Date">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Date Acquired</th>
+            </ng-container>
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Date Acquired </th>
+              <td mat-cell *matCellDef="let element"> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Item_No">
+                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Item No.</th>
+              </ng-container>
+              <ng-container matColumnDef="item_no">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Item No. </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Ics_No">
+                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">ICS No./Date</th>
+              </ng-container>
+              <ng-container matColumnDef="ics_no">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> ICS No./Date </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Description">
+                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Description</th>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Description </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Amount">
+                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Amount</th>
+              </ng-container>
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Amount </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Condition_inv">
+                <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Condtion of Inventory</th>
+              </ng-container>
+              <ng-container matColumnDef="condition_inv">
+                <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Condtion of Inventory </th>
+                <td mat-cell *matCellDef="let element"> </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="['Date','Item_No','Ics_No','Description','Amount','Condition_inv']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+    <div fxLayout="column" style="border: 1px solid black;">
+        <div style="padding-left: 5px;">Reason/s for Transfer</div>
+        <div style="padding-left: 150px;">___________________________________________________________________________________</div>
+        <div style="padding-left: 150px;">___________________________________________________________________________________</div>
+        <div style="padding-left: 150px;">___________________________________________________________________________________</div>
+        <div style="padding-left: 150px;height: 40px;">___________________________________________________________________________________</div>
+    </div>
+    <div fxLayout="row" style="border: 1px solid black;">
+        <div fxLayout="column" fxFlex="">
+            <br><br>
+            <div style="padding-left: 5px;">Signature :</div>
+            <div style="padding-left: 5px;">Printed Name :</div>
+            <div style="padding-left: 5px;">Designation :</div>
+            <div style="padding-left: 5px;">Date :</div>
+        </div>
+        <div fxLayout="column" fxFlex="28">
+            <div style="height: 35px;">Approve by:</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+        </div>
+        <div fxLayout="column" fxFlex="28">
+            <div style="height: 35px;">Released/Issued by:</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+        </div>
+        <div fxLayout="column" fxFlex="28">
+            <div style="height: 35px;">Received by:</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+            <div>_____________________________</div>
+        </div>
+    </div>
+</mat-card>

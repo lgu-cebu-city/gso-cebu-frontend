@@ -1,0 +1,45 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Result</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Result</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="inspectionResult" [ngModelOptions]="{standalone: true}">
+              <mat-option>--</mat-option>
+              <mat-option value="In Good Condition">In Good Condition</mat-option>
+              <mat-option value="For Repair">For Repair</mat-option>
+              <mat-option value="Totally Damaged">Totally Damaged</mat-option>
+              <mat-option value="Others">Others</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Remarks</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="inspectionRemarks" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">{{ btnText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

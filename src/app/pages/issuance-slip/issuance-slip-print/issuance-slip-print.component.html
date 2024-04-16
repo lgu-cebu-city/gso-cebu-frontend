@@ -1,0 +1,126 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'REQUISITION AND ISSUANCE SLIP'"></app-print-header>
+  <table>
+    <tr>
+      <td class="topLabel">
+        Division
+      </td>
+      <td style="width: 270px;">
+        {{ risData.division }}
+      </td>
+      <td class="topLabel">
+        RIS No.
+      </td>
+      <td style="width: 170px;">
+        {{ risData.transactionNo }}
+      </td>
+      <td class="topLabel">
+        Date
+      </td>
+      <td>
+        {{ formatDate(risData.transactionDate) }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Office
+      </td>
+      <td>
+        {{ risData.departmentName }}
+      </td>
+      <td>
+        SAI No
+      </td>
+      <td>
+        {{ risData.saiNo }}
+      </td>
+      <td>
+        Date
+      </td>
+      <td>
+        {{ formatDate(risData.saiDate) }}
+      </td>
+    </tr>
+  </table>
+  <table mat-table [dataSource]="risItemsData">
+    <ng-container matColumnDef="requisition">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="4">
+        <h3>Requisition</h3>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="issuance">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="3">
+        <h3>Issuance</h3>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="itemCode">
+      <th mat-header-cell *matHeaderCellDef> Stock No </th>
+      <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="uom">
+      <th mat-header-cell *matHeaderCellDef> Unit </th>
+      <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="requestedQty">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{ element.requestedQty || "" }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="issuedUnit">
+      <th mat-header-cell *matHeaderCellDef> Unit </th>
+      <td mat-cell *matCellDef="let element"> {{ element.issuedUnit }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="issuedQty">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{ risData.issuanceType ? element.issuedQty || "" : "" }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef> Remarks </th>
+      <td mat-cell *matCellDef="let element"> {{ element.remarks }} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="['requisition', 'issuance']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+  </table>
+  <div fxLayout="row wrap">
+    <div fxFlex="15" class="withBorder">
+      Purpose
+    </div>
+    <div fxFlex="85" class="withBorder">
+      {{ risData.purpose }}
+    </div>
+  </div>
+  <table>
+    <tr>
+      <th></th>
+      <th>Requested by</th>
+      <th>Approved by</th>
+      <th>Issued by</th>
+      <th>Received by</th>
+    </tr>
+    <tr>
+      <td>Signature</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Printed Name</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</mat-card>

@@ -1,0 +1,254 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>APP Items</mat-label>
+    <button mat-mini-fab color="warn" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap">
+    <div fxLayout="columns wrap" class="formContent">
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row">
+        <div fxLayoutAlign="space-between center" fxFlex="43">
+          <div>
+            <mat-label>Department</mat-label>
+          </div>
+          <div fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="deptSelected.text" [ngModelOptions]="{standalone: true}" [readonly]="true">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-evenly center" fxFlex="35">
+          <div>
+            <mat-label>Source of Fund</mat-label>
+          </div>
+          <div fxFlex="70">
+            <mat-form-field appearance="fill">
+              <mat-select [(ngModel)]="defaultSOF" [ngModelOptions]="{standalone: true}" (selectionChange)="sofSelectionChanged($event)">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let sof of data.sofList" [value]="sof.id">
+                  {{sof.SOFName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="18">
+          <div>
+            <mat-label>Year</mat-label>
+          </div>
+          <div fxFlex="60">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="multi-year"
+                              (yearSelected)="setYear($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" class="addMarginTop5">
+        <div fxLayoutAlign="space-between center" fxFlex="33">
+          <div>
+            <mat-label>Account</mat-label>
+          </div>
+          <div fxFlex="85">
+            <mat-form-field appearance="fill">
+              <input type="text" matInput [(ngModel)]="selectedItemClass" [matAutocomplete]="auto" [formControl]="formControlClass" />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)='accountSelectionChanged($event)'>
+                <mat-option *ngFor="let option of filteredClass | async" [value]="option">
+                  {{option}}
+                  </mat-option>
+              </mat-autocomplete>
+              <button matSuffix mat-icon-button (click)="clearClassFilter()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-evenly center" fxFlex="33">
+          <div>
+            <mat-label>Item Group</mat-label>
+          </div>
+          <div fxFlex="75">
+            <mat-form-field appearance="fill">
+              <input type="text" matInput [(ngModel)]="selectedItemType" [matAutocomplete]="autoGroup" [formControl]="formControlType" />
+              <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)='selectionChanged($event)'>
+                <mat-optgroup *ngFor="let group of filteredGroupType | async" [label]="group.description">
+                  <mat-option *ngFor="let type of group.type" [value]="type.description">
+                    {{ type.description }}
+                  </mat-option>
+                </mat-optgroup>
+              </mat-autocomplete>
+              <button matSuffix mat-icon-button (click)="clearFilter()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="33">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex="85">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix class="matsuffix-icon">search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="columns wrap" fxFlex="grow">
+        <div class="tableContainer">
+          <table mat-table [dataSource]="appItems">
+            <ng-container matColumnDef="check">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row" align="center">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef> No </th>
+              <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="itemCode">
+              <th mat-header-cell *matHeaderCellDef> Item Code </th>
+              <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="itemName">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.itemName + (element.specification ? " - " + element.specification : "") }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef> Unit </th>
+              <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef> Price </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.price) }} </td>
+              <td mat-footer-cell *matFooterCellDef class="b"> Total </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Total </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal()) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="first_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> 1st Qtr Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.first_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal(1)) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="second_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> 2nd Qtr Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.second_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal(2)) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="third_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> 3rd Qtr Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.third_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal(3)) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="fourth_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> 4th Qtr Qty </th>
+              <td mat-cell *matCellDef="let element" align="right"> {{ element.fourth_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal(4)) }} </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'locked-status': row.IsLocked, 'not-applicable': row.itemId.length < 36}"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'not-applicable': row.itemId.length < 36}"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+          </table>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex fxLayout="row">
+        <div fxLayout="column">
+          <div fxLayout="row">
+            <mat-label class="balance-label">Account Budget : </mat-label>
+            <mat-label class="b"> {{ numberFormat.format(account_budget) }} </mat-label>
+          </div>
+          <div fxLayout="row">
+            <mat-label class="balance-label">PR Amount : </mat-label>
+            <mat-label class="b"> {{ numberFormat.format(pr_amount) }} </mat-label>
+          </div>
+          <div fxLayout="row">
+            <mat-label class="balance-label">Remaining Balance : </mat-label>
+            <mat-label class="b"> {{ numberFormat.format(account_balance) }} </mat-label>
+          </div>
+        </div>
+        <div fxLayout="column">
+          <div fxLayout="row">
+            <mat-icon class="applicable">check_box_outline_blank</mat-icon>
+            <mat-label class="balance-label">Item For PR</mat-label>
+          </div>
+          <div fxLayout="row">
+            <mat-icon class="locked">indeterminate_check_box</mat-icon>
+            <mat-label class="balance-label">Item Locked</mat-label>
+          </div>
+          <div fxLayout="row">
+            <mat-icon class="notapplicable">cancel</mat-icon>
+            <mat-label class="balance-label">Item Not For PR</mat-label>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="end center">
+          <div fxLayout="column">
+            <div fxLayoutAlign="end center" fxFlex fxLayout="row wrap" class="addMarginTop5" fxLayoutGap="20px">
+              <div fxLayoutGap="20px">
+                <mat-checkbox [(ngModel)]="firstQtrChk" [ngModelOptions]="{standalone: true}">1st Quarter</mat-checkbox>
+                <mat-checkbox [(ngModel)]="secondQtrChk" [ngModelOptions]="{standalone: true}">2nd Quarter</mat-checkbox>
+                <mat-checkbox [(ngModel)]="thirdQtrChk" [ngModelOptions]="{standalone: true}">3rd Quarter</mat-checkbox>
+                <mat-checkbox [(ngModel)]="fourthQtrChk" [ngModelOptions]="{standalone: true}">4th Quarter</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row wrap" fxLayoutGap="20px">
+              <mat-checkbox [(ngModel)]="excludeZeroQty" [ngModelOptions]="{standalone: true}" (change)="excludeZeroCheckChanged()">Exclude Zero Quantity</mat-checkbox>
+              <mat-checkbox [(ngModel)]="excludeNotPr" [ngModelOptions]="{standalone: true}" (change)="excludeItemNotForPR()">Exclude Item Not for PR</mat-checkbox>
+            </div>
+          </div>
+          <button mat-raised-button color="primary" (click)="saveSelectedDialog()">
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+              <mat-icon>input</mat-icon>
+              <div class="fn-button-label">
+                Import Selected Items
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

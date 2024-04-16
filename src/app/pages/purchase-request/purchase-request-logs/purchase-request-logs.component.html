@@ -1,0 +1,146 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Purchase Request Logs</mat-label>
+    <div fxFlex="30" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-mini-fab color="warn" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <div fxLayout="column" fxFlex="grow" class="formContent">
+    <div *ngIf="showImage">
+      <div fxLayoutAlign="center center" fxFlex="grow">
+        <div>
+          <img src="../../assets/img/empty-table.png" class="no-data-image">
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex *ngIf="!showImage">
+      <div class="tableContainer">
+        <table mat-table [dataSource]="dataSource" matSort class="main-table">
+          <ng-container matColumnDef="prNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PR No. </th>
+            <td mat-cell *matCellDef="let element"> {{ element.prNo }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="prDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PR Date </th>
+            <td mat-cell *matCellDef="let element"> {{ formatDate(element.prDate) }} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="transactionNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference No. </th>
+            <td mat-cell *matCellDef="let element"> {{ element.transactionNo }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="transactionDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference Date </th>
+            <td mat-cell *matCellDef="let element"> {{ formatDate(element.transactionDate) }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PR Description / Title </th>
+            <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="departmentName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Department
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.departmentName }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="sectionName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Section
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sectionName }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="alobsNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ALOBS No
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.alobsNo }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="alobsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ALOBS Date </th>
+            <td mat-cell *matCellDef="let element"> {{ formatDate(element.alobsDate) }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="saiNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SAI No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.saiNo }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="saiDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SAI Date </th>
+            <td mat-cell *matCellDef="let element"> {{ formatDate(element.saiDate) }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="ppNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Project No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.ppNo }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="sourceOfFund">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SOF </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sourceOfFund }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="rationale">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rationale </th>
+            <td mat-cell *matCellDef="let element"> {{ element.rationale }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="procurementMode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Procurement Mode </th>
+            <td mat-cell *matCellDef="let element"> {{ element.procurementMode }} </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="rowSelected(row)"
+              [class.row-is-clicked]="selectedPR == row"></tr>
+        </table>
+      </div>
+      <div class="tableContainerChild">
+        <mat-label class="tableLabel">Item Details</mat-label>
+        <table mat-table [dataSource]="itemDetails">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="uom">
+            <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+            <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.cost) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef> Remarks </th>
+            <td mat-cell *matCellDef="let element"> {{ element.remarks }} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</mat-card>

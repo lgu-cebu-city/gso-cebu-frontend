@@ -1,0 +1,375 @@
+<mat-card class="printForm" fxLayout="column">
+  <div fxLayout="column">
+    <div>
+      Standard Form Number: SF-GOOD-42
+    </div>
+    <div>
+      Revised on: May 24,2004
+    </div>
+  </div>
+  <div fxLayoutAlign="center center" class="header-title">
+    ABSTRACT OF BIDS AS CALCULATED
+  </div>
+  <div fxLayout="row" class="withMarginTop20px">
+    <div fxLayout="column" fxFlex="80">
+      <div fxLayout="row">
+        <div fxFlex="20">
+          Project Name :
+        </div>
+        <div class="b">
+          {{ rfqData?.supplyDescription || "" }}
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="20">
+          Project Location :
+        </div>
+        <div>
+          {{ rfqData?.location || "" }}
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="20">
+      <div fxLayout="row">
+        <div fxFlex="30">
+          Sheet
+        </div>
+        <div>
+          :
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="30">
+          Date
+        </div>
+        <div>
+          : {{ formatDate(rfqData?.openningDate || "") }}
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="30">
+          Time
+        </div>
+        <div>
+          : {{ formatTime(rfqData?.openningDate || "") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column" class="withMarginTop20px">
+    <div fxLayout="row">
+      <div fxFlex="20">
+        Implementing Office
+      </div>
+      <div>
+        : {{ rfqData?.departmentName || "" }}
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="20">
+        Approved Budget for the Contract
+      </div>
+      <div class="b">
+        : Php {{ rfqData ? numberFormat.format(rfqData.approvedBudget) : "0" }}
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="20">
+        Time and Place of Bid Opening
+      </div>
+      <div class="b">
+        : {{ formatDate(rfqData?.openningDate || "") }} @ BAC Conference Room,  2nd Floor ABC Bldg., Government Center, Bayugan City @ {{ formatTime(rfqData?.openningDate || "") }}
+      </div>
+    </div>
+  </div>
+  <div class="withMarginTop20px">
+    <div class="tableContainer">
+      <table>
+        <tr>
+          <th rowspan="2">
+            NAME OF BIDDERS
+          </th>
+          <th rowspan="2">
+
+          </th>
+          <th class="supp">
+            {{ aocData?.supplier[0]?.supplierName || "" }}
+          </th>
+          <th class="supp">
+            {{ aocData?.supplier[1]?.supplierName || "" }}
+          </th>
+          <th class="supp">
+            {{ aocData?.supplier[2]?.supplierName || "" }}
+          </th>
+          <th class="supp">
+            {{ aocData?.supplier[3]?.supplierName || "" }}
+          </th>
+        </tr>
+        <tr>
+          <th>
+            BIDDER 1
+          </th>
+          <th>
+            BIDDER 2
+          </th>
+          <th>
+            BIDDER 3
+          </th>
+          <th>
+            BIDDER 4
+          </th>
+        </tr>
+        <tr>
+          <td class="mat-cell">
+            Total Amount of Bid
+          </td>
+          <td class="mat-cell">
+            Php
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[0]?.supplierName ? "Php " + numberFormat.format(supp1GrandTotal) : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[1]?.supplierName ? "Php " + numberFormat.format(supp2GrandTotal) : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[2]?.supplierName ? "Php " + numberFormat.format(supp3GrandTotal) : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[3]?.supplierName ? "Php " + numberFormat.format(supp4GrandTotal) : "" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell">
+            Form of Bid Security
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[0]?.supplierName ? "Bid-Securing Declaration" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[1]?.supplierName ? "Bid-Securing Declaration" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[2]?.supplierName ? "Bid-Securing Declaration" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[3]?.supplierName ? "Bid-Securing Declaration" : "" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell indent20px">
+            Bank/Company
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell indent20px">
+            Number
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell indent20px">
+            Validity Period
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[0]?.supplierName ? rfqData?.priceValidity || "60" + " CD" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[1]?.supplierName ? rfqData?.priceValidity || "60" + " CD" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[2]?.supplierName ? rfqData?.priceValidity || "60" + " CD" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[3]?.supplierName ? rfqData?.priceValidity || "60" + " CD" : "" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell indent20px">
+            Bid Security Amount
+          </td>
+          <td class="mat-cell">
+            Php
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[0]?.supplierName ? rfqData?.bidSecurity || "NONE" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[1]?.supplierName ? rfqData?.bidSecurity || "NONE" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[2]?.supplierName ? rfqData?.bidSecurity || "NONE" : "" }}
+          </td>
+          <td class="mat-cell c">
+            {{ aocData?.supplier[3]?.supplierName ? rfqData?.bidSecurity || "NONE" : "" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell">
+            Required Bid Security
+          </td>
+          <td class="mat-cell">
+            Php
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell">
+            Sufficient/Insufficient
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[0]?.supplierName ? "Sufficient" : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[1]?.supplierName ? "Sufficient" : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[2]?.supplierName ? "Sufficient" : "" }}
+          </td>
+          <td class="mat-cell b c">
+            {{ aocData?.supplier[3]?.supplierName ? "Sufficient" : "" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="mat-cell">
+            Remarks
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+          <td class="mat-cell">
+            
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <form class="withMarginTop20px">
+    <div fxLayout="row" fxFlex fxLayoutAlign="space-between start" class="withMarginTop20px">
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacChairman || "" }}
+        </div>
+        <div class="c">
+          Chairman, BAC
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacMember1 || "" }}
+        </div>
+        <div class="c">
+          Member, BAC
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacMember2 || "" }}
+        </div>
+        <div class="c">
+          Member, BAC
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacMember3 || "" }}
+        </div>
+        <div class="c">
+          Member, BAC
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacMember4 || "" }}
+        </div>
+        <div class="c">
+          Member, BAC
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="15">
+        <div class="withMarginTop10px">
+          
+        </div>
+        <div class="entry c b">
+          {{ aocData?.bacVChairman || "" }}
+        </div>
+        <div class="c">
+          End-User
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

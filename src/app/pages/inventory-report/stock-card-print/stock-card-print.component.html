@@ -1,0 +1,104 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'STOCK CARD'"></app-print-header>
+  <form>
+    <table>
+      <tr>
+        <td fxLayout="columns wrap" fxFlex="25">
+          <div fxFlex="grow" class="bold">
+            Item :
+          </div>
+          <div>
+            {{ irData.itemCode }}
+          </div>
+        </td>
+        <td fxLayout="columns wrap" fxFlex="40">
+          <div fxFlex="grow" class="bold">
+            Description :
+          </div>
+          <div>
+            {{ irData.description }}
+          </div>
+        </td>
+        <td fxFlex="35">
+          <div fxLayout="row">
+            <div fxFlex="45" class="bold">
+              Stock No. :
+            </div>
+            <div>
+              {{ irData.itemCode }}
+            </div>
+          </div>
+          <div fxLayout="row">
+            <div fxFlex="45" class="bold">
+              Re-order Point :
+            </div>
+            <div>
+              5
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <form>
+    <table mat-table [dataSource]="irDetailsData">
+      <ng-container matColumnDef="referenceDate">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Date </th>
+        <td mat-cell *matCellDef="let element"> {{ element.referenceNo ? formatDate(element.referenceDate) : "" }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Date</th>
+      </ng-container>
+    
+      <ng-container matColumnDef="referenceNo">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Reference </th>
+        <td mat-cell *matCellDef="let element"> {{ element.referenceNo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ref">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Reference</th>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Receipt Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ (element.method == "+" ? element.quantity : 0) || "" }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="recqty">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Receipt Qty</th>
+      </ng-container>
+
+      <ng-container matColumnDef="issueance">
+        <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Issuance</th>
+      </ng-container>
+    
+      <ng-container matColumnDef="issueQty">
+        <th mat-header-cell *matHeaderCellDef> Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ (element.method == "-" ? element.reportQty : 0) || "" }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Description</th>
+      </ng-container>
+    
+      <ng-container matColumnDef="departmentName">
+        <th mat-header-cell *matHeaderCellDef> Office </th>
+        <td mat-cell *matCellDef="let element"> {{ element.departmentName }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Balance Qty </th>
+        <td mat-cell *matCellDef="let element"> {{ element.runningBalance || "" }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="balqty">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Balance Qty</th>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="['date', 'ref', 'recqty', 'issueance', 'balqty']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsDetails"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsDetails;"></tr>
+    </table>
+  </form>
+</mat-card>

@@ -1,0 +1,197 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex="50">
+          <div fxLayoutAlign="end center" fxLayoutGap="5px" fxFlex="50">
+            <button mat-raised-button color="primary" (click)="printInventoryReport()">
+              <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                <mat-icon>print</mat-icon>
+                <div class="fn-button-label">
+                  Print Selected
+                </div>
+              </div>
+            </button>
+            <button mat-raised-button color="primary" (click)="exportToExcel()">
+              <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+                <mat-icon>launch</mat-icon>
+                <div class="fn-button-label">
+                  Export Selected
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort>        
+            <ng-container matColumnDef="entityName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Entity Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.entityName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="fundCluster">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Fund Cluster </th>
+              <td mat-cell *matCellDef="let element"> {{ element.fundCluster }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="accountableOfficer">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Accountable Officer </th>
+              <td mat-cell *matCellDef="let element"> {{ element.accountableOfficer }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="designation">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+              <td mat-cell *matCellDef="let element"> {{ element.designation }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="station">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Station </th>
+              <td mat-cell *matCellDef="let element"> {{ element.station }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="requestedBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Requested By </th>
+              <td mat-cell *matCellDef="let element"> {{ element.requestedBy }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="approvedBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved By </th>
+              <td mat-cell *matCellDef="let element"> {{ element.approvedBy }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="inspectionOfficer">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Inspection Officer </th>
+              <td mat-cell *matCellDef="let element"> {{ element.inspectionOfficer }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="witness">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Witness </th>
+              <td mat-cell *matCellDef="let element"> {{ element.witness }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedIr == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons aria-label="Select page of booking">
+        </mat-paginator>
+        <div class="tableContainerChild" fxFlex>
+          <table mat-table [dataSource]="details">
+            <ng-container matColumnDef="dateAcquired">
+              <th mat-header-cell *matHeaderCellDef> Date Acquired </th>
+              <td mat-cell *matCellDef="let element"> {{ element.dateAcquired }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="particulars">
+              <th mat-header-cell *matHeaderCellDef> Particulars </th>
+              <td mat-cell *matCellDef="let element"> {{ element.particulars }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="propertyNo">
+              <th mat-header-cell *matHeaderCellDef> Property No </th>
+              <td mat-cell *matCellDef="let element"> {{ element.propertyNo }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Quantity </th>
+              <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="unitCost">
+              <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unitCost }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="totalCost">
+              <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalCost }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="accumulatedImpairmentLosses">
+              <th mat-header-cell *matHeaderCellDef> Accomulated Impairment Losses </th>
+              <td mat-cell *matCellDef="let element"> {{ element.accumulatedImpairmentLosses }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="carryingAmount">
+              <th mat-header-cell *matHeaderCellDef> Carrying Amount </th>
+              <td mat-cell *matCellDef="let element"> {{ element.carryingAmount }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="remarks">
+              <th mat-header-cell *matHeaderCellDef> Remarks </th>
+              <td mat-cell *matCellDef="let element"> {{ element.remarks }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="saleDisposal">
+              <th mat-header-cell *matHeaderCellDef> Sale </th>
+              <td mat-cell *matCellDef="let element"> {{ element.saleDisposal }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="transferDisposal">
+              <th mat-header-cell *matHeaderCellDef> Transfer </th>
+              <td mat-cell *matCellDef="let element"> {{ element.transferDisposal }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="destructionDisposal">
+              <th mat-header-cell *matHeaderCellDef> Destruction </th>
+              <td mat-cell *matCellDef="let element"> {{ element.destructionDisposal }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="othersDisposal">
+              <th mat-header-cell *matHeaderCellDef> Others </th>
+              <td mat-cell *matCellDef="let element"> {{ element.othersDisposal }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="totalDisposal">
+              <th mat-header-cell *matHeaderCellDef> Total </th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalDisposal }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="appraisedValue">
+              <th mat-header-cell *matHeaderCellDef> Appraised Value </th>
+              <td mat-cell *matCellDef="let element"> {{ element.appraisedValue }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="orNo">
+              <th mat-header-cell *matHeaderCellDef> OR No </th>
+              <td mat-cell *matCellDef="let element"> {{ element.orNo }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="orAmount">
+              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <td mat-cell *matCellDef="let element"> {{ element.orAmount }} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printButton class="printButton"
+      [useExistingCss]="true"
+      printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-annex10 *ngIf="irList"></app-annex10>
+    </div>
+  </form>
+</mat-card>

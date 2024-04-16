@@ -1,0 +1,9 @@
+mat-card {
+  height: calc(100vh - 70px);
+  width: 80vw;
+}
+.print-pages {
+  height: calc(100vh - 90px);
+  overflow: auto;
+  padding: 20px;
+}

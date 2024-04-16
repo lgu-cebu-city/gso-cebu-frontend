@@ -1,0 +1,218 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'REQUEST FOR QUOTATION'"></app-print-header>
+  <form>
+    <div fxLayoutAlign="center center" fxLayout="columns wrap">
+      <div class="headerText">
+        FOR THE SUPPPLY AND DELIVERY OF {{ rfqData.supplyDescription.toUpperCase() }}
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withMarginTop10px">
+        <div fxLayoutAlign="start center" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Date of Openning
+          </div>
+          <div>
+            : {{ formatDate(rfqData.openningDate) }}
+          </div>
+        </div>
+        <div fxLayoutAlign="start center" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Purchase Request No.
+          </div>
+          <div>
+            : {{ rfqData.prNo }}
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Place
+          </div>
+          <div>
+            : {{ rfqData.location }}
+          </div>
+        </div>
+        <div fxLayoutAlign="start center" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Date
+          </div>
+          <div>
+            : {{ formatDate(rfqData.prDate) }}
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between start" fxFlex="grow" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Time
+          </div>
+          <div>
+            : {{ formatTime(rfqData.openningDate) }}
+          </div>
+        </div>
+        <div fxLayoutAlign="start start" fxLayout="row" fxFlex="50">
+          <div fxFlex="40">
+            Office
+          </div>
+          <div>
+            : {{ rfqData.departmentName }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex="grow" fxLayout="row">
+        <div fxFlex="35">
+          Approved Budget for the Contract (ABC) PHP
+        </div>
+        <div fxFlex="25" class="inputFormatCenter">
+          {{ numberFormat.format(rfqData.approvedBudget) }}
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="tableContainer" fxFlex="" class="withMarginTop10px">
+      <table mat-table [dataSource]="rfqItemsData">
+        <ng-container matColumnDef="itemNo">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.id == "x" ? "" : element.id }} </td>
+        </ng-container> 
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.quantity || "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '-' ? {'text-align': 'center', 'font-weight': 'bold'} : element.id == '0' ? {'text-align': 'left', 'font-weight': 'bold'} : {'font-weight': 'normal'}" [attr.colspan]="element.id == '-' ? 4 : element.id == '0' ? 6 : 1"> {{ element.description }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.cost ? numberFormat.format(element.cost) : "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+          <td mat-cell *matCellDef="let element" align="right" [ngStyle]="element.id == '-' ? {'font-weight': 'bold'} : element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.total ? numberFormat.format(element.total) : "" }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="supplySpec">
+          <th mat-header-cell *matHeaderCellDef> Supply Specification </th>
+          <td mat-cell *matCellDef="let element" align="left" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}">  </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;" [ngClass]="{'sub-total': row.description == 'Sub-Total' }"></tr>
+      </table>
+    </div>
+  </form>
+  <!-- <form *ngIf="currPage == maxPage">
+    <table>
+      <tr class="sub-total mat-row">
+        <td class="mat-footer-cell mat-column-itemNo" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-quantity" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-uom" [ngStyle]="{'display': 'none'}"></td>
+        <td class="mat-footer-cell mat-column-description b" align="center" [attr.colspan]="5"> Grand Total </td>
+        <td class="mat-footer-cell mat-column-supplySpec"></td>
+      </tr>
+    </table>
+  </form> -->
+  <form>
+    <div fxLayoutAlign="center center" fxLayout="columns wrap">
+      <div class="headerText" fxFlex="grow">
+        CONDITIONS:
+      </div>
+      <div fxLayoutAlign="start start" fxLayout="row" fxFlex="grow">
+        <div fxFlex="10" fxLayoutAlign="center">
+          1
+        </div>
+        <div>
+          Delivery prior must be within ten (10) working days from the receipt of Purchase Order.
+        </div>
+      </div>
+      <div fxLayoutAlign="start start" fxLayout="row" fxFlex="grow">
+        <div fxFlex="10" fxLayoutAlign="center">
+          2
+        </div>
+        <div>
+          Waranty shall be for a period of three (3) months for supplies & materials, one (1) year for equipment from date of acceptance by the Municipal Government
+        </div>
+      </div>
+      <div fxLayoutAlign="start start" fxLayout="row" fxFlex="grow">
+        <div fxFlex="10" fxLayoutAlign="center">
+          3
+        </div>
+        <div>
+          Price validity shall be for a period of sixty (60) calendar days from receipt of Purchase Order.
+        </div>
+      </div>
+      <div fxLayoutAlign="start start" fxLayout="row" fxFlex="grow">
+        <div fxFlex="10" fxLayoutAlign="center start">
+          4
+        </div>
+        <div>
+          The approved Budget for the Contract (ABC) under bidding shall be the upper limit or ceiling for acceptable bid prices. If the total bid price, as evaluated and calculated, is higher than the ABC under bidding, the bidder submitted the same shall be disquialified.
+        </div>
+      </div>
+      <div fxLayoutAlign="start start" fxLayout="row" fxFlex="grow">
+        <div fxFlex="10" fxLayoutAlign="center">
+          5
+        </div>
+        <div>
+          Bids with "None", "No stock", or similar remarks as entry in any item will be disquialified
+        </div>
+      </div>
+      <div class="withMarginTop20px">
+        &nbsp; &nbsp;After having carefully read and accepted your Conditions, I/we quote you on the item at prices noted above.
+      </div>
+      <div fxLayoutAlign="space-between start" fxLayout="row" fxFlex="grow" class="withMarginTop20px">
+        <div fxFlex="40">
+        </div>
+        <div fxFlex="40" fxLayoutAlign="center center" fxLayout="columns wrap">
+          <div fxFlex="grow" class="entry">
+          </div>
+          <div fxLayoutAlign="center" fxFlex="grow">
+            Printed Name & Signature of Supplier
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between start" fxLayout="row" fxFlex="grow" class="withMarginTop10px">
+        <div fxFlex="40" fxLayoutAlign="center center" fxLayout="columns wrap">
+          <div fxFlex="grow" fxLayoutAlign="center" class="entry">
+            {{ rfqData.canvasserName }}
+          </div>
+          <div fxLayoutAlign="center" fxFlex="grow">
+            Name of Canvasser
+          </div>
+        </div>
+        <div fxFlex="40" fxLayoutAlign="center center" fxLayout="columns wrap">
+          <div fxFlex="grow" class="entry">
+          </div>
+          <div fxLayoutAlign="center" fxFlex="grow">
+            Name of Company
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between start" fxLayout="row" fxFlex="grow" class="withMarginTop10px">
+        <div fxFlex="40">
+        </div>
+        <div fxFlex="40" fxLayoutAlign="center center" fxLayout="columns wrap">
+          <div fxFlex="grow" class="entry">
+          </div>
+          <div fxLayoutAlign="center" fxFlex="grow">
+            Address / Tel. or Cell No. / Email Address
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="divFooter" fxLayoutAlign="end">
+    Page {{ currPage }} of {{ maxPage }}
+  </div>
+</mat-card>

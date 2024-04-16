@@ -1,0 +1,73 @@
+mat-card {
+  width: 8.5in;
+  height: 10in;
+  padding: .5in;
+}
+mat-label.capitalize {
+  text-transform: capitalize;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto;  margin: 0mm; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+table, td, th {
+  border: 1px solid;
+}
+td {
+  padding: 5px;
+}
+td.label {
+  width: 120px;
+  font-weight: 600;
+}
+td.data {
+  min-width: 120px;
+}
+td.center {
+  text-align: center;
+}
+table {
+  border-collapse: collapse;
+  margin-top: unset;
+  width: 100%;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr > th {
+  text-align: center;
+  font-weight: 600;
+  font-size: unset;
+  color: black;
+}
+.mat-column-itemNo {
+  width: 50px;
+}
+.mat-column-description {
+  width: 270px;
+}
+.mat-column-brand {
+  width: 270px;
+}
+.mat-column-quantity {
+  width: 60px;
+}
+.mat-column-receivedQuantity {
+  width: 60px;
+}
+.mat-column-uom {
+  width: 70px;
+}

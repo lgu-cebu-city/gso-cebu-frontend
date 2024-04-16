@@ -1,0 +1,19 @@
+<div fxLayout="row wrap">
+  <div class="logo" fxFlex="15" fxLayoutAlign="start">
+    <img src="../../assets/img/logo.png">
+    <!-- <img src="../../assets/img/dilg_logo.png"> -->
+  </div>
+
+  <div class="headertext" fxFlex="70">
+    <p class="header1">Republic of the Philippines</p>
+    <p class="header2">{{province}}</p>
+    <p class="header3">{{lgu}}</p>
+  </div>
+
+  <div class="logo" fxFlex="15" fxLayoutAlign="end">
+    <!-- <img src="../../assets/img/logo.png"> -->
+  </div>
+</div>
+<div>
+  <p class="formheaderText" *ngIf="formName != ''">{{formName}}</p>
+</div>

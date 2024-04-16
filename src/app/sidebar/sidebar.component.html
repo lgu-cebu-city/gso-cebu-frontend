@@ -1,0 +1,47 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a href="#" class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img src="assets/img/logo.png">
+      </div>
+    </a>
+    <div class="simple-text logo-normal">
+      {{ systemName }}
+    </div>
+  </div>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" [opened]="opened">
+      <mat-nav-list mat-list-item *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
+        <a mat-list-item (click)="onItemSelected(menuItem)" *ngIf="menuItem.visible" [ngClass]="{'active': menuItem.path ? router.isActive(menuItem.path, true): false, 'expanded': expanded}" class="menu-list-item">
+          <mat-icon class="routeIcon">{{menuItem.icon}}</mat-icon>
+          <span class="menu-item-text">{{menuItem.title}}</span>
+          <span fxflex class="twistie-separator"></span>
+          <span  *ngIf="menuItem.children && menuItem.children.length">
+            <mat-icon class="menu-twistie" [@indicatorRotate]="parentMenuState(menuItem.path) ? 'expanded': 'collapsed'">
+              expand_more
+            </mat-icon>
+          </span>
+        </a>
+        <div class="mat-list-subitem" *ngIf="parentMenuState(menuItem.path)">
+          <mat-nav-list mat-list-item routerLinkActive="active" *ngFor="let childmenu of menuItem.children" class="{{menuItem.class}}">
+            <a mat-list-item *ngIf="childmenu.visible" class="menu-list-item" (click)="onItemSelected(childmenu)" [ngClass]="{'active': childmenu.path ? router.isActive(childmenu.path, true): false, 'expanded': expanded}" class="menu-list-item">
+              <mat-icon class="routeIcon">{{childmenu.icon}}</mat-icon>
+              <span class="menu-item-text">{{childmenu.title}}</span>
+            </a>
+          </mat-nav-list>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  <div class="addBorder">
+    <div class="centerAlign addMarginTop10px">
+      Welcome <b>{{ userName }}</b>!
+    </div>
+    <div class="centerAlign">
+      {{ userType | titlecase }} : <b>{{ typeName }}</b>
+    </div>
+    <div class="centerAlign addMarginTop10px">
+      <button mat-raised-button color="warn" (click)="logout()">logout</button>
+    </div>
+  </div>
+</div>

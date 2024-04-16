@@ -1,0 +1,95 @@
+mat-card {
+  width: 12in;
+  height: 8in;
+  padding-left: .5in;
+  padding-right: .5in;
+  padding-top: .3in;
+  padding-bottom: .3in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto;  margin: 0mm; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center !important;
+}
+th,td {
+  border: 1px solid black;
+  padding: 0px 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row {
+  height: 35px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+.mat-cell {
+  font-size: 12px;
+}
+
+.withBorder {
+  border: 1px solid;
+  padding: 3px !important;
+}
+.centerText {
+  text-align: center;
+}
+h3 {
+  font-weight: bold !important;
+  font: 400 16px/28px Roboto,"Helvetica Neue", sans-serif;
+}
+.b {
+  font-weight: bold;
+}
+.titleHeight {
+  height: 100px;
+}
+.apprbByHeight {
+  height: 170px;
+}
+.remarks {
+  height: 100px;
+}
+.addMarginTop10 {
+  margin-top: 10px;
+}
+.addMarginTop5 {
+  margin-top: 5px;
+}
+.height1 {
+  height: 57px;
+}
+.height2 {
+  height: 57px;
+}
+.height3 {
+  height: 82px;
+}
+.mat-column-qty {
+  width: 40px;
+}
+.mat-column-new, .mat-column-additional, .mat-column-urgent, .mat-column-others {
+  width: 60px
+}
+.mat-column-description {
+  width: 250px;
+}

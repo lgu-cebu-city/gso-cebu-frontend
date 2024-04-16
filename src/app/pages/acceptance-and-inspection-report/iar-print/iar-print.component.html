@@ -1,0 +1,253 @@
+<mat-card class="printForm">
+  <form fxLayout="column">
+    <div fxLayout="column" class="withBorder">
+      <div fxFlex fxLayoutAlign="center center" class="b header-title">
+        ACCEPTANCE & INSPECTION REPORT
+      </div>
+      <div fxLayoutAlign="start center" fxLayout="row" class="withMarginTop10px">
+        <div fxLayout="row" fxFlex="65">
+          <div fxFlex="25">
+            LGU :
+          </div>
+          <div fxFlex>
+            CITY OF CEBU
+          </div>
+        </div>
+        <div fxLayout="row" fxFlex="35">
+          <div fxFlex="20">
+            Fund :
+          </div>
+          <div fxFlex>
+            {{ iarData?.sourceOfFund }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="65" fxLayout="column" class="withBorder">
+        <div fxLayout="row">
+          <div fxFlex="33">
+            Supplier
+          </div>
+          <div class="entry">
+            {{ iarData?.supplierName }}
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            PO No./Date
+          </div>
+          <div class="entry">
+            <!-- {{ iarData?.poNo }} -->
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            Requisitioning Office/Dept
+          </div>
+          <div class="entry">
+            {{ iarData?.departmentName }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex="35" fxLayout="column" class="withBorder">
+        <div fxLayout="row">
+          <div fxFlex="33">
+            AIR No.
+          </div>
+          <div class="entry">
+            <!-- {{ iarData?.referenceNo }} -->
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            Date
+          </div>
+          <div class="entry">
+
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            Invoice No
+          </div>
+          <div class="entry">
+            {{ iarData?.invoiceNo }}
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            Date
+          </div>
+          <div class="entry">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableContainer">
+      <table mat-table [dataSource]="iarItemsData">
+        <ng-container matColumnDef="itemNo">
+          <th mat-header-cell *matHeaderCellDef> Stock / Property No. </th>
+          <td mat-cell *matCellDef="let element; let i = index" align="center" [ngStyle]="element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.id == "x" ? "" : element.id }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '0' ? {'text-align': 'left', 'font-weight': 'bold'} : {'font-weight': 'normal'}" [attr.colspan]="element.id == '0' ? 4 : 1"> {{ element.description }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"align="right" [ngStyle]="element.id == '-' || element.id == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.receivedQuantity || "" }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+      </table>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="60" fxLayout="column" class="withBorder">
+        <div>
+          ACCEPTANCE
+        </div>
+        <div>
+          Date Received: _______________________________
+        </div>
+        <div fxLayout="row" fxLayoutGap="20px" class="withMarginTop20px">
+          <div fxFlex="20" fxLayoutAlign="end">
+            ▢
+          </div>
+          <div>
+            Complete
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="20px" class="withMarginTop20px">
+          <div fxFlex="20" fxLayoutAlign="end">
+            ▢
+          </div>
+          <div>
+            Partial (pls. specify)
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" class="withMarginTop20px">
+          <div class="entry withMarginTop20px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.supplyPropCust || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          Supply and/or Property Custodian
+        </div>
+        <div class="withMarginTop20px">
+          Received By:
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop20px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.receivedBy || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          {{ iarData?.receivedByPosition || "" }}
+        </div>
+      </div>
+      <div fxFlex="40" fxLayout="column" class="withBorder" *ngIf="(iarData?.it?.trim() || '') != ''">
+        <div>
+          INSPECTION
+        </div>
+        <div>
+          Date Inspected: _______________________________
+        </div>
+        <div class="withMarginTop10px" fxLayoutAlign="center">
+          Inspected, verified and found OK
+        </div>
+        <div fxLayoutAlign="center">
+          as to quantity and specifications
+        </div>
+        <div class="withMarginTop10px" fxLayoutAlign="center">
+          Inspection Officer/Committee
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop10px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cto || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Treasure's Office
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop10px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cao || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Accounting Office
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop10px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cmo || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Mayor's Office
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop10px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.it || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Mayor's Office
+        </div>
+      </div>
+      <div fxFlex="40" fxLayout="column" class="withBorder" *ngIf="(iarData?.it?.trim() || '') == ''">
+        <div>
+          INSPECTION
+        </div>
+        <div>
+          Date Inspected: _______________________________
+        </div>
+        <div class="withMarginTop20px" fxLayoutAlign="center">
+          Inspected, verified and found OK
+        </div>
+        <div fxLayoutAlign="center">
+          as to quantity and specifications
+        </div>
+        <div class="withMarginTop20px" fxLayoutAlign="center">
+          Inspection Officer/Committee
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop20px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cto || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Treasure's Office
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop20px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cao || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Accounting Office
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div class="entry withMarginTop20px b" fxLayoutAlign="center" fxFlex="60">
+            {{ iarData?.cmo || "" }}
+          </div>
+        </div>
+        <div fxLayoutAlign="center">
+          City Mayor's Office
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="divFooter" fxLayoutAlign="end">
+    Page {{ currPage }} of {{ maxPage }}
+  </div>
+</mat-card>

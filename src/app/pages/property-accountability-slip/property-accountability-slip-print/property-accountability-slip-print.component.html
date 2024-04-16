@@ -1,0 +1,113 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'PROPERTY ACCOUNTABILITY SLIP'"></app-print-header>
+  <div fxLayoutAlign="center center" fxLayout="columns wrap" class="marginTop20">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="withMarginTop10px">
+      <div fxLayoutAlign="start center" fxLayout="row" fxFlex="60">
+        <div fxFlex="40">
+          From Accountable Person
+        </div>
+        <div fxFlex="50" class="withUnderline">
+          : {{ pasData.approvedByName }}
+        </div>
+      </div>
+      <div fxLayoutAlign="start center" fxLayout="row" fxFlex="38">
+        <div fxFlex="35">
+          PAS No.
+        </div>
+        <div fxFlex="65" class="withUnderline">
+          : {{ pasData.transactionNo }}
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="start center" fxLayout="row" fxFlex="60">
+        <div fxFlex="40">
+          To Accountable Person
+        </div>
+        <div fxFlex="50" class="withUnderline">
+          : {{ pasData.requestorName }}
+        </div>
+      </div>
+      <div fxLayoutAlign="start center" fxLayout="row" fxFlex="38">
+        <div fxFlex="35">
+          Date
+        </div>
+        <div fxFlex="65" class="withUnderline">
+          : {{ formatDate(pasData.transactionDate) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="marginTop20">
+    <div class="tableContainer" fxFlex="">
+      <table mat-table [dataSource]="pasItemsData">
+        <ng-container matColumnDef="itemCode">
+          <th mat-header-cell *matHeaderCellDef> Item No. </th>
+          <td mat-cell *matCellDef="let element" align="left"> {{ element.itemCode }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element" align="left"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element" align="left"> {{ element.description }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="qty">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" align="center"> {{ !element.description || element.description == "***Nothing Follows***" ? "" : 1 }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="marginTop20">
+    <table class="signatoryTbl">
+      <tr>
+        <th></th>
+        <th>Approved by</th>
+        <th></th>
+        <th>Released/Issued by</th>
+        <th></th>
+        <th>Received by</th>
+      </tr>
+      <tr>
+        <td>Signature</td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+      </tr>
+      <tr>
+        <td>Printed Name</td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+      </tr>
+      <tr>
+        <td>Designation</td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+      </tr>
+      <tr>
+        <td>Date</td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+        <td></td>
+        <td class="withUnderline"></td>
+      </tr>
+    </table>
+  </div>
+</mat-card>

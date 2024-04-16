@@ -1,0 +1,43 @@
+.navbar-toggler {
+  border: 0px;
+  background: transparent;
+}
+
+a {
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+input {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  border-radius: 4px 0px 0px 4px !important;
+  height: 30px;
+}
+
+.search-button {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  height: 30px;
+}
+
+.mat-toolbar {
+  z-index: 0;
+}
+
+::ng-deep.mat-menu-panel {
+  min-width: 200px !important;
+  max-width: 300px !important;
+}

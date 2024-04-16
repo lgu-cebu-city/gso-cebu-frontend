@@ -1,0 +1,147 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row wrap">
+        <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="textFilterStr" [ngModelOptions]="{standalone: true}" (keyup)="textFilter($event)">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="end center" fxFlex fxFlex="50">
+          <div>
+            <mat-label>Filter Date</mat-label>
+          </div>
+          <div fxFlex fxFlex="50">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="year"
+                              (yearSelected)="chosenYearHandler($event)"
+                              (monthSelected)="chosenMonthHandler($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="View Items">
+              <mat-icon>search</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <mat-card-content *ngIf="isLoading" fxFlex class="loading-spinner">
+          <mat-progress-spinner 
+            color="primary" 
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </mat-card-content>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="dataSource" matSort class="main-table">
+            <ng-container matColumnDef="items">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="primary" (click)="viewItems(element)" matTooltip="View Items">
+                  <mat-icon>list</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="transactionNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.transactionNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="transactionDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.transactionDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="canvassNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Abstract No. </th>
+              <td mat-cell *matCellDef="let element"> {{ element.canvassNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="prNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PR No </th>
+              <td mat-cell *matCellDef="let element"> {{ element.prNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="procurementMode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Procurement Mode </th>
+              <td mat-cell *matCellDef="let element"> {{ element.procurementMode }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplierName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplierName }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplierAddress">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Address
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplierAddress }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="supplierContactNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact No
+              </th>
+              <td mat-cell *matCellDef="let element"> {{ element.supplierContactNo }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="deliveryPlace">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Delivery Place </th>
+              <td mat-cell *matCellDef="let element"> {{ element.deliveryPlace }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="deliveryDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Delivery Date </th>
+              <td mat-cell *matCellDef="let element"> {{ formatDate(element.deliveryDate) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="deliveryTerm">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Delivery Term </th>
+              <td mat-cell *matCellDef="let element"> {{ element.deliveryTerm }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="paymentTerm">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Term </th>
+              <td mat-cell *matCellDef="let element"> {{ element.paymentTerm }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedPo == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[50, 100]" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<button #printButton class="printButton"
+  [useExistingCss]="true"
+  printSectionId="print-section" ngxPrint>Print</button>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-purchase-order-print *ngFor="let poItems of selectedPoItemsPrint; index as i" 
+        [poData]="selectedPo" 
+        [poItemsData]="poItems" 
+        [currPage]="i+1" 
+        [maxPage]="selectedPoItemsPrint.length" 
+        [grandTotal]="calculateTotal()">
+      </app-purchase-order-print>
+    </div>
+  </form>
+</mat-card>

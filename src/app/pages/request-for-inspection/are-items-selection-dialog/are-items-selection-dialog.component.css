@@ -1,0 +1,54 @@
+mat-card {
+  min-height: unset;
+}
+mat-form-field {
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+.tableContainer {
+  max-height: 450px;
+  min-height: 450px;
+  width: 50vw;
+  background-color: white;
+  margin-top: 10px;
+  overflow: auto;
+}
+.mat-row:hover .mat-cell {
+  background-color: #8fffdfab;
+}
+.row-is-clicked {
+  font-weight: bold;
+  background-color: lightgreen;
+}
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1.5px solid #bab7b2;
+}
+.mat-column-uom {
+  width: 100px;
+}
+::ng-deep .mat-form-field-suffix > mat-icon {
+  padding-top: 30%;
+}

@@ -1,0 +1,87 @@
+mat-card {
+  width: 8.5in;
+  height: 10in;
+  padding: .5in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+@page { size: auto;  margin: 0mm; }
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+table {
+  border-collapse: collapse;
+  margin-top: unset;
+  width: 100%;
+  text-align: center !important;
+}
+.entry {
+  border-bottom: 1px solid black;
+}
+.headerData {
+  height: 25px;
+  align-items: self-end;
+}
+.withBorder {
+  border: 1px solid;
+  padding: 10px !important;
+}
+.purposeLine {
+  height: 70px;
+  border: 1px solid;
+  padding: 10px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1px solid #000000;
+}
+tr.mat-row {
+  height: 35px;
+}
+th,td {
+  border: 1px solid black;
+}
+form {
+  margin-bottom: unset !important;
+}
+.topLabel {
+  width: 80px;
+}
+h3 {
+  margin: unset;
+  font-weight: 500;
+  font-style: italic;
+}
+.mat-column-itemCode {
+  width: 100;
+}
+.mat-column-uom {
+  width: 70;
+}
+.mat-column-description {
+  width: 250;
+}
+.mat-column-requestedQty {
+  width: 50;
+}
+.mat-column-issuedUnit {
+  width: 70;
+}
+.mat-column-issuedQty {
+  width: 50;
+}

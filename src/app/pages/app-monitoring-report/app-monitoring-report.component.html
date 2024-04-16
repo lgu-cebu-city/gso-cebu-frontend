@@ -1,0 +1,219 @@
+<mat-card>
+  <div fxLayout="row" fxFlex="grow">
+    <div fxLayout="column" fxFlex="grow">
+      <div fxLayoutAlign="space-between center" fxFlex="none" fxLayout="row">
+        <div fxLayoutAlign="space-between center" fxFlex="50">
+          <div>
+            <mat-label>Department</mat-label>
+          </div>
+          <div fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input matInput [(ngModel)]="deptSelected.text" [ngModelOptions]="{standalone: true}" [readonly]="true" *ngIf="authService.getTypeId() != env.gsoDeptId.toString()">
+
+              <mat-select (selectionChange)="deptSelectedValue($event)" *ngIf="authService.getTypeId() == env.gsoDeptId.toString()"
+                  [(ngModel)]="deptSelected.value" [ngModelOptions]="{standalone: true}">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let dept of departmentSelection" [value]="dept.id">
+                  {{dept.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="18">
+          <div>
+            <mat-label>Year</mat-label>
+          </div>
+          <div fxFlex="60">
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="multi-year"
+                              (yearSelected)="setYear($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="none" class="addMarginTop5">
+        <div fxLayoutAlign="space-between center" fxFlex="50">
+          <div>
+            <mat-label>Item Group</mat-label>
+          </div>
+          <div fxFlex="80">
+            <mat-form-field appearance="fill">
+              <input type="text" matInput [(ngModel)]="typeSelected.text" [matAutocomplete]="auto" [formControl]="formControl" />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectionChanged($event)'>
+                <mat-option *ngFor="let option of filteredType | async" [value]="option.id">
+                  {{option.description}}
+                </mat-option>
+              </mat-autocomplete>
+              <button matSuffix mat-icon-button (click)="clearFilter()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="48">
+          <div>
+            <mat-label>Search</mat-label>
+          </div>
+          <div fxFlex="85">
+            <mat-form-field appearance="fill">
+              <input matInput (keyup)="textFilter($event)">
+              <mat-icon matSuffix class="matsuffix-icon">search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex>
+        <div class="tableContainer" fxFlex>
+          <table mat-table [dataSource]="appItems">
+            <ng-container matColumnDef="no1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">No</th>
+            </ng-container>
+            <ng-container matColumnDef="no">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> No </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.appId }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="itemName1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Description</th>
+            </ng-container>
+            <ng-container matColumnDef="itemName">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Description </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'font-weight': 'bold', 'background-color': 'lightgreen'} : {'font-weight': 'normal'}" [attr.colspan]="element.appId == '0' ? 16 : 1"> {{ element.itemName }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="uom1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Unit</th>
+            </ng-container>
+            <ng-container matColumnDef="uom">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Unit </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}"> {{ element.uom }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="qty1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Qty</th>
+            </ng-container>
+            <ng-container matColumnDef="qty">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="price1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Price</th>
+            </ng-container>
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Price </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ numberFormat.format(element.price) }} </td>
+              <td mat-footer-cell *matFooterCellDef class="b"> Total </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="total1">
+              <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Total</th>
+            </ng-container>
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Total </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ numberFormat.format(element.total) }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotal()) }} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="first_qtr">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">1st Qtr</th>
+            </ng-container>
+            <ng-container matColumnDef="first_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.first_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="first_qtr_pr">
+              <th mat-header-cell *matHeaderCellDef> PR Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.first_qtr_pr }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="second_qtr">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">2nd Qtr</th>
+            </ng-container>
+            <ng-container matColumnDef="second_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.second_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="second_qtr_pr">
+              <th mat-header-cell *matHeaderCellDef> PR Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.second_qtr_pr }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="third_qtr">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">3rd Qtr</th>
+            </ng-container>
+            <ng-container matColumnDef="third_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.third_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="third_qtr_pr">
+              <th mat-header-cell *matHeaderCellDef> PR Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.third_qtr_pr }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="fourth_qtr">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">4th Qtr</th>
+            </ng-container>
+            <ng-container matColumnDef="fourth_qtr_qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.fourth_qtr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="fourth_qtr_pr">
+              <th mat-header-cell *matHeaderCellDef> PR Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.fourth_qtr_pr }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="total2">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Total</th>
+            </ng-container>
+            <ng-container matColumnDef="prQty">
+              <th mat-header-cell *matHeaderCellDef> PR Qty </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ element.pr_qty }} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="prAmt">
+              <th mat-header-cell *matHeaderCellDef> PR Amt </th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="element.appId == '0' ? {'display': 'none'} : {'display': 'table-cell'}" align="right"> {{ numberFormat.format(element.pr_amt) }} </td>
+              <td mat-footer-cell *matFooterCellDef align="right" class="b"> {{ numberFormat.format(calculateTotalPR()) }} </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="['no1','itemName1','uom1','qty1','price1','total1','first_qtr','second_qtr','third_qtr','fourth_qtr','total2']; sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+          </table>
+
+          <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; height: inherit;">
+            <mat-progress-spinner 
+              color="primary" 
+              mode="indeterminate">
+            </mat-progress-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

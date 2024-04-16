@@ -1,0 +1,64 @@
+mat-card {
+  width: 76vw;
+}
+.tableContainer {
+  overflow: auto;
+}
+mat-form-field {
+  width: 100%;
+}
+.mat-raised-button {
+  border-radius: 20px !important;
+}
+table {
+  width: 100%;
+  text-align: center !important;
+}
+.tableContainer {
+  overflow: auto;
+  width: 100%;
+  background-color: white;
+  height: 472px;
+  border: 1px solid lightgray;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1.5px solid #bab7b2;
+}
+.b {
+  font-weight: 800;
+}
+.addMarginTop10 {
+  margin-top: 10px;
+}
+.mat-column-remarks {
+  width: 250px;
+}
+.mat-column-uom {
+  width: 50px;
+}
+.mat-column-quantity {
+  width: 45px;
+}
+.mat-column-price {
+  width: 100px;
+}
+.mat-column-total {
+  width: 110px;
+}

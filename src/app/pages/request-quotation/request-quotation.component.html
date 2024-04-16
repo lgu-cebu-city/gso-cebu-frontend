@@ -1,0 +1,286 @@
+<mat-toolbar class="bg-primary" *ngIf="envFirstLoad == 'List'">
+  <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Request For Quotation</mat-label>
+    <button mat-mini-fab color="warn" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-card>
+  <form fxLayout="columns wrap" [formGroup]="requestQuotationFormGroup" class="formContent">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Openning Date</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="openningDate" [ngxMatDatetimePicker]="openningDatePicker" placeholder="Choose a date & time">
+            <mat-datepicker-toggle matSuffix [for]="$any(openningDatePicker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #openningDatePicker></ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="transactionNo">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Place</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="location">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Transaction Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="transactionDate" [matDatepicker]="transDatePicker">
+            <mat-datepicker-toggle matSuffix [for]="transDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #transDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Name of Canvasser</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <input type="text" matInput [(ngModel)]="canvasserSelected.text" [matAutocomplete]="auto" [formControl]="formControlEmployee" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)='employeeSelectionChanged($event)'>
+              <mat-option *ngFor="let option of filteredEmployee | async" [value]="option.id">
+                {{option.Fullname}}
+                </mat-option>
+            </mat-autocomplete>
+            <button matSuffix mat-icon-button (click)="clearEmployeeFilter()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Recommending Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="recommendingDate" [matDatepicker]="recommendDatePicker">
+            <mat-datepicker-toggle matSuffix [for]="recommendDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #recommendDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Mode of Procurement</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="procurementMode">
+              <mat-option>--</mat-option>
+              <mat-option value="Competitive Bidding">Competitive Bidding</mat-option>
+              <mat-option value="Limited Source Bidding">Limited Source Bidding</mat-option>
+              <mat-option value="Direct Contracting">Direct Contracting</mat-option>
+              <mat-option value="Repeat Order">Repeat Order</mat-option>
+              <mat-option value="Shopping">Shopping</mat-option>
+              <mat-option value="Small Value Procurement">Small Value Procurement</mat-option>
+              <mat-option value="Agency-to-Agency">Agency-to-Agency</mat-option>
+              <mat-option value="Negotiated procurement">Negotiated procurement</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>PR Ref. No.</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="prNo">
+            <button matSuffix mat-icon-button (click)="selectPR()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Type of Bidding</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="biddingType">
+              <mat-option>--</mat-option>
+              <mat-option value="Sealed Bid">Sealed Bid</mat-option>
+              <mat-option value="Dutch Auction">Dutch Auction</mat-option>
+              <mat-option value="Combinatorial Auction">Combinatorial Auction</mat-option>
+              <mat-option value="Dynamic Bidding">Dynamic Bidding</mat-option>
+              <mat-option value="Timed Bidding">Timed Bidding</mat-option>
+              <mat-option value="Live Bidding">Live Bidding</mat-option>
+              <mat-option value="Traditional Bidding">Traditional Bidding</mat-option>
+              <mat-option value="Public Bidding">Public Bidding</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>PR Ref. Date</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="prDate">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="50">
+        <div>
+          <mat-label>Approved Budget</mat-label>
+        </div>
+        <div fxFlex="65">
+          <mat-form-field appearance="fill">
+            <input matInput currencyMask [options]="{ prefix: '' }" formControlName="approvedBudget">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="45">
+        <div>
+          <mat-label>Office</mat-label>
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="departmentName">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between start" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayout="columns wrap" fxFlex="50">
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+          <div fxLayoutAlign="space-between center" fxFlex>
+            <div>
+              <mat-label>Bid Security</mat-label>
+            </div>
+            <div fxFlex="65">
+              <div fxLayoutAlign="space-between center" fxLayout="row">
+                <div fxFlex="35">
+                  <mat-form-field appearance="fill">
+                    <input matInput currencyMask [options]="{ prefix: '' }" formControlName="bidSecurity">
+                  </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center" fxLayout="row" fxFlex="63">
+                  <div>
+                    <mat-label>Delivery Period</mat-label>
+                  </div>
+                  <div fxFlex="48">
+                    <mat-form-field appearance="fill">
+                      <input matInput type="number" formControlName="deliveryPeriod">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+          <div fxLayoutAlign="space-between center" fxFlex>
+            <div>
+              <mat-label>Bid Docs Fee</mat-label>
+            </div>
+            <div fxFlex="65">
+              <div fxLayoutAlign="space-between center" fxLayout="row">
+                <div fxFlex="35">
+                  <mat-form-field appearance="fill">
+                    <input matInput currencyMask [options]="{ prefix: '' }" formControlName="bidDocsFee">
+                  </mat-form-field>
+                </div>
+                <div fxLayoutAlign="space-between center" fxLayout="row" fxFlex="63">
+                  <div>
+                    <mat-label>Price Validity</mat-label>
+                  </div>
+                  <div fxFlex="48">
+                    <mat-form-field appearance="fill">
+                      <input matInput type="number" formControlName="priceValidity">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between start" fxFlex="45">
+        <div class="addMarginTop5">
+          <mat-label>Supply & Delivery of</mat-label>
+          <!-- <button mat-raised-button color="primary">Reload Supplies Specs</button> -->
+        </div>
+        <div fxFlex="60">
+          <mat-form-field appearance="fill" class="textAreaInput">
+            <textarea matInput formControlName="supplyDescription" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="tableContainer">
+      <table mat-table [dataSource]="itemDataSource">
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Item Description </th>
+          <td mat-cell *matCellDef="let element"> {{ element.description + (element.specification ? " - " + element.specification : "") }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="unitMeasure">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef> Cost </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.cost) }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'zero-quantity': row.quantity == 0 }"></tr>
+      </table>
+    </div>
+    <div fxLayoutAlign="end" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+      <div fxLayoutAlign="space-between center" fxFlex="30">
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="saveData()"> {{ btnSaveText }} </button>
+        <button mat-raised-button color="primary" fxFlex="envFirstLoad == 'Entry' ? 32 : 50" (click)="clearFields()">Clear</button>
+        <button *ngIf="envFirstLoad == 'Entry'" type="button" mat-raised-button color="primary" fxFlex="32" (click)="gotoList()">List</button>
+      </div>
+    </div>
+  </form>
+</mat-card>

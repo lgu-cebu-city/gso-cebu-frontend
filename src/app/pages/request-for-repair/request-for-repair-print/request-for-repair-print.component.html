@@ -1,0 +1,177 @@
+<mat-card class="printForm">
+  <div fxLayout="row">
+    <div fxFlex="80">
+      <div class="withBorder">
+        <app-print-header [formName]="''"></app-print-header>
+      </div>
+    </div>
+    <div fxFlex="20">
+      <div class="withBorder centerText titleHeight">
+        <h3>
+          MATERIAL / REPAIR REQUISITION SLIP
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="16" class="withBorder">
+      Date Requested
+    </div>
+    <div fxFlex="64" class="withBorder b">
+      {{ formatDate(rfrData.transactionDate) }}
+    </div>
+    <div fxFlex="20" class="withBorder">
+      Requested by
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="16" class="withBorder">
+      Department / Office / Area of Concern
+    </div>
+    <div fxFlex="64" class="withBorder b">
+      {{ rfrData.departmentName }}
+    </div>
+    <div fxFlex="20" class="withBorder centerText b" fxLayoutAlign="center end">
+      ADONIS R. TAROSA
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="80">
+      <div class="tableContainerChild">
+        <table mat-table [dataSource]="rfrItemsData">
+          <ng-container matColumnDef="desc">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">PARTICULARS</th>
+          </ng-container>
+        
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> PARTICULARS </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="qty">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">QTY</th>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> QTY </th>
+            <td mat-cell *matCellDef="let element"> {{ element.id != "" ? 1 : "" }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="natureOfRequest">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="4">NATURE OF REQUEST</th>
+          </ng-container>
+        
+          <ng-container matColumnDef="new">
+            <th mat-header-cell *matHeaderCellDef> New </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="natureOfRequest(element.natureOfRequest, 'New')">check</mat-icon> </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="additional">
+            <th mat-header-cell *matHeaderCellDef> Additional </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="natureOfRequest(element.natureOfRequest, 'Additional')">check</mat-icon> </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="urgent">
+            <th mat-header-cell *matHeaderCellDef> Urgent </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="natureOfRequest(element.natureOfRequest, 'Urgent')">check</mat-icon> </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="others">
+            <th mat-header-cell *matHeaderCellDef> Others </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="natureOfRequest(element.natureOfRequest, 'Others')">check</mat-icon> </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="rem">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">REMARKS</th>
+          </ng-container>
+
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> REMARKS </th>
+            <td mat-cell *matCellDef="let element"> {{ element.natureOfRequest.split(" | ")[1] }} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="['desc', 'qty', 'natureOfRequest', 'rem']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails; let element"></tr>
+        </table>
+      </div>
+    </div>
+    <div fxFlex="20" fxLayout="column">
+      <div class="withBorder centerText">
+        Signature Over Printed Name
+      </div>
+      <div class="withBorder">
+        <div class="b">
+          Personnel Office
+        </div>
+        <div class="apprbByHeight">
+          Approved By:
+        </div>
+        <div class="centerText b">
+          ALFREDO L. PAUNIL
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxLayout="column" fxFlex="80">
+      <div class="withBorder">
+        <div>
+          REASON
+        </div>
+        <div class="remarks addMarginTop10">
+          {{ rfrData.reason }}
+        </div>
+      </div>
+    </div>
+    <div fxFlex="20">
+      <div class="withBorder centerText">
+        Signature Over Printed Name / Date
+      </div>
+      <div class="withBorder">
+        <div class="b">
+          For Purchase Order and Receiving
+        </div>
+        <div class="addMarginTop5 b">
+          GSO/Engineering Office
+        </div>
+        <div class="height2 b" fxLayoutAlign="center end">
+          RAYMUNDO V. MANTALABA
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxLayout="column" fxFlex="80">
+      <div class="withBorder">
+        <div>
+          REMARKS
+        </div>
+        <div class="remarks addMarginTop10">
+          {{ rfrData.remarks }}
+        </div>
+      </div>
+    </div>
+    <div fxFlex="20">
+      <div class="withBorder centerText">
+        Signature Over Printed Name / Date
+      </div>
+      <div class="withBorder">
+        <div class="b">
+          Material Received By
+        </div>
+        <div class="height3 b" fxLayoutAlign="center end">
+          MARY JOY M. WASKIN
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxLayout="column" fxFlex="80" class="withBorder b">
+      Distribution: Original Copy - Requesting Party, Duplicate - Personnel Office, 3rd Copy GSO/Engineering Office
+    </div>
+    <div fxLayout="column" fxFlex="20" class="withBorder centerText">
+      Signature Over Printed Name / Date
+    </div>
+  </div>
+</mat-card>

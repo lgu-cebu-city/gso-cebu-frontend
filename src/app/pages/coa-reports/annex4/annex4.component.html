@@ -1,0 +1,158 @@
+<mat-card class="printForm">
+
+    <div fxLayoutAlign="end end"><i>Annex A.4</i></div>
+    <div fxLayoutAlign="center center">
+
+      <p style="
+        font-family: 'Times New Roman', Times, serif,Impact;
+        font-size: 20px;
+        font-weight: bold;
+        ">
+        REGISTRY OF SEMI-EXPENDABLE PROPERTY ISSUED
+      </p>
+
+    </div>
+    <div fxLayout="row">
+        <div fxFlex="59.5">
+            <div style="
+
+              padding-left: 5px;
+
+              "> Entity Name:____________________________________________________</div>
+            <div  style="
+
+              padding-left: 5px;
+              height: 30px;
+            "> Semi-expendable Property:______________________________________</div>
+        </div>
+        <div fxFlex="">
+            <div style="
+
+              padding-left: 5px;
+
+              "> Fund Cluster:_______________________________________</div>
+            <div>
+              <div style="
+
+                  padding-left: 5px;
+                  height: 30px;
+                ">Sheet No.:__________________________________________</div>
+             </div>
+        </div>
+      </div>
+      <div>
+        <table mat-table [dataSource]="dataSource" fxFlex="100">
+
+          <ng-container matColumnDef="Date">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Date</th>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Date </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="Reference">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Reference</th>
+          </ng-container>
+          <ng-container matColumnDef="ics_rrsp">
+            <th mat-header-cell *matHeaderCellDef> ICS/RRSP No. </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+          <ng-container matColumnDef="semi_expendable">
+            <th mat-header-cell *matHeaderCellDef> Semi-expendable Property No. </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Item_Description">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Item Description</th>
+          </ng-container>
+          <ng-container matColumnDef="item_description">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Item Description </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Estimated_Useful">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Estimated Useful Life</th>
+          </ng-container>
+          <ng-container matColumnDef="estimated_useful">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Estimated Useful Life </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="issued">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Issued</th>
+          </ng-container>
+          <ng-container matColumnDef="qty_issued">
+            <th mat-header-cell *matHeaderCellDef> Qty </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+          <ng-container matColumnDef="office_officer_issued">
+            <th mat-header-cell *matHeaderCellDef> Office/Officer </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="returned">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Returned</th>
+          </ng-container>
+          <ng-container matColumnDef="qty_returned">
+            <th mat-header-cell *matHeaderCellDef> Qty </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+          <ng-container matColumnDef="office_officer_returned">
+            <th mat-header-cell *matHeaderCellDef> Office/Officer </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="re_issued">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">Re-issued</th>
+          </ng-container>
+          <ng-container matColumnDef="qty_reissued">
+            <th mat-header-cell *matHeaderCellDef> Qty </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+          <ng-container matColumnDef="office_officer_reissued">
+            <th mat-header-cell *matHeaderCellDef> Office/Officer </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Qty_Disposed">
+            <th mat-header-cell *matHeaderCellDef>Disposed</th>
+          </ng-container>
+          <ng-container matColumnDef="qty_disposed">
+            <th mat-header-cell *matHeaderCellDef> Qty </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="Qty_Balance">
+            <th mat-header-cell *matHeaderCellDef>Balance</th>
+          </ng-container>
+          <ng-container matColumnDef="qty_balance">
+            <th mat-header-cell *matHeaderCellDef> Qty </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Amount</th>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Amount </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Remarks">
+            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Remarks</th>
+          </ng-container>
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef [ngStyle]="{display: 'none'}"> Remarks </th>
+            <td mat-cell *matCellDef="let element"> </td>
+          </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="['Date','Reference','Item_Description','Estimated_Useful','issued','returned','re_issued','Qty_Disposed','Qty_Balance','Amount','Remarks']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</mat-card>

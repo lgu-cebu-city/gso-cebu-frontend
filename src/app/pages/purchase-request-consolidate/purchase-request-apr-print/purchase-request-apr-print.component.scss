@@ -1,0 +1,117 @@
+mat-card {
+  width: 8.5in;
+  height: 11in;
+  padding-left: .55in;
+  padding-right: .55in;
+  margin-top: 0 !important;
+  print-color-adjust: exact;
+  font-size: smaller;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+  page-break-after: always;
+}
+@page {
+  size: auto;
+  margin: .4in;
+}
+@media print {
+  html, body { 
+    overflow-y: visible !important; 
+    position: relative; 
+  };
+  div.divFooter {
+    margin-top: 20px;
+  }
+}
+table {
+  border-collapse: collapse;
+  margin-top: unset;
+  width: 100%;
+  text-align: center !important;
+}
+.header-title {
+  font-size: 20px;
+}
+.small-font {
+  font-size: small;
+}
+.entry {
+  border-bottom: 1px solid black;
+}
+.b {
+  font-weight: 800;
+}
+.headerData {
+  height: 25px;
+  align-items: self-end;
+}
+.withBorder {
+  border: 1px solid;
+}
+.withHiddenBorder {
+  border: 1px solid white;
+}
+.withPadding {
+  padding: 10px !important;
+}
+.withPaddingLeft {
+  padding-left: 10px;
+}
+.blank {
+  height: 21px;
+}
+.indent {
+  text-indent: 50px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1px solid #000000;
+  font-size: smaller !important;
+}
+tr.mat-row {
+  height: 20px !important;
+}
+th,td {
+  border: 1px solid black;
+}
+form {
+  margin-bottom: unset !important;
+}
+.sub-total {
+  background-color: lightgrey;
+}
+
+.mat-column-itemNo {
+  width: 40px;
+}
+.mat-column-uom {
+  width: 70px;
+}
+.mat-column-quantity {
+  width: 50px;
+}
+.mat-column-cost {
+  width: 100px;
+}
+.mat-column-total {
+  width: 120px;
+}

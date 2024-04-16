@@ -1,0 +1,103 @@
+mat-card {
+  width: 76vw;
+}
+table {
+  width: 100%;
+}
+.b {
+  font-weight: bold;
+}
+.tableContainer {
+  overflow: auto;
+  background-color: white;
+  height: 252px;
+  border: 1px solid lightgray;
+}
+.tableContainerItem {
+  overflow: auto;
+  height: 220px;
+  background-color: white;
+  border: 1px solid lightgray;
+}
+.tableContainerChild {
+  overflow: auto;
+  background-color: white;
+  height: 33vh;
+  border: 1px solid lightgray;
+}
+.tableContainer > .tableLabel {
+  text-decoration: underline;
+  position: absolute;
+  font-weight: bold;
+}
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+button.mat-stroked-button {
+  line-height: 15px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1.5px solid #bab7b2;
+}
+.mat-row:hover .mat-cell {
+  background-color: #8fffdfab;
+}
+.row-is-clicked {
+  font-weight: bold;
+  background-color: lightgreen;
+}
+mat-label {
+  padding-right: 20px;
+}
+mat-form-field {
+  width: 100%;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: unset !important;
+  height: 35px;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex .mat-form-field-suffix {
+  align-self: center;
+}
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: unset !important;
+}
+::ng-deep .mat-form-field-underline {
+  position: unset !important;
+}
+::ng-deep .mat-form-field-infix {
+  align-self: self-end !important;
+  padding-left: 10px !important;
+}
+
+.mat-column-uom {
+  width: 80px;
+}
+.mat-column-cost {
+  width: 100px;
+}
+.mat-column-total {
+  width: 100px;
+}
+td.mat-column-action {
+  width: 90px;
+}

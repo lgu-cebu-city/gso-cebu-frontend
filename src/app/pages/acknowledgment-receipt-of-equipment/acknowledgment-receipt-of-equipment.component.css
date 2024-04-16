@@ -1,0 +1,114 @@
+mat-card {
+  width: 76vw;
+}
+table {
+  width: 100%;
+}
+.tableContainer {
+  margin-top: 10px;
+  overflow: auto;
+  width: 100%;
+  height: 275px;
+  background-color: white;
+  border: 1px solid #bab7b2;
+}
+.addMarginTop20 {
+  margin-top: 20px;
+}
+.addMarginTop5 {
+  margin-top: 5px;
+}
+.addPaddingTop8 {
+  padding-top: 8px;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1.5px solid #bab7b2;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell {
+  border: 1.5px solid #eeeeee;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+tr.mat-row {
+  height: 40px;
+}
+::ng-deep td > .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: transparent !important;
+}
+::ng-deep td > .mat-form-field-appearance-fill .mat-form-field-underline {
+  display: none;
+}
+.tableContainer {
+  overflow: auto;
+}
+mat-label {
+  padding-right: 20px;
+}
+mat-form-field {
+  width: 100%;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: unset !important;
+  height: 35px;
+}
+::ng-deep .textAreaInput > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+  align-self: unset !important;
+}
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: unset !important;
+}
+::ng-deep .mat-select-arrow-wrapper {
+  transform: none !important;
+}
+::ng-deep .mat-form-field-underline {
+  position: unset !important;
+}
+::ng-deep .mat-form-field-infix {
+  align-self: self-end !important;
+  padding-left: 10px !important;
+}
+.mat-raised-button {
+  border-radius: 20px !important;
+}
+::ng-deep .textAreaInput > .mat-form-field-wrapper > .mat-form-field-flex {
+  height: 80px;
+}
+.mat-column-description {
+  min-width: 250px;
+}
+.mat-column-quantity {
+  width: 80px;
+}
+.mat-column-uom {
+  width: 100px;
+}
+.mat-column-price {
+  width: 100px;
+}
+.mat-column-propertyNo {
+  width: 100px;
+}
+.mat-column-dateAcquired {
+  width: 100px;
+}
+/* .mat-column-serialNo {
+  width: 120px;
+}
+.mat-column-model {
+  width: 120px;
+}
+.mat-column-brand {
+  width: 250px;
+} */

@@ -1,0 +1,9 @@
+<mat-toolbar class="bg-primary">
+  <div fxLayoutAlign="start center" fxLayout="row wrap" fxFlex="grow">
+    <mat-label>Print Preview Selection</mat-label>
+  </div>
+</mat-toolbar>
+<div class="selection-body" fxLayout="column" fxLayoutAlign="space-between center">
+  <button class="selection-button" mat-raised-button color="primary" (click)="selectPrint('RFQ')"> Request For Quotation Report </button>
+  <button class="selection-button" mat-raised-button color="primary" (click)="selectPrint('CanvassSheet')"> Canvass Sheet </button>
+</div>

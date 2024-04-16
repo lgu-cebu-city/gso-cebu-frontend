@@ -1,0 +1,180 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+      <div fxLayoutAlign="start center" fxFlex fxFlex="50">
+        <div>
+          <mat-label>Search</mat-label>
+        </div>
+        <div fxFlex fxFlex="80">
+          <mat-form-field appearance="fill">
+            <input matInput (keyup)="textFilter($event)">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="end center" fxFlex fxFlex="50">
+        <div>
+          <mat-label>Filter Date</mat-label>
+        </div>
+        <div fxFlex fxFlex="50">
+          <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="dp" [formControl]="dateValue" readonly>
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp
+                            startView="year"
+                            (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event, dp)"
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="tableContainer">
+      <table mat-table [dataSource]="dataSource" matSort class="main-table">
+        <ng-container matColumnDef="transactionNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction No. </th>
+          <td mat-cell *matCellDef="let element"> {{ element.transactionNo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="transactionDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Date </th>
+          <td mat-cell *matCellDef="let element"> {{ formatDate(element.transactionDate) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vehicleName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle Name </th>
+          <td mat-cell *matCellDef="let element"> {{ element.vehicleName }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vehicleType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle Type </th>
+          <td mat-cell *matCellDef="let element"> {{ element.vehicleType }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="plateNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Plate No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.plateNo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="brandModel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand/Model </th>
+          <td mat-cell *matCellDef="let element"> {{ element.brandModel }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="engineNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Engine No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.engineNo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="chassisNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Chassis No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.chassisNo }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acquisationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Acquisation Date </th>
+          <td mat-cell *matCellDef="let element"> {{ formatDate(element.acquisationDate) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acquisationCost">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Acquisation Cost </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.acquisationCost) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastRepairDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Last Repair </th>
+          <td mat-cell *matCellDef="let element"> {{ formatDate(element.lastRepairDate) }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastRepairNature">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nature of Last Repair </th>
+          <td mat-cell *matCellDef="let element"> {{ element.lastRepairNature }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="defectComplaints">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Defects/Complaints </th>
+          <td mat-cell *matCellDef="let element"> {{ element.defectComplaints }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="workScope">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Scope of Work </th>
+          <td mat-cell *matCellDef="let element"> {{ element.workScope }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="requestedByName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Requested By </th>
+          <td mat-cell *matCellDef="let element"> {{ element.requestedByName }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="inspectedBy1Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Inspected By </th>
+          <td mat-cell *matCellDef="let element"> {{ element.inspectedBy1Name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="inspectedBy2Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Inspected By </th>
+          <td mat-cell *matCellDef="let element"> {{ element.inspectedBy2Name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="notedByName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Noted By </th>
+          <td mat-cell *matCellDef="let element"> {{ element.notedByName }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="rowSelected(row)"
+            [class.row-is-clicked]="selectedPri == row"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons aria-label="Select page of booking">
+    </mat-paginator>
+    <button #printButton class="printButton"
+      [useExistingCss]="true"
+      printSectionId="print-section" ngxPrint>Print</button>
+  </form>
+  <form fxLayout="row wrap">
+    <div class="tableContainerChild" fxFlex="">
+      <mat-label class="tableLabel">Item Details</mat-label>
+      <table mat-table [dataSource]="itemDetails">
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+          <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.cost) }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsItemDetails"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsItemDetails;"></tr>
+      </table>
+    </div>
+  </form>
+</mat-card>
+<mat-card  id="print-section" class="printPage">
+  <form>
+    <div fxLayoutAlign="center center" fxFlex="grow" fxLayout="columns wrap">
+      <app-pre-repair-inspection-print *ngIf="selectedPri" [priData]="selectedPri" [priItemsData]="selectedPriItemsPrint"></app-pre-repair-inspection-print>
+    </div>
+  </form>
+</mat-card>

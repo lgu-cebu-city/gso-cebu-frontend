@@ -1,0 +1,103 @@
+mat-card {
+  width: 8.5in;
+  height: 10in;
+  padding: .5in;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+}
+mat-icon {
+  vertical-align: middle;
+}
+@page { size: auto;  margin: 0mm; }
+
+.withBorder {
+  border: 1px solid;
+  padding: 3px;
+  
+}
+.centerText {
+  text-align: center;
+}
+.b {
+  font-weight: bold;
+}
+.addBorderBottom {
+  border-bottom: 1px solid black;
+}
+.addMarginTop50 {
+  margin-top: 50px;
+}
+.addMarginTop20 {
+  margin-top: 20px;
+}
+.addPadding20 {
+  padding: 20px 100px;
+}
+.qtyVal {
+  width: 20px;
+  border-bottom: 1px solid black;
+  text-align: center;
+  margin: 0px 10px;
+}
+.locVal {
+  width: 220px;
+  border-bottom: 1px solid black;
+  margin: 0px 10px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,td {
+  border: 1px solid black;
+  padding: 0px 10px !important;
+}
+tr.mat-row {
+  height: 35px;
+}
+tr.mat-header-row {
+  height: 35px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+.mat-cell {
+  font-size: 12px;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+.smallFont {
+  font-size: smaller;
+}
+
+.mat-column-itmNo {
+  width: 20px;
+}
+.mat-column-unit {
+  width: 45px;
+}
+.mat-column-qty {
+  width: 45px;
+}
+.mat-column-orNo {
+  width: 60px;
+}
+.mat-column-orDate {
+  width: 60px;
+}
+.mat-column-amount {
+  width: 80px;
+}

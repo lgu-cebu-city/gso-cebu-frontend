@@ -1,0 +1,107 @@
+mat-card {
+  width: 8.5in;
+  height: 11in;
+  padding-left: .55in;
+  padding-right: .55in;
+  margin-top: 0 !important;
+  print-color-adjust: exact;
+  font-size: small;
+}
+mat-label.capitalize {
+  text-transform: capitalize;
+}
+mat-card.printForm {
+  box-shadow: unset !important;
+  page-break-after: always;
+}
+@page {
+  size: auto;
+  margin: .4in;
+}
+@media print { html, body { overflow-y: visible !important; position: relative; } }
+div.divFooter {
+  margin-top: 20px;
+}
+.title {
+  font-size: medium;
+}
+table {
+  border-collapse: collapse;
+  margin-top: unset;
+  width: 100%;
+}
+.entry {
+  border-bottom: 1px solid black;
+}
+.headerData {
+  height: 25px;
+  align-items: self-end;
+}
+.withBorder {
+  border: 1px solid;
+  padding: 5px !important;
+}
+.withPadding {
+  padding: 0px 10px 10px 10px
+}
+.withMarginTop {
+  margin-top: 20px;
+}
+.withMarginTop10 {
+  margin-top: 10px;
+}
+.purposeLine {
+  height: 50px;
+  border: 1px solid;
+  padding: 10px;
+}
+th.mat-header-cell {
+  text-align: center !important;
+  border: 1px solid #000000;
+  font-weight: bold;
+  color: black;
+  background-color: lightgrey;
+}
+td.mat-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+td.mat-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+td.mat-cell {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+  border: 1px solid #000000;
+  font-size: small;
+}
+tr.mat-row {
+  height: 25px !important;
+}
+th,td {
+  border: 1px solid black;
+}
+form {
+  margin-bottom: unset !important;
+}
+p {
+  width: 100%;
+  height: 20px;
+  margin: unset;
+}
+.bold {
+  font-weight: bold;
+}
+p.center {
+  text-align: center;
+}
+p.signatory {
+  margin-top: 12px;
+}
+p.underline {
+  border-bottom: 1px solid black;
+}
+.sub-total {
+  background-color: lightgrey;
+}

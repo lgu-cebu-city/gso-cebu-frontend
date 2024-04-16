@@ -1,0 +1,80 @@
+<mat-card>
+  <form fxLayout="columns wrap" [formGroup]="itemFormGroup">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Add Item</mat-label>
+        <button mat-mini-fab color="warn" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="columns wrap" class="formContent" fxLayoutGap="5px grid">
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Description</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="itemSelected.text" [ngModelOptions]="{standalone: true}" (click)="showListItem('Non-Generic')" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Unit Measure</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="unitMeasure">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label *ngIf="data.transType == 'Request'">Quantity</mat-label>
+          <mat-label *ngIf="data.transType == 'Expense Withdrawal' || data.transType == 'Transfer Withdrawal'">Requested Qty</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput type="number" [(ngModel)]="reqQty" formControlName="quantity" (ngModelChange)="onQtyChange($event)" class="right-align">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" *ngIf="data.transType == 'Transfer Withdrawal'">
+        <div>
+          <mat-label>Issued Unit</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="issuedUnit" (click)="showListUnit()" readonly="true">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow" *ngIf="data.transType == 'Expense Withdrawal' || data.transType == 'Transfer Withdrawal'">
+        <div>
+          <mat-label>Issued Qty</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="issQty" type="number" formControlName="issuedQty" (ngModelChange)="onIssueQtyChange($event)" class="right-align">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="space-between center" fxFlex="grow">
+        <div>
+          <mat-label>Remarks</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="remarks">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="center" fxFlex="grow" fxLayout="row wrap" class="addMarginTop5">
+        <div fxLayoutAlign="center center" fxFlex = 50>
+          <button mat-raised-button color="primary" fxFlex (click)="addItem()">{{ btnText }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

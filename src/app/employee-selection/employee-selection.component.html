@@ -1,0 +1,45 @@
+<mat-card>
+  <form fxLayout="columns wrap">
+    <mat-toolbar class="bg-primary">
+      <div fxLayoutAlign="space-between center" fxLayout="row wrap" fxFlex="grow">
+        <mat-label>Select Signatory</mat-label>
+        <div fxLayoutAlign="end center" fxFlex="30" fxLayoutGap="5px">
+          <button mat-raised-button color="primary" fxFlex="80" (click)="selectEmployee()">Select</button>
+          <button mat-mini-fab color="warn" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+    <div class="formContent" fxLayout="columns wrap">
+      <div fxLayoutAlign="space-between center" fxFlex="grow" fxLayout="row wrap">
+        <div>
+          <mat-label>Search</mat-label>
+        </div>
+        <div fxFlex fxFlex="80">
+          <mat-form-field appearance="fill">
+            <input matInput (keyup)="textFilter($event)">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxFlex="grow">
+        <div class="tableContainer">
+          <table mat-table [dataSource]="dataSource" matSort class="main-table">        
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+              <td mat-cell *matCellDef="let element"> {{ element.Fullname }} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-is-clicked]="selectedEmployee == row"></tr>
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+  </form>
+</mat-card>

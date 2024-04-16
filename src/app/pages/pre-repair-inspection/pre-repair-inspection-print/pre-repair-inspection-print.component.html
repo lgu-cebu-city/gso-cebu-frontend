@@ -1,0 +1,217 @@
+<mat-card class="printForm">
+  <app-print-header [formName]="'PRE-REPAIR INSPECTION REPORT'"></app-print-header>
+  <div fxLayout="columns wrap">
+    <div fxFlex="grow" class="addMarginTop16px">
+      DESCRIPTION OF PROPERTY:
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end" class="addMarginTop8px">
+      <div fxFlex="95">
+        <div fxLayout="row">
+          <div fxFlex="45">
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Date :
+            </div>
+            <div fxFlex="60">
+              {{ formatDate(priData.transactionDate) }}
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="45">
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Control No. :
+            </div>
+            <div fxFlex="60">
+              {{ priData.transactionNo }}
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" class="addMarginTop16px">
+          <div fxFlex="45">
+            <div fxFlex="50">
+              Type :
+            </div>
+            <div fxFlex="50">
+              {{ priData.vehicleType }}
+            </div>
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Brand/Model No :
+            </div>
+            <div fxFlex="60">
+              {{ priData.brandModel }}
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="45">
+            <div fxFlex="50">
+              Engine No :
+            </div>
+            <div fxFlex="50">
+              {{ priData.engineNo }}
+            </div>
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Chassis No :
+            </div>
+            <div fxFlex="60">
+              {{ priData.chassisNo }}
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="45">
+            <div fxFlex="50">
+              Acquisation Date :
+            </div>
+            <div fxFlex="50">
+              {{ formatDate(priData.acquisationDate) }}
+            </div>
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Aquisation Cost :
+            </div>
+            <div fxFlex="60">
+              {{ priData.acquisationCost }}
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="45">
+            <div fxFlex="50">
+              Date of Last Repair :
+            </div>
+            <div fxFlex="50">
+              {{ formatDate(priData.lastRepairDate) }}
+            </div>
+          </div>
+          <div fxFlex="55">
+            <div fxFlex="40">
+              Plate No. :
+            </div>
+            <div fxFlex="60">
+              {{ priData.plateNo }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="grow" class="addMarginTop16px">
+      DEFECTS/COMPLAINTS:
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end">
+      <div fxFlex="95" class="withUnderline">
+        {{ priData.defectComplaints }}
+      </div>
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end" class="addMarginTop16px">
+      <div fxFlex="60" fxLayout="columns wrap">
+        <div fxFlex="grow">
+          Requested by:
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center" class="addMarginTop32px">
+          <div fxFlex="60" fxLayoutAlign="center" class="withUnderline b">
+            {{ priData.requestedByName }}
+          </div>
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center">
+          Requesting Officer
+        </div>
+      </div>
+    </div>
+    <div fxFlex="grow" class="addMarginTop16px">
+      NATURE & SCOPE OF WORK TO BE DONE:
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end">
+      <div fxFlex="95" class="withUnderline">
+        {{ priData.workScope }}
+      </div>
+    </div>
+    <div fxFlex="grow" class="addMarginTop16px">
+      PARTS TO BE SUPPLIED/REPLACED:
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end">
+      <div fxFlex="95" class="tableContainer">
+        <table mat-table [dataSource]="priData.items">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ element.quantity }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="unitMeasure">
+            <th mat-header-cell *matHeaderCellDef> Unit Measure </th>
+            <td mat-cell *matCellDef="let element"> {{ element.uom }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="unitCost">
+            <th mat-header-cell *matHeaderCellDef> Unit Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.cost) }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="totalCost">
+            <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+            <td mat-cell *matCellDef="let element" align="right"> {{ numberFormat.format(element.total) }} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="itemDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: itemDisplayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <div fxFlex="grow" class="addMarginTop16px">
+      Pre-inspected by:
+    </div>
+    <div fxFlex="grow" class="addMarginTop32px">
+      <div fxFlex="50" fxLayoutAlign="center">
+        <div fxFlex="60" fxLayoutAlign="center" class="withUnderline b">
+          {{ priData.inspectedBy1Name }}
+        </div>
+      </div>
+      <div fxFlex="50" fxLayoutAlign="center">
+        <div fxFlex="60" fxLayoutAlign="center" class="withUnderline b">
+          {{ priData.inspectedBy2Name }}
+        </div>
+      </div>
+    </div>
+    <div fxFlex="grow">
+      <div fxFlex="50" fxLayoutAlign="center">
+        <div fxFlex="60" fxLayoutAlign="center">
+          Motorpool Supervisor
+        </div>
+      </div>
+      <div fxFlex="50" fxLayoutAlign="center">
+        <div fxFlex="60" fxLayoutAlign="center">
+          Administrative Aide IV
+        </div>
+      </div>
+    </div>
+    <div fxFlex="grow" fxLayoutAlign="end" class="addMarginTop32px">
+      <div fxFlex="60" fxLayout="columns wrap">
+        <div fxFlex="grow">
+          Noted by:
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center" class="addMarginTop32px">
+          <div fxFlex="60" fxLayoutAlign="center" class="withUnderline b">
+            {{ priData.notedByName }}
+          </div>
+        </div>
+        <div fxFlex="grow" fxLayoutAlign="center">
+          General Services Officer
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

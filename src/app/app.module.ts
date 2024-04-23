@@ -66,7 +66,6 @@ import { WmrItemSelectionDialogComponent } from './pages/waste-material-report/w
 import { PoriSelectionDialogComponent } from './pages/waste-material-report/pori-selection-dialog/pori-selection-dialog.component';
 import { PriSelectionDialogComponent } from './pages/post-repair-inspection/pri-selection-dialog/pri-selection-dialog.component';
 import { PreRepairItemDetailsDialogComponent } from './pages/pre-repair-inspection/pre-repair-item-details-dialog/pre-repair-item-details-dialog.component';
-import { ChangeStatusDialogComponent } from './pages/business-application/change-status-dialog/change-status-dialog.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +125,6 @@ import { ChangeStatusDialogComponent } from './pages/business-application/change
     WmrItemSelectionDialogComponent,
     PoriSelectionDialogComponent,
     PreRepairItemDetailsDialogComponent,
-    ChangeStatusDialogComponent,
   ],
   imports: [
     ToastrModule.forRoot({

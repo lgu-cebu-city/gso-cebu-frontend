@@ -73,7 +73,6 @@ import { PreRepairInspectionComponent } from '../pages/pre-repair-inspection/pre
 import { PreRepairInspectionListComponent } from '../pages/pre-repair-inspection/pre-repair-inspection-list/pre-repair-inspection-list.component';
 import { PostRepairInspectionComponent } from '../pages/post-repair-inspection/post-repair-inspection.component';
 import { PostRepairInspectionListComponent } from '../pages/post-repair-inspection/post-repair-inspection-list/post-repair-inspection-list.component';
-import { BusinessApplicationComponent } from '../pages/business-application/business-application.component';
 
 export const MainLayoutRoutes: Routes = [
   { path: 'user-setup', component: UserSetupComponent },
@@ -149,5 +148,4 @@ export const MainLayoutRoutes: Routes = [
   { path: 'pre-repair-inspection-list', component: PreRepairInspectionListComponent },
   { path: 'post-repair-inspection', component: PostRepairInspectionComponent },
   { path: 'post-repair-inspection-list', component: PostRepairInspectionListComponent },
-  { path: 'business-application', component: BusinessApplicationComponent },
 ];

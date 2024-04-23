@@ -607,17 +607,11 @@ export class HttpRequestService {
     return this.http.delete(url);
   }
 
-  getAllAPPItems(year:number, office: string, appropriation: number): Observable<any> {
-    var url: string = routes.baseUrlBudget + routes.appAPi;
-    url = url + "?year=" + year;
-    url = url + "&office=" + office;
-    url = url + "&appropriation=" + appropriation;
-    
-    return this.http.get(url, {
-      headers: {
-        'Authorization' : 'Bearer ' + environment.budgetAPIKey
-      }
-    });
+  getAllAPPItems(year:number, office: string): Observable<any> {
+    var url: string = routes.baseUrlGSO + routes.ppmp;
+    url = url + "/" + year;
+    url = url + "/" + office;
+    return this.http.get(url);
   }
 
   savePurchaseOrder(pr: PurchaseOrderModel): Observable<any> {
@@ -1593,15 +1587,5 @@ export class HttpRequestService {
     var url: string = routes.baseUrlGSO + routes.listDepartmentApi;
     url = url + "/signatory/default/" + _deptId;
     return this.http.get(url);
-  }
-  
-  // Test Only
-  getBusinessApplication(): Observable<any> {
-    var url: string = "http://143.198.91.135:9009/api/v1/business-application";
-    return this.http.get(url);
-  }
-  updateBusinessStatus(id: String, status: String): Observable<any> {
-    var url: string = "http://143.198.91.135:9009/api/v1/business-application/applicationStatus/update?id=" + id + "&status=" + status;
-    return this.http.patch(url, "");
   }
 }

@@ -315,7 +315,7 @@ export class AppSelectionDialogComponent implements OnInit {
   }
 
   loadAPPItems() {
-    this.httpRequest.getAllAPPItems(this.dateValue.value.year(), this.defaultDept, this.account).subscribe((result) => {
+    this.httpRequest.getAllAPPItems(this.dateValue.value.year(), this.defaultDept).subscribe((result) => {
       if (result.statusCode == 200) {
         if (result.data.length == 0) {
           this.notifService.showNotification(NotificationType.info, "No data found.");

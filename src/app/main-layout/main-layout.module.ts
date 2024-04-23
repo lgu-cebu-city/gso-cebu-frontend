@@ -149,7 +149,6 @@ import { PreRepairInspectionPrintComponent } from '../pages/pre-repair-inspectio
 import { PostRepairInspectionComponent } from '../pages/post-repair-inspection/post-repair-inspection.component';
 import { PostRepairInspectionPrintComponent } from '../pages/post-repair-inspection/post-repair-inspection-print/post-repair-inspection-print.component';
 import { PostRepairInspectionListComponent } from '../pages/post-repair-inspection/post-repair-inspection-list/post-repair-inspection-list.component';
-import { BusinessApplicationComponent } from '../pages/business-application/business-application.component';
 
 @NgModule({
   imports: [
@@ -304,7 +303,6 @@ import { BusinessApplicationComponent } from '../pages/business-application/busi
     PhysicalCountPropertyComponent,
     LsddPropertyReportComponent,
     UnserviceablePropertyReportComponent,
-    BusinessApplicationComponent,
   ]
 })
 

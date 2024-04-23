@@ -7,7 +7,6 @@ export class requestRoutes {
   public baseUrlGSO: string = this.baseUrl + this.apiVersion;
 
   public userApi: string = "user";
-  public employeeApi: string = "employee";
   public itemTypeApi: string = "type";
   public itemGroupApi: string = "group";
   public listItemsApi: string = "item";
@@ -15,6 +14,7 @@ export class requestRoutes {
 
   public appropriation: string = "appropriation";
   public listSOFDataApi: string = "appropriation/by-deptsofcatyear";
+  public ppmp: string = "appropriation/ppmp";
   public SOFDataApi: string = "appropriation";
   public SOFDataBySOFIds: string = "appropriation/by-sofids";
   public listBarangayApi: string = "barangay";
@@ -46,14 +46,4 @@ export class requestRoutes {
   public propertyReturnSlip: string = "property-return-slip";
   public preRepairInspection: string = "pre-repair-inspection";
   public postRepairInspection: string = "post-repair-inspection";
-
-
-  // BUDGET
-  public baseUrlBudget: string = "http://" + environment.serverApiUrl + ":" + environment.budgetApiPort + "/api/" + environment.apiVersion + "/";
-  public appAPi: string = "app";
-
-
-  // HR
-  public baseUrlHR: string = "http://" + environment.serverApiUrl + ":" + environment.hrApiPort + "/api/" + environment.apiVersion + "/";
-  public employeeAPi: string = "setup-employee/signatory-gso2";
 }

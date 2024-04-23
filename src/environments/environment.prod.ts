@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: "139.59.120.26",
-  serverApiUrl: "139.59.120.26",
+  apiUrl: "146.190.90.45",
+  serverApiUrl: "146.190.90.45",
   budgetApiPort: "3005",
   hrApiPort: "3007",
-  apiPort: "4003",
+  apiPort: "3000",
   apiVersion: "v1",
   systemName: "Procurement System",
 

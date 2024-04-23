@@ -317,10 +317,11 @@ export class AppSelectionDialogComponent implements OnInit {
   loadAPPItems() {
     this.httpRequest.getAllAPPItems(this.dateValue.value.year(), this.defaultDept).subscribe((result) => {
       if (result.statusCode == 200) {
-        if (result.data.length == 0) {
+        var data = result.data[0];
+        if (data.length == 0) {
           this.notifService.showNotification(NotificationType.info, "No data found.");
         }
-        this.appItemsList = this.formatAppItems(result.data);
+        this.appItemsList = this.formatAppItems(data);
         this.appItems = new MatTableDataSource<AppItemModel>(this.appItemsList);
         
         this.groupList = [...new Set(this.appItemsList.map(item => item.appropriationName))];

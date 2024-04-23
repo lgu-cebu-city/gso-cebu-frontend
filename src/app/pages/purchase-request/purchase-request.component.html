@@ -190,9 +190,9 @@
         
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>
-            <!-- <button *ngIf="selectedPP == null" mat-mini-fab color="primary" (click)="addItem()" matTooltip="Add Item">
+            <button *ngIf="selectedPP == null" mat-mini-fab color="primary" (click)="addItem()" matTooltip="Add Item">
               <mat-icon>add</mat-icon>
-            </button> -->
+            </button>
           </th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div fxLayoutAlign="space-evenly center" *ngIf="element.itemId != ''">

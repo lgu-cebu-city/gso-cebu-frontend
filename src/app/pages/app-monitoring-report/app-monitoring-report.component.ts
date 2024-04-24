@@ -148,11 +148,12 @@ export class AppMonitoringReportComponent implements OnInit {
     this.isLoading = true;
     this.httpRequest.getAllAPPItems(this.dateValue.value.year(), this.defaultDept).subscribe((result) => {
       if (result.statusCode == 200) {
-        if (result.data.length == 0) {
+        var data = result.data[0];
+        if (data.length == 0) {
           this.notifService.showNotification(NotificationType.info, "No data found.");
           this.isLoading = false;
         }
-        this.appItemsList = result.data;
+        this.appItemsList = data;
         
         this.formatAppPrItems();
       } else {

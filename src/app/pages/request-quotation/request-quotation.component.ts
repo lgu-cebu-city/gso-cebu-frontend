@@ -137,7 +137,7 @@ export class RequestQuotationComponent implements OnInit {
       prDate: new FormControl(""),
       departmentName: new FormControl("", [Validators.required]),
       openningDate: new FormControl(openDate),
-      location: new FormControl("Bayugan City Hall"),
+      location: new FormControl("Cebu City Hall"),
       canvasserName: new FormControl("", [Validators.required]),
       procurementMode: new FormControl("Small Value Procurement", [Validators.required]),
       biddingType: new FormControl("Traditional Bidding", [Validators.required]),
